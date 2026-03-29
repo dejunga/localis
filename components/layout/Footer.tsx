@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Phone, Mail } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 
 const services = [
   "Obrazovanje i poučavanje",
@@ -75,11 +75,7 @@ export default function Footer() {
               Kontakt
             </h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2 text-gray-400 text-sm">
-                <MapPin size={15} className="mt-0.5 shrink-0 text-[var(--gold)]" />
-                <span>Ljudevita Gaja 8, 43 290 Grubišno Polje</span>
-              </li>
-              <li className="flex items-center gap-2 text-gray-400 text-sm">
+<li className="flex items-center gap-2 text-gray-400 text-sm">
                 <Mail size={15} className="shrink-0 text-[var(--gold)]" />
                 <a href="mailto:info@localis.hr" className="hover:text-white transition-colors">
                   info@localis.hr

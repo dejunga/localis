@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MapPin, Mail, Phone, Clock } from "lucide-react";
+import { Mail, Phone, Clock } from "lucide-react";
 import { useState } from "react";
 
 export default function KontaktPage() {
@@ -56,12 +56,7 @@ export default function KontaktPage() {
 
               <div className="space-y-6 mb-12">
                 {[
-                  {
-                    icon: MapPin,
-                    label: "Adresa",
-                    value: "Ljudevita Gaja 8\n43 290 Grubišno Polje",
-                  },
-                  {
+{
                     icon: Mail,
                     label: "Email",
                     value: "info@localis.hr",
@@ -99,13 +94,6 @@ export default function KontaktPage() {
                 ))}
               </div>
 
-              {/* Map placeholder */}
-              <div className="rounded-xl overflow-hidden border border-gray-100 h-56 bg-[var(--navy)]/5 flex items-center justify-center">
-                <div className="text-center text-gray-400">
-                  <MapPin size={32} className="mx-auto mb-2 text-[var(--navy)]/30" />
-                  <p className="text-sm">Grubišno Polje, Hrvatska</p>
-                </div>
-              </div>
             </motion.div>
 
             {/* Form */}
@@ -160,20 +148,6 @@ export default function KontaktPage() {
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
                       placeholder="+385 91 234 5678"
                     />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      Tema
-                    </label>
-                    <select className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all text-gray-700 bg-white">
-                      <option value="">Odaberite temu</option>
-                      <option>Obrazovanje i poučavanje</option>
-                      <option>Organizacija seminara</option>
-                      <option>Poslovno savjetovanje</option>
-                      <option>Računovodstvene usluge</option>
-                      <option>Ostalo</option>
-                    </select>
                   </div>
 
                   <div>

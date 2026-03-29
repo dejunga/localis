@@ -170,19 +170,30 @@ export default function ONamaPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-2xl font-bold text-[var(--navy)] mb-6 font-[family-name:var(--font-playfair)]">
-              Poslovni podaci
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-px w-10 bg-[var(--gold)]" />
+              <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
+                Poslovni podaci
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
                 { label: "Naziv", value: "LOCALIS" },
                 { label: "Vlasnik", value: "Marija Jungić" },
-                { label: "Adresa", value: "Ljudevita Gaja 8, 43 290 Grubišno Polje" },
                 { label: "Djelatnost", value: "Obrazovanje, seminari, savjetovanje, računovodstvo" },
               ].map(({ label, value }) => (
-                <div key={label} className="flex gap-4">
-                  <span className="text-gray-400 text-sm w-24 shrink-0 pt-0.5">{label}</span>
-                  <span className="text-gray-700 text-sm font-medium">{value}</span>
+                <div
+                  key={label}
+                  className="group p-6 rounded-xl border border-gray-100 hover:border-[var(--gold)]/40 hover:shadow-md transition-all duration-300 bg-[oklch(0.98_0.005_85)]"
+                >
+                  <div className="w-1 h-5 bg-[var(--gold)] rounded-full mb-4" />
+                  <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1.5">
+                    {label}
+                  </p>
+                  <p className="text-[var(--navy)] font-semibold text-sm leading-snug">
+                    {value}
+                  </p>
                 </div>
               ))}
             </div>

@@ -106,16 +106,6 @@ export default function About() {
               </div>
             </div>
 
-            {/* Floating card */}
-            <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-xl p-5 border border-gray-100">
-              <div className="text-[var(--gold)] text-xs font-semibold uppercase tracking-wider mb-1">
-                Lokacija
-              </div>
-              <div className="text-[var(--navy)] font-semibold text-sm">
-                Grubišno Polje
-              </div>
-              <div className="text-gray-400 text-xs">Bjelovarsko-bilogorska županija</div>
-            </div>
           </motion.div>
         </div>
       </div>

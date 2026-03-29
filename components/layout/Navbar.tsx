@@ -39,11 +39,11 @@ export default function Navbar() {
       <nav className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 group">
-          <div className="w-9 h-9 bg-[var(--navy)] rounded-sm flex items-center justify-center">
-            <span className="text-white font-bold text-sm font-[family-name:var(--font-playfair)]">L</span>
+          <div className="w-9 h-9 bg-[var(--gold)] rounded-sm flex items-center justify-center">
+            <span className="text-[var(--navy)] font-bold text-sm font-[family-name:var(--font-playfair)]">L</span>
           </div>
           <div className="flex flex-col leading-none">
-            <span className="font-bold text-[var(--navy)] text-lg tracking-wide font-[family-name:var(--font-playfair)]">
+            <span className={`font-bold text-lg tracking-wide font-[family-name:var(--font-playfair)] transition-colors duration-300 ${scrolled ? "text-[var(--navy)]" : "text-white"}`}>
               LOCALIS
             </span>
             <span className="text-[10px] text-[var(--gold)] uppercase tracking-widest font-medium">
@@ -59,9 +59,13 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={`text-sm font-medium transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-[var(--gold)] after:transition-all after:duration-300 ${
-                  pathname === link.href
-                    ? "text-[var(--navy)] after:w-full"
-                    : "text-gray-600 hover:text-[var(--navy)] after:w-0 hover:after:w-full"
+                  scrolled
+                    ? pathname === link.href
+                      ? "text-[var(--navy)] after:w-full"
+                      : "text-gray-600 hover:text-[var(--navy)] after:w-0 hover:after:w-full"
+                    : pathname === link.href
+                      ? "text-white after:w-full"
+                      : "text-white/70 hover:text-white after:w-0 hover:after:w-full"
                 }`}
               >
                 {link.label}
@@ -73,7 +77,11 @@ export default function Navbar() {
         {/* CTA button */}
         <Link
           href="/kontakt"
-          className="hidden md:inline-flex items-center px-5 py-2.5 bg-[var(--navy)] text-white text-sm font-medium rounded transition-colors duration-200 hover:bg-[var(--navy-light)]"
+          className={`hidden md:inline-flex items-center px-5 py-2.5 text-sm font-medium rounded transition-all duration-300 ${
+            scrolled
+              ? "bg-[var(--navy)] text-white hover:bg-[var(--navy-light)]"
+              : "border border-white/50 text-white hover:bg-white/10"
+          }`}
         >
           Kontaktirajte nas
         </Link>
@@ -81,7 +89,7 @@ export default function Navbar() {
         {/* Mobile menu button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden p-2 text-[var(--navy)]"
+          className={`md:hidden p-2 transition-colors duration-300 ${scrolled ? "text-[var(--navy)]" : "text-white"}`}
           aria-label="Izbornik"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
