@@ -13,25 +13,28 @@ const navLinks = [
   { href: "/kontakt", label: "Kontakt" },
 ];
 
+// Stranice koje na vrhu imaju tamni hero – samo tamo bijeli tekst ima kontrast.
+// Sve ostalo (npr. /vijesti/[slug]) odmah dobiva svijetlu podlogu.
+const darkHeroRoutes = new Set(navLinks.map((link) => link.href));
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
+  const solid = scrolled || !darkHeroRoutes.has(pathname);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        solid
           ? "bg-white/95 backdrop-blur-md shadow-sm"
           : "bg-transparent"
       }`}
@@ -43,7 +46,7 @@ export default function Navbar() {
             <span className="text-[var(--navy)] font-bold text-sm font-[family-name:var(--font-playfair)]">L</span>
           </div>
           <div className="flex flex-col leading-none">
-            <span className={`font-bold text-lg tracking-wide font-[family-name:var(--font-playfair)] transition-colors duration-300 ${scrolled ? "text-[var(--navy)]" : "text-white"}`}>
+            <span className={`font-bold text-lg tracking-wide font-[family-name:var(--font-playfair)] transition-colors duration-300 ${solid ? "text-[var(--navy)]" : "text-white"}`}>
               LOCALIS
             </span>
             <span className="text-[10px] text-[var(--gold)] uppercase tracking-widest font-medium">
@@ -59,7 +62,7 @@ export default function Navbar() {
               <Link
                 href={link.href}
                 className={`text-sm font-medium transition-colors duration-200 relative after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:bg-[var(--gold)] after:transition-all after:duration-300 ${
-                  scrolled
+                  solid
                     ? pathname === link.href
                       ? "text-[var(--navy)] after:w-full"
                       : "text-gray-600 hover:text-[var(--navy)] after:w-0 hover:after:w-full"
@@ -78,7 +81,7 @@ export default function Navbar() {
         <Link
           href="/kontakt"
           className={`hidden md:inline-flex items-center px-5 py-2.5 text-sm font-medium rounded transition-all duration-300 ${
-            scrolled
+            solid
               ? "bg-[var(--navy)] text-white hover:bg-[var(--navy-light)]"
               : "border border-white/50 text-white hover:bg-white/10"
           }`}
@@ -89,7 +92,7 @@ export default function Navbar() {
         {/* Mobile menu button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`md:hidden p-2 transition-colors duration-300 ${scrolled ? "text-[var(--navy)]" : "text-white"}`}
+          className={`md:hidden p-2 transition-colors duration-300 ${solid ? "text-[var(--navy)]" : "text-white"}`}
           aria-label="Izbornik"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -104,6 +107,7 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  onClick={() => setIsOpen(false)}
                   className={`block text-base font-medium py-1 transition-colors ${
                     pathname === link.href
                       ? "text-[var(--navy)]"
@@ -117,6 +121,7 @@ export default function Navbar() {
             <li>
               <Link
                 href="/kontakt"
+                onClick={() => setIsOpen(false)}
                 className="inline-flex items-center px-5 py-2.5 bg-[var(--navy)] text-white text-sm font-medium rounded mt-2"
               >
                 Kontaktirajte nas

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone, Clock } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 import { useActionState } from "react";
 import { sendContactMessage, type ContactState } from "./actions";
 
@@ -60,13 +60,8 @@ export default function KontaktPage() {
                   {
                     icon: Phone,
                     label: "Telefon",
-                    value: "+385 xx xxx xxxx",
-                    href: "tel:+385",
-                  },
-                  {
-                    icon: Clock,
-                    label: "Radno vrijeme",
-                    value: "Pon – Pet: 8:00 – 16:00",
+                    value: "+385 98 9642555",
+                    href: "tel:+385989642555",
                   },
                 ].map(({ icon: Icon, label, value, href }) => (
                   <div key={label} className="flex items-start gap-4">

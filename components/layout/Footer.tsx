@@ -83,8 +83,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-gray-400 text-sm">
                 <Phone size={15} className="shrink-0 text-[var(--gold)]" />
-                <a href="tel:+385" className="hover:text-white transition-colors">
-                  +385 xx xxx xxxx
+                <a href="tel:+385989642555" className="hover:text-white transition-colors">
+                  +385 98 9642555
                 </a>
               </li>
             </ul>
@@ -96,7 +96,7 @@ export default function Footer() {
             © {new Date().getFullYear()} LOCALIS – Marija Jungić. Sva prava pridržana.
           </p>
           <p className="text-gray-600 text-xs">
-            OIB: xxxxxxxxxx
+            OIB: 07277793412
           </p>
         </div>
       </div>
