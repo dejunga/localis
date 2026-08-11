@@ -19,11 +19,32 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteUrl = "https://www.localis.hr";
+const title = "LOCALIS – Edukacija i savjetovanje";
+const description =
+  "LOCALIS pruža usluge edukacije, organizacije seminara i poslovnog savjetovanja. Vl. Marija Jungić, Grubišno Polje.";
+
 export const metadata: Metadata = {
-  title: "LOCALIS – Edukacija i savjetovanje",
-  description:
-    "LOCALIS pruža usluge edukacije, organizacije seminara i poslovnog savjetovanja. Vl. Marija Jungić, Grubišno Polje.",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
   keywords: ["edukacija", "savjetovanje", "seminari", "LOCALIS", "Grubišno Polje"],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "hr_HR",
+    url: "/",
+    siteName: "LOCALIS",
+    title,
+    description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
 };
 
 export default function RootLayout({
