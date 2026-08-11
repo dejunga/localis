@@ -13,16 +13,15 @@ const navLinks = [
   { href: "/kontakt", label: "Kontakt" },
 ];
 
-// Stranice koje na vrhu imaju tamni hero – samo tamo bijeli tekst ima kontrast.
-// Sve ostalo (npr. /vijesti/[slug]) odmah dobiva svijetlu podlogu.
-const darkHeroRoutes = new Set(navLinks.map((link) => link.href));
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  const solid = scrolled || !darkHeroRoutes.has(pathname);
+  // Pojedinačni članak počinje bijelom pozadinom, pa bi prozirni navbar ondje
+  // bio bijeli tekst na bijelom. Ostale stranice imaju tamni hero.
+  const isArticle = pathname?.startsWith("/vijesti/") ?? false;
+  const solid = scrolled || isArticle;
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
