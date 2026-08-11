@@ -9,7 +9,8 @@ const navLinks = [
   { href: "/", label: "Početna" },
   { href: "/usluge", label: "Usluge" },
   { href: "/o-nama", label: "O nama" },
-  { href: "/vijesti", label: "Vijesti" },
+  // Privremeno skriveno – stranica i CMS i dalje rade na /vijesti.
+  // { href: "/vijesti", label: "Vijesti" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
