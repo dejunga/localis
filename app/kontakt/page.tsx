@@ -2,18 +2,13 @@
 
 import { motion } from "framer-motion";
 import { Mail, Phone, Clock } from "lucide-react";
-import { useState } from "react";
+import { useActionState } from "react";
+import { sendContactMessage, type ContactState } from "./actions";
+
+const initialState: ContactState = { status: "idle" };
 
 export default function KontaktPage() {
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("sending");
-    // Placeholder – ovdje dodati logiku slanja (Resend, Formspree, itd.)
-    await new Promise((r) => setTimeout(r, 1000));
-    setStatus("sent");
-  }
+  const [state, formAction, pending] = useActionState(sendContactMessage, initialState);
 
   return (
     <>
@@ -106,44 +101,74 @@ export default function KontaktPage() {
                 Pošaljite poruku
               </h2>
 
-              {status === "sent" ? (
+              {state.status === "sent" ? (
                 <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
                   <div className="text-3xl mb-3">✓</div>
                   <h3 className="font-semibold text-green-800 mb-1">Poruka poslana!</h3>
                   <p className="text-green-600 text-sm">Odgovorimo vam u roku od 24 sata.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                <form action={formAction} className="space-y-5">
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                  />
+
+                  {state.message && (
+                    <p
+                      aria-live="polite"
+                      className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-lg px-4 py-3"
+                    >
+                      {state.message}
+                    </p>
+                  )}
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      <label htmlFor="ime" className="block text-sm font-medium text-gray-700 mb-1.5">
                         Ime i prezime *
                       </label>
                       <input
+                        id="ime"
+                        name="ime"
                         type="text"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
                         placeholder="Marko Marković"
                       />
+                      {state.errors?.ime && (
+                        <p className="text-red-600 text-xs mt-1.5">{state.errors.ime}</p>
+                      )}
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
                         Email *
                       </label>
                       <input
+                        id="email"
+                        name="email"
                         type="email"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
                         placeholder="marko@email.com"
                       />
+                      {state.errors?.email && (
+                        <p className="text-red-600 text-xs mt-1.5">{state.errors.email}</p>
+                      )}
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label htmlFor="telefon" className="block text-sm font-medium text-gray-700 mb-1.5">
                       Telefon
                     </label>
                     <input
+                      id="telefon"
+                      name="telefon"
                       type="tel"
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
                       placeholder="+385 91 234 5678"
@@ -151,23 +176,28 @@ export default function KontaktPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label htmlFor="poruka" className="block text-sm font-medium text-gray-700 mb-1.5">
                       Poruka *
                     </label>
                     <textarea
+                      id="poruka"
+                      name="poruka"
                       required
                       rows={5}
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all resize-none"
                       placeholder="Opišite što trebate..."
                     />
+                    {state.errors?.poruka && (
+                      <p className="text-red-600 text-xs mt-1.5">{state.errors.poruka}</p>
+                    )}
                   </div>
 
                   <button
                     type="submit"
-                    disabled={status === "sending"}
+                    disabled={pending}
                     className="w-full py-3.5 bg-[var(--navy)] text-white font-medium rounded-lg transition-all hover:bg-[var(--navy-light)] disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    {status === "sending" ? "Slanje..." : "Pošalji poruku"}
+                    {pending ? "Slanje..." : "Pošalji poruku"}
                   </button>
                 </form>
               )}
