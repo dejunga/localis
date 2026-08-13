@@ -2,13 +2,21 @@
 
 import { motion } from "framer-motion";
 import { Mail, Phone } from "lucide-react";
-import { useActionState } from "react";
+import { startTransition, useActionState } from "react";
 import { sendContactMessage, type ContactState } from "./actions";
 
 const initialState: ContactState = { status: "idle" };
 
 export default function KontaktPage() {
   const [state, formAction, pending] = useActionState(sendContactMessage, initialState);
+
+  // Submitamo ručno umjesto preko <form action> jer React inače resetira
+  // polja nakon svake akcije – i onda korisnik izgubi unos kad padne validacija.
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => formAction(formData));
+  }
 
   return (
     <>
@@ -103,7 +111,7 @@ export default function KontaktPage() {
                   <p className="text-green-600 text-sm">Odgovorimo vam u roku od 24 sata.</p>
                 </div>
               ) : (
-                <form action={formAction} className="space-y-5">
+                <form onSubmit={handleSubmit} className="space-y-5">
                   <input
                     type="text"
                     name="website"
