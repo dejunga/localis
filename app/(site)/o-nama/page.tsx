@@ -161,45 +161,6 @@ export default function ONamaPage() {
         </div>
       </section>
 
-      {/* Legal info */}
-      <section className="py-16 bg-white border-t border-gray-100">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-px w-10 bg-[var(--gold)]" />
-              <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-                Poslovni podaci
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                { label: "Naziv", value: "LOCALIS" },
-                { label: "Vlasnik", value: "Marija Jungić" },
-                { label: "Djelatnost", value: "Obrazovanje, seminari, savjetovanje, računovodstvo" },
-              ].map(({ label, value }) => (
-                <div
-                  key={label}
-                  className="group p-6 rounded-xl border border-gray-100 hover:border-[var(--gold)]/40 hover:shadow-md transition-all duration-300 bg-[oklch(0.98_0.005_85)]"
-                >
-                  <div className="w-1 h-5 bg-[var(--gold)] rounded-full mb-4" />
-                  <p className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1.5">
-                    {label}
-                  </p>
-                  <p className="text-[var(--navy)] font-semibold text-sm leading-snug">
-                    {value}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </>
   );
 }
