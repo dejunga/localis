@@ -30,11 +30,11 @@ export default function CTA() {
                 </span>
               </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4 font-[family-name:var(--font-playfair)] leading-tight">
-                Zajedno do boljeg poslovanja
+                Javite nam se
               </h2>
               <p className="text-gray-300 leading-relaxed">
-                Imate pitanje ili trebate konkretnu uslugu? Javite nam se –
-                odgovorimo brzo i bez obveze.
+                Ako u svom radu prepoznajete pitanja koja godinama čekaju
+                odgovor, LOCALIS je tu da ih zajedno raspravimo i riješimo.
               </p>
             </div>
 

@@ -5,10 +5,10 @@ import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 
 const highlights = [
-  "Individualni pristup svakom klijentu",
-  "Iskustvo u privatnom i javnom sektoru",
-  "Lokalna zajednica – naša snaga",
-  "Kontinuirano stručno usavršavanje",
+  "Teme biramo prema stvarnim potrebama struke, ne prema trendovima",
+  "Predavači koji podjednako dobro poznaju teoriju i praksu",
+  "Praktične smjernice koje polaznici odmah primjenjuju u radu",
+  "Ukorijenjeni u lokalnoj zajednici i posvećeni njenom razvoju",
 ];
 
 export default function About() {
@@ -31,20 +31,23 @@ export default function About() {
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold text-[var(--navy)] leading-tight mb-6 font-[family-name:var(--font-playfair)]">
-              Stručnost u službi vaše zajednice
+              Osnažujemo one koji svakodnevno vode gradove i općine
             </h2>
 
             <p className="text-gray-600 leading-relaxed mb-5 text-lg">
-              LOCALIS je obrt osnovan s ciljem pružanja kvalitetnih usluga
-              edukacije i savjetovanja u Bjelovarsko-bilogorskoj županiji i šire.
-              Na čelu je Marija Jungić, dugogodišnja stručnjakinja u području
-              poslovnog savjetovanja i organizacije edukacijskih programa.
+              LOCALIS, obrt za savjetovanje i edukaciju, osnovan je s ciljem
+              da pomogne u rješavanju svakodnevnih izazova s kojima se
+              suočavaju službenici jedinica lokalne samouprave – ali i svi
+              koji se u svom radu susreću s temama iz sustava lokalne
+              samouprave: pravnici, zaposlenici u kadrovskim odjelima,
+              poduzetnici i obrtnici.
             </p>
 
             <p className="text-gray-600 leading-relaxed mb-8">
-              Vjerujemo da znanje i profesionalni razvoj nisu privilegija
-              velikih gradova. Naša misija je dostupna, kvalitetna i
-              praktična edukacija za sve – bez obzira na lokaciju.
+              Teme koje obrađujemo napokon dolaze na dnevni red – svaku
+              obrađujemo stručno, ali prije svega praktično, tako da
+              polaznici odlaze s konkretnim smjernicama koje mogu odmah
+              primijeniti u svom radu.
             </p>
 
             <ul className="space-y-3 mb-10">

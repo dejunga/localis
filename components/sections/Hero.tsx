@@ -35,7 +35,7 @@ export default function Hero() {
           >
             <div className="h-px w-12 bg-[var(--gold)]" />
             <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-              Edukacija i savjetovanje
+              Savjetovanje i edukacija za lokalnu samoupravu
             </span>
           </motion.div>
 
@@ -45,8 +45,8 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 font-[family-name:var(--font-playfair)]"
           >
-            Znanje koje
-            <span className="block text-[var(--gold)]">pokreće napredak</span>
+            Pitanja koja muče struku,
+            <span className="block text-[var(--gold)]">konačno na dnevnom redu</span>
           </motion.h1>
 
           <motion.p
@@ -55,8 +55,9 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="text-gray-300 text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
           >
-            LOCALIS pruža profesionalnu edukaciju, organizaciju seminara i
-            poslovno savjetovanje prilagođeno vašim potrebama.
+            Osnažujemo one koji svakodnevno vode gradove i općine – uz
+            edukaciju, organizaciju seminara i poslovno savjetovanje
+            prilagođeno vašim potrebama.
           </motion.p>
 
           <motion.div

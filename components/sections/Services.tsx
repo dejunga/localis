@@ -2,36 +2,50 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { GraduationCap, CalendarDays, Briefcase, Calculator, ArrowRight } from "lucide-react";
+import { GraduationCap, CalendarDays, Briefcase, Calculator, ClipboardList, Code2, ArrowRight } from "lucide-react";
 
 const services = [
   {
     icon: GraduationCap,
-    title: "Obrazovanje i poučavanje",
+    title: "Edukacija i praktične radionice",
     description:
-      "Prilagođeni edukacijski programi za zaposlenike i organizacije. Od stručnih tečajeva do individualnog mentorstva.",
+      "Prilagođene edukacije za službenike lokalne samouprave i sve koji se u radu susreću s tim temama – od radionica do online tečajeva.",
     href: "/usluge#obrazovanje",
   },
   {
     icon: CalendarDays,
-    title: "Organizacija seminara",
+    title: "Organizacija seminara i poslovnih događaja",
     description:
-      "Profesionalna organizacija seminara, radionica i konferencija. Brinemo o svim detaljima kako bi vaš event bio uspješan.",
+      "Profesionalna organizacija stručnih skupova i poslovnih događaja, od ideje do zadnjeg detalja na dan događaja.",
     href: "/usluge#seminari",
   },
   {
     icon: Briefcase,
     title: "Poslovno savjetovanje",
     description:
-      "Stručno savjetovanje u vezi s poslovanjem i upravljanjem. Pomažemo vam donijeti prave odluke i ostvariti ciljeve.",
+      "Stručno savjetovanje u svim fazama poslovanja – od pokretanja obrta do EU fondova i strateškog planiranja.",
     href: "/usluge#savjetovanje",
   },
   {
     icon: Calculator,
     title: "Uredske i računovodstvene usluge",
     description:
-      "Kompletna uredska podrška i računovodstvene usluge za vaše poslovanje. Pouzdano i profesionalno.",
+      "Vođenje poslovnih knjiga, obračun plaća i porezne prijave – uredna knjiga i redovne prijave bez stresa.",
     href: "/usluge#racunovodstvo",
+  },
+  {
+    icon: ClipboardList,
+    title: "Uredske i administrativne djelatnosti",
+    description:
+      "Priprema dokumenata, digitalizacija i administrativna podrška koja vam oslobađa vrijeme za ono što radite najbolje.",
+    href: "/usluge#administracija",
+  },
+  {
+    icon: Code2,
+    title: "Digitalne i podatkovne usluge",
+    description:
+      "Razvoj web stranica, aplikacija i baza podataka te analiza i vizualizacija podataka prilagođena vašim potrebama.",
+    href: "/usluge#digitalne",
   },
 ];
 

@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/Hero";
 import Services from "@/components/sections/Services";
 import About from "@/components/sections/About";
+import Newsletter from "@/components/sections/Newsletter";
 import CTA from "@/components/sections/CTA";
 
 // Vijesti privremeno skrivene s naslovnice. Za povratak: odkomentiraj
@@ -17,6 +18,7 @@ export default function Home() {
       <Services />
       <About />
       {/* <NewsPreview posts={posts} /> */}
+      <Newsletter />
       <CTA />
     </>
   );

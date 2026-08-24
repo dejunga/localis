@@ -1,28 +1,31 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, CalendarDays, Briefcase, Calculator, CheckCircle2 } from "lucide-react";
+import { GraduationCap, CalendarDays, Briefcase, Calculator, ClipboardList, Code2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 const services = [
   {
     id: "obrazovanje",
     icon: GraduationCap,
-    title: "Obrazovanje i poučavanje",
+    title: "Edukacija i praktične radionice",
     description:
-      "Nudimo prilagođene edukacijske programe za zaposlenike, poduzetnike i organizacije. Naši programi pokrivaju širok spektar tema – od mekih vještina do specifičnih stručnih znanja.",
+      "Nudimo prilagođene edukacije za službenike u jedinicama lokalne samouprave i zaposlenike pravnih osoba koje su osnovane za obavljanje poslova od značaja za lokalnu samoupravu. Naše edukacije pružaju akademski profesori i stručnjaci praktičari koji pokrivaju širok spektar tema – od mekih vještina do specifičnih stručnih znanja.",
     features: [
-      "Prilagođeni programi za tvrtke",
-      "Individualno mentorstvo",
-      "Radionice i interaktivna predavanja",
-      "Certifikati o sudjelovanju",
-      "Online i offline format",
+      "Prilagođene edukacije oblikovane prema stvarnim potrebama i specifičnostima svake jedinice",
+      "Radionice i interaktivna predavanja o aktualnim temama i zakonodavnim novinama",
+      "Analiza postojećeg stanja u praksi i konkretna, praktična rješenja",
+      "Edukativni materijali, priručnici i radni listovi za polaznike",
+      "Online tečajevi i e-learning moduli",
+      "Stručni skupovi, konferencije i okrugli stolovi uz vanjske predavače",
+      "Individualno mentorstvo za novoizabrane pročelnike i rukovoditelje",
+      "Provjera znanja i potvrde o sudjelovanju",
     ],
   },
   {
     id: "seminari",
     icon: CalendarDays,
-    title: "Organizacija seminara i sajmova",
+    title: "Organizacija seminara i poslovnih događaja",
     description:
       "Brinemo o kompletnoj organizaciji vaših poslovnih događaja. Od ideje do realizacije – logistika, program, predavači, materijali – sve na jednom mjestu.",
     features: [
@@ -61,6 +64,37 @@ const services = [
       "Savjetovanje o poreznim obvezama",
     ],
   },
+  {
+    id: "administracija",
+    icon: ClipboardList,
+    title: "Uredske i administrativne djelatnosti",
+    description:
+      "Administrativna podrška koja vam oslobađa vrijeme za ono što radite najbolje. Uredna dokumentacija bez stresa.",
+    features: [
+      "Priprema i uređivanje poslovnih dokumenata prema vašim smjernicama",
+      "Prijepis dokumenata iz papirnatog u digitalni oblik",
+      "Pisanje pisama, dopisa i sažetaka za internu ili vanjsku komunikaciju",
+      "Izrada nacrta ugovora, odluka i drugih poslovnih dokumenata",
+      "Digitalizacija postojeće dokumentacije radi lakšeg pretraživanja i pohrane",
+      "Formatiranje i priprema e-knjiga i drugih digitalnih publikacija",
+    ],
+  },
+  {
+    id: "digitalne",
+    icon: Code2,
+    title: "Digitalne i podatkovne usluge",
+    description:
+      "Uz edukacije i savjetovanje za lokalnu samoupravu, LOCALIS nudi i razvoj digitalnih rješenja za treće strane – od jednostavnih web stranica i baza podataka do analize i vizualizacije podataka prilagođene potrebama klijenata.",
+    features: [
+      "Izrada i razvoj web stranica prilagođenih potrebama klijenta",
+      "Razvoj web aplikacija po mjeri",
+      "Izrada prijavnih sustava, baza klijenata i internih alata",
+      "Optimizacija postojećih baza podataka",
+      "Prilagodba, nadogradnja i održavanje postojećih softverskih rješenja",
+      "Analiza podataka, izrada izvještaja i interaktivnih dashboarda",
+      "Automatizacija ponavljajućih administrativnih procesa",
+    ],
+  },
 ];
 
 export default function UslugeePage() {
@@ -84,8 +118,9 @@ export default function UslugeePage() {
               Naše usluge
             </h1>
             <p className="text-gray-300 mt-4 max-w-xl text-lg">
-              Sveobuhvatna podrška vašem poslovnom razvoju – edukacija,
-              organizacija, savjetovanje i administracija.
+              Sveobuhvatna podrška vašem poslovnom razvoju – edukacija i
+              praktične radionice, organizacija seminara, savjetovanje i
+              administracija.
             </p>
           </motion.div>
         </div>

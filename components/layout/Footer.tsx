@@ -2,10 +2,12 @@ import Link from "next/link";
 import { Phone, Mail } from "lucide-react";
 
 const services = [
-  "Obrazovanje i poučavanje",
+  "Edukacija i praktične radionice",
   "Organizacija seminara",
   "Poslovno savjetovanje",
   "Uredske i računovodstvene usluge",
+  "Uredske i administrativne djelatnosti",
+  "Digitalne i podatkovne usluge",
 ];
 
 const navLinks = [
