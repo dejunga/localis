@@ -31,28 +31,36 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 mb-8"
+            className="flex items-center gap-3 mb-6"
           >
             <div className="h-px w-12 bg-[var(--gold)]" />
-            <div className="flex flex-col leading-tight">
-              <span className="text-[var(--gold)] text-sm font-bold tracking-wide font-[family-name:var(--font-playfair)]">
-                LOCALIS
-              </span>
-              <span className="text-[var(--gold)]/80 text-xs font-medium uppercase tracking-widest">
-                Savjetovanje i edukacija za lokalnu samoupravu
-              </span>
-            </div>
+            <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
+              Obrt za savjetovanje i edukaciju
+            </span>
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 font-[family-name:var(--font-playfair)]"
+            className="text-white leading-tight mb-6 font-[family-name:var(--font-playfair)]"
           >
-            Pitanja koja muče struku,
-            <span className="block text-[var(--gold)]">konačno na dnevnom redu</span>
+            <span className="block text-6xl md:text-7xl lg:text-8xl font-bold">
+              LOCALIS
+            </span>
+            <span className="block text-[var(--gold)] text-xl md:text-2xl lg:text-3xl font-medium mt-3">
+              Savjetovanje i edukacija za lokalnu samoupravu
+            </span>
           </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-white text-lg md:text-xl font-semibold mb-4 font-[family-name:var(--font-playfair)]"
+          >
+            Pitanja koja muče struku, konačno na dnevnom redu.
+          </motion.p>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
