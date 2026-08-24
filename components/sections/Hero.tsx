@@ -34,9 +34,14 @@ export default function Hero() {
             className="flex items-center gap-3 mb-8"
           >
             <div className="h-px w-12 bg-[var(--gold)]" />
-            <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-              Savjetovanje i edukacija za lokalnu samoupravu
-            </span>
+            <div className="flex flex-col leading-tight">
+              <span className="text-[var(--gold)] text-sm font-bold tracking-wide font-[family-name:var(--font-playfair)]">
+                LOCALIS
+              </span>
+              <span className="text-[var(--gold)]/80 text-xs font-medium uppercase tracking-widest">
+                Savjetovanje i edukacija za lokalnu samoupravu
+              </span>
+            </div>
           </motion.div>
 
           <motion.h1
