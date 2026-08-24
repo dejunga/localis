@@ -10,10 +10,10 @@ const services = [
 
 const navLinks = [
   { href: "/", label: "Početna" },
+  { href: "/edukacije", label: "Edukacije" },
+  { href: "/vijesti", label: "Vijesti" },
   { href: "/usluge", label: "Usluge" },
   { href: "/o-nama", label: "O nama" },
-  // Privremeno skriveno – vidi Navbar.tsx.
-  // { href: "/vijesti", label: "Vijesti" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
@@ -84,8 +84,8 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-gray-400 text-sm">
                 <Phone size={15} className="shrink-0 text-[var(--gold)]" />
-                <a href="tel:+385989642555" className="hover:text-white transition-colors">
-                  +385 98 9642555
+                <a href="tel:+385953135158" className="hover:text-white transition-colors">
+                  095/313-5158
                 </a>
               </li>
             </ul>
@@ -94,7 +94,7 @@ export default function Footer() {
 
         <div className="border-t border-white/10 mt-12 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            © {new Date().getFullYear()} LOCALIS – Marija Jungić. Sva prava pridržana.
+            © {new Date().getFullYear()} LOCALIS. Sva prava pridržana.
           </p>
           <p className="text-gray-600 text-xs">
             OIB: 07277793412

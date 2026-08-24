@@ -7,10 +7,10 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Početna" },
+  { href: "/edukacije", label: "Edukacije" },
+  { href: "/vijesti", label: "Vijesti" },
   { href: "/usluge", label: "Usluge" },
   { href: "/o-nama", label: "O nama" },
-  // Privremeno skriveno – stranica i CMS i dalje rade na /vijesti.
-  // { href: "/vijesti", label: "Vijesti" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 

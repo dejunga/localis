@@ -100,23 +100,80 @@ export default function ONamaPage() {
                   <p className="text-[var(--gold)] text-sm uppercase tracking-wider font-medium mb-4">
                     Vlasnica i osnivačica · vl. LOCALIS
                   </p>
-                  <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                    &ldquo;Moj je cilj biti most između znanja i prakse – pomoći
-                    ljudima i organizacijama da rastu, bez obzira gdje se nalaze.&rdquo;
-                  </p>
-                  <div className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10">
-                    <div>
-                      <div className="text-2xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">10+</div>
-                      <div className="text-gray-400 text-xs mt-1">Godina iskustva</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">200+</div>
-                      <div className="text-gray-400 text-xs mt-1">Zadovoljnih klijenata</div>
-                    </div>
+                  <div className="pt-6 border-t border-white/10">
+                    <div className="text-2xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">10+</div>
+                    <div className="text-gray-400 text-xs mt-1">Godina iskustva</div>
                   </div>
                 </div>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team */}
+      <section className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-14"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="h-px w-10 bg-[var(--gold)]" />
+              <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
+                Ljudi iza LOCALIS-a
+              </span>
+              <div className="h-px w-10 bg-[var(--gold)]" />
+            </div>
+            <h2 className="text-3xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
+              Naš tim
+            </h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            {[
+              {
+                initial: "M",
+                name: "Marija Jungić",
+                role: "Vlasnica i osnivačica",
+              },
+              {
+                initial: "M",
+                name: "Milada Sofka",
+                role: "Voditeljica ureda",
+                quote:
+                  "Vjerujem da svaka osoba i svaka organizacija ima potencijal za rast. Moja je uloga pomoći im da ga prepoznaju i razviju.",
+              },
+            ].map((person, i) => (
+              <motion.div
+                key={person.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="bg-[oklch(0.97_0.01_85)] rounded-xl p-8 border border-gray-100"
+              >
+                <div className="w-14 h-14 bg-[var(--navy)] rounded-xl flex items-center justify-center mb-5">
+                  <span className="text-[var(--gold)] text-2xl font-bold font-[family-name:var(--font-playfair)]">
+                    {person.initial}
+                  </span>
+                </div>
+                <h3 className="font-bold text-[var(--navy)] mb-1 font-[family-name:var(--font-playfair)] text-lg">
+                  {person.name}
+                </h3>
+                <p className="text-[var(--gold)] text-xs uppercase tracking-wider font-medium mb-4">
+                  {person.role}
+                </p>
+                {person.quote && (
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    &ldquo;{person.quote}&rdquo;
+                  </p>
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

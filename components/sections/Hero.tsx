@@ -86,11 +86,10 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.5 }}
-          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
+          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8"
         >
           {[
             { value: "10+", label: "Godina iskustva" },
-            { value: "200+", label: "Zadovoljnih klijenata" },
             { value: "50+", label: "Seminara godišnje" },
             { value: "4", label: "Područja djelatnosti" },
           ].map((stat) => (

@@ -83,25 +83,19 @@ export default function About() {
                 </div>
 
                 <h3 className="text-2xl font-bold mb-2 font-[family-name:var(--font-playfair)]">
-                  Marija Jungić
+                  Milada Sofka
                 </h3>
                 <p className="text-[var(--gold)] text-sm font-medium mb-4 uppercase tracking-wider">
-                  Vlasnica i osnivačica
+                  Voditeljica ureda
                 </p>
                 <p className="text-gray-300 leading-relaxed text-sm">
                   &ldquo;Vjerujem da svaka osoba i svaka organizacija ima potencijal
                   za rast. Moja je uloga pomoći im da ga prepoznaju i razviju.&rdquo;
                 </p>
 
-                <div className="mt-8 pt-8 border-t border-white/10 grid grid-cols-2 gap-6">
-                  <div>
-                    <div className="text-3xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">10+</div>
-                    <div className="text-gray-400 text-sm mt-1">Godina iskustva</div>
-                  </div>
-                  <div>
-                    <div className="text-3xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">200+</div>
-                    <div className="text-gray-400 text-sm mt-1">Klijenata</div>
-                  </div>
+                <div className="mt-8 pt-8 border-t border-white/10">
+                  <div className="text-3xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">10+</div>
+                  <div className="text-gray-400 text-sm mt-1">Godina iskustva</div>
                 </div>
               </div>
             </div>

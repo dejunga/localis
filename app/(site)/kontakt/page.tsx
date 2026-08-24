@@ -59,7 +59,7 @@ export default function KontaktPage() {
 
               <div className="space-y-6 mb-12">
                 {[
-{
+                  {
                     icon: Mail,
                     label: "Email",
                     value: "info@localis.hr",
@@ -68,8 +68,8 @@ export default function KontaktPage() {
                   {
                     icon: Phone,
                     label: "Telefon",
-                    value: "+385 98 9642555",
-                    href: "tel:+385989642555",
+                    value: "095/313-5158",
+                    href: "tel:+385953135158",
                   },
                 ].map(({ icon: Icon, label, value, href }) => (
                   <div key={label} className="flex items-start gap-4">
@@ -92,6 +92,27 @@ export default function KontaktPage() {
                 ))}
               </div>
 
+              <div className="border-t border-gray-100 pt-8">
+                <h3 className="text-sm font-semibold text-[var(--navy)] uppercase tracking-wider mb-5">
+                  Podaci o obrtu
+                </h3>
+                <dl className="space-y-3">
+                  {[
+                    ["Naziv subjekta", "LOCALIS, obrt za savjetovanje i edukaciju"],
+                    ["Adresa", "Ljudevita Gaja 8, 43 290 Grubišno Polje"],
+                    ["Vlasnica", "Marija Jungić, mag.iur."],
+                    ["Voditeljica ureda", "Milada Sofka"],
+                    ["OIB", "07277793412"],
+                    ["MB", "99344858"],
+                    ["IBAN", "HR2124020061140660868"],
+                  ].map(([label, value]) => (
+                    <div key={label} className="flex flex-col sm:flex-row sm:items-baseline gap-0.5 sm:gap-3 text-sm">
+                      <dt className="text-gray-400 sm:w-40 shrink-0">{label}</dt>
+                      <dd className="text-gray-700">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
             </motion.div>
 
             {/* Form */}
