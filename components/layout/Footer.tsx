@@ -5,7 +5,6 @@ const services = [
   "Edukacija i praktične radionice",
   "Organizacija seminara",
   "Poslovno savjetovanje",
-  "Uredske i računovodstvene usluge",
   "Uredske i administrativne djelatnosti",
   "Digitalne i podatkovne usluge",
 ];

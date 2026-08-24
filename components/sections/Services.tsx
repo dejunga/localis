@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { GraduationCap, CalendarDays, Briefcase, Calculator, ClipboardList, Code2, ArrowRight } from "lucide-react";
+import { GraduationCap, CalendarDays, Briefcase, ClipboardList, Code2, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -25,13 +25,6 @@ const services = [
     description:
       "Stručno savjetovanje u svim fazama poslovanja – od pokretanja obrta do EU fondova i strateškog planiranja.",
     href: "/usluge#savjetovanje",
-  },
-  {
-    icon: Calculator,
-    title: "Uredske i računovodstvene usluge",
-    description:
-      "Vođenje poslovnih knjiga, obračun plaća i porezne prijave – uredna knjiga i redovne prijave bez stresa.",
-    href: "/usluge#racunovodstvo",
   },
   {
     icon: ClipboardList,

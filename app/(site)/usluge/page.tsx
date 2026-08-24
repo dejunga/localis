@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, CalendarDays, Briefcase, Calculator, ClipboardList, Code2, CheckCircle2 } from "lucide-react";
+import { GraduationCap, CalendarDays, Briefcase, ClipboardList, Code2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 const services = [
@@ -48,20 +48,6 @@ const services = [
       "Podrška pri aplikacijama za EU fondove",
       "Upravljanje projektima",
       "Podrška pri pokretanju djelatnosti",
-    ],
-  },
-  {
-    id: "racunovodstvo",
-    icon: Calculator,
-    title: "Uredske i računovodstvene usluge",
-    description:
-      "Administrativna i računovodstvena podrška koja vam oslobađa vrijeme za ono što radite najbolje. Uredna knjiga i redovne prijave bez stresa.",
-    features: [
-      "Vođenje poslovnih knjiga",
-      "Obračun plaća",
-      "Porezne prijave i obrasci",
-      "Fakturiranje i evidencija",
-      "Savjetovanje o poreznim obvezama",
     ],
   },
   {
