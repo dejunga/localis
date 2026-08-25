@@ -27,18 +27,6 @@ export default function Hero() {
       {/* Content */}
       <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-20 w-full">
         <div className="max-w-3xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex items-center gap-3 mb-6"
-          >
-            <div className="h-px w-12 bg-[var(--gold)]" />
-            <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-              Obrt za savjetovanje i edukaciju
-            </span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
