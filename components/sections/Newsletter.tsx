@@ -1,18 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { startTransition, useActionState } from "react";
 import { motion } from "framer-motion";
 import { Mail, CheckCircle2 } from "lucide-react";
+import { subscribeNewsletter, type NewsletterState } from "./newsletter-actions";
+
+const initialState: NewsletterState = { status: "idle" };
 
 export default function Newsletter() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+  const [state, formAction, pending] = useActionState(subscribeNewsletter, initialState);
 
+  // Submitamo ručno umjesto preko <form action> jer React inače resetira
+  // polja nakon svake akcije – i onda korisnik izgubi unos kad padne validacija.
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!email) return;
-    // TODO: spojiti na pravu newsletter listu (npr. Resend/Mailchimp) kad bude odabrana.
-    setSubmitted(true);
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => formAction(formData));
   }
 
   return (
@@ -37,7 +40,7 @@ export default function Newsletter() {
               novitetima.
             </p>
 
-            {submitted ? (
+            {state.status === "sent" ? (
               <div className="flex items-center justify-center gap-2 text-[var(--gold)] font-medium">
                 <CheckCircle2 size={20} />
                 Hvala na prijavi!
@@ -47,6 +50,15 @@ export default function Newsletter() {
                 onSubmit={handleSubmit}
                 className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
               >
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="hidden"
+                />
+
                 <div className="relative flex-1">
                   <Mail
                     size={16}
@@ -54,20 +66,28 @@ export default function Newsletter() {
                   />
                   <input
                     type="email"
+                    name="email"
                     required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="e-mail adresa"
                     className="w-full pl-10 pr-4 py-3 rounded-lg bg-white/95 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--gold)]/50"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-[var(--gold)] text-[var(--navy)] font-semibold text-sm rounded-lg hover:bg-[var(--gold-light)] transition-colors whitespace-nowrap"
+                  disabled={pending}
+                  className="px-6 py-3 bg-[var(--gold)] text-[var(--navy)] font-semibold text-sm rounded-lg hover:bg-[var(--gold-light)] transition-colors whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  Pošaljite zahtjev
+                  {pending ? "Slanje..." : "Pošaljite zahtjev"}
                 </button>
               </form>
+            )}
+            {state.status === "error" && state.message && (
+              <p
+                aria-live="polite"
+                className="mt-4 text-red-300 text-sm"
+              >
+                {state.message}
+              </p>
             )}
           </div>
         </motion.div>
