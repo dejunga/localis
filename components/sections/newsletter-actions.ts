@@ -1,7 +1,5 @@
 "use server";
 
-import nodemailer from "nodemailer";
-
 export type NewsletterState = {
   status: "idle" | "sent" | "error";
   message?: string;
@@ -24,12 +22,11 @@ export async function subscribeNewsletter(
     return { status: "error", message: "Unesite ispravnu email adresu." };
   }
 
-  const user = process.env.ZOHO_SMTP_USER;
-  const pass = process.env.ZOHO_SMTP_PASSWORD;
-  const to = process.env.NEWSLETTER_TO ?? process.env.CONTACT_TO ?? user;
+  const apiKey = process.env.BREVO_API_KEY;
+  const listId = process.env.BREVO_LIST_ID;
 
-  if (!user || !pass) {
-    console.error("Newsletter: ZOHO_SMTP_USER ili ZOHO_SMTP_PASSWORD nisu postavljeni.");
+  if (!apiKey || !listId) {
+    console.error("Newsletter: BREVO_API_KEY ili BREVO_LIST_ID nisu postavljeni.");
     return {
       status: "error",
       message: "Prijava trenutno nije moguća. Pokušajte kasnije.",
@@ -37,20 +34,28 @@ export async function subscribeNewsletter(
   }
 
   try {
-    const transport = nodemailer.createTransport({
-      host: "smtppro.zoho.eu",
-      port: 465,
-      secure: true,
-      auth: { user, pass },
+    const response = await fetch("https://api.brevo.com/v3/contacts", {
+      method: "POST",
+      headers: {
+        "api-key": apiKey,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        listIds: [Number(listId)],
+        updateEnabled: true,
+      }),
     });
 
-    await transport.sendMail({
-      from: `"LOCALIS web" <${user}>`,
-      to,
-      replyTo: email,
-      subject: "Nova prijava na newsletter",
-      text: `Nova prijava na newsletter: ${email}`,
-    });
+    if (!response.ok) {
+      const body = await response.text();
+      console.error("Newsletter: Brevo je vratio grešku.", response.status, body);
+      return {
+        status: "error",
+        message: "Prijava nije uspjela. Pokušajte ponovno.",
+      };
+    }
 
     return { status: "sent" };
   } catch (error) {
