@@ -95,11 +95,6 @@ export default function About() {
                   &ldquo;Vjerujem da svaka osoba i svaka organizacija ima potencijal
                   za rast. Moja je uloga pomoći im da ga prepoznaju i razviju.&rdquo;
                 </p>
-
-                <div className="mt-8 pt-8 border-t border-white/10">
-                  <div className="text-3xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">10+</div>
-                  <div className="text-gray-400 text-sm mt-1">Godina iskustva</div>
-                </div>
               </div>
             </div>
 

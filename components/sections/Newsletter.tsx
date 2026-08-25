@@ -30,7 +30,7 @@ export default function Newsletter() {
 
           <div className="relative max-w-lg mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-playfair)]">
-              Pridružite se našem newsletteru!
+              Prijavite se na newsletter!
             </h2>
             <p className="text-gray-300 mb-8">
               Prijavite se i prvi saznajte sve o aktualnim edukacijama i

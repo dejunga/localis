@@ -108,10 +108,6 @@ export default function ONamaPage() {
                   <p className="text-[var(--gold)] text-sm uppercase tracking-wider font-medium mb-4">
                     Vlasnica i osnivačica · vl. LOCALIS
                   </p>
-                  <div className="pt-6 border-t border-white/10">
-                    <div className="text-2xl font-bold text-[var(--gold)] font-[family-name:var(--font-playfair)]">10+</div>
-                    <div className="text-gray-400 text-xs mt-1">Godina iskustva</div>
-                  </div>
                 </div>
               </div>
             </motion.div>
