@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
-import type { PostCard } from "@/sanity/lib/posts";
+import type { PostCard } from "@/lib/posts";
 
 const categoryColors: Record<string, string> = {
   Edukacija: "bg-blue-50 text-blue-700",

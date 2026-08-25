@@ -2,10 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { PortableText } from "@portabletext/react";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
-import { getPost, getPostSlugs, formatDate } from "@/sanity/lib/posts";
-import { urlFor } from "@/sanity/lib/image";
+import { getPost, getPostSlugs, formatDate } from "@/lib/posts";
 
 const categoryColors: Record<string, string> = {
   Edukacija: "bg-blue-50 text-blue-700",
@@ -37,9 +35,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       publishedTime: post.publishedAt,
-      images: post.coverImage
-        ? [urlFor(post.coverImage).width(1200).height(630).fit("crop").url()]
-        : undefined,
+      images: post.coverImage ? [post.coverImage.url] : undefined,
     },
   };
 }
@@ -50,9 +46,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
 
   if (!post) notFound();
 
-  const coverUrl = post.coverImage
-    ? urlFor(post.coverImage).width(1400).height(613).fit("crop").url()
-    : null;
+  const coverUrl = post.coverImage?.url ?? null;
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
@@ -105,7 +99,9 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
 
         <div className="prose prose-lg max-w-none text-gray-600 leading-relaxed space-y-4">
-          {post.body ? <PortableText value={post.body} /> : <p>{post.excerpt}</p>}
+          {post.body?.length
+            ? post.body.map((paragraph, i) => <p key={i}>{paragraph}</p>)
+            : <p>{post.excerpt}</p>}
         </div>
 
         <div className="mt-16 pt-8 border-t border-gray-100">

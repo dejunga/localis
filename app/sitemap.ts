@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getPosts } from "@/sanity/lib/posts";
+import { getPosts } from "@/lib/posts";
 
 const siteUrl = "https://www.localis.hr";
 

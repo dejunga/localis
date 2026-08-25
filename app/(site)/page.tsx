@@ -7,7 +7,7 @@ import CTA from "@/components/sections/CTA";
 // Vijesti privremeno skrivene s naslovnice. Za povratak: odkomentiraj
 // import i <NewsPreview />, te link u Navbar.tsx i Footer.tsx.
 // import NewsPreview from "@/components/sections/NewsPreview";
-// import { getPosts, toCard } from "@/sanity/lib/posts";
+// import { getPosts, toCard } from "@/lib/posts";
 
 export default function Home() {
   // const posts = (await getPosts(3)).map(toCard);

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getPosts, toCard } from "@/sanity/lib/posts";
+import { getPosts, toCard } from "@/lib/posts";
 import VijestiHero from "./VijestiHero";
 import VijestiList from "./VijestiList";
 
