@@ -147,13 +147,22 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
         <div className="space-y-2.5">
           {participantRows.map((id) => (
             <div key={id} className="flex items-center gap-2.5">
-              <input
-                name="polaznik_ime"
-                type="text"
-                required
-                className="flex-1 px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
-                placeholder="Ime i prezime polaznika"
-              />
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <input
+                  name="polaznik_ime"
+                  type="text"
+                  required
+                  className="px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+                  placeholder="Ime i prezime polaznika"
+                />
+                <input
+                  name="polaznik_radno_mjesto"
+                  type="text"
+                  required
+                  className="px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+                  placeholder="Radno mjesto"
+                />
+              </div>
               {participantRows.length > 1 && (
                 <button
                   type="button"

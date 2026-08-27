@@ -29,10 +29,13 @@ export async function sendSeminarRegistration(
   const organizacija = String(formData.get("organizacija") ?? "").trim();
   const oib = String(formData.get("oib") ?? "").trim();
   const napomena = String(formData.get("napomena") ?? "").trim();
-  const polaznici = formData
-    .getAll("polaznik_ime")
-    .map((value) => String(value).trim())
-    .filter(Boolean);
+  const polaznikImena = formData.getAll("polaznik_ime").map((value) => String(value).trim());
+  const polaznikRadnaMjesta = formData
+    .getAll("polaznik_radno_mjesto")
+    .map((value) => String(value).trim());
+  const polaznici = polaznikImena
+    .map((ime, i) => ({ ime, radnoMjesto: polaznikRadnaMjesta[i] ?? "" }))
+    .filter((p) => p.ime || p.radnoMjesto);
 
   const errors: RegistrationState["errors"] = {};
   if (!ime) errors.ime = "Unesite ime i prezime.";
@@ -40,7 +43,11 @@ export async function sendSeminarRegistration(
   if (!telefon) errors.telefon = "Unesite telefon.";
   if (!organizacija) errors.organizacija = "Unesite naziv ustanove/tvrtke.";
   if (!OIB_RE.test(oib)) errors.oib = "OIB mora imati točno 11 znamenaka.";
-  if (polaznici.length === 0) errors.polaznici = "Unesite barem jednog polaznika.";
+  if (polaznici.length === 0) {
+    errors.polaznici = "Unesite barem jednog polaznika.";
+  } else if (polaznici.some((p) => !p.ime || !p.radnoMjesto)) {
+    errors.polaznici = "Unesite ime i radno mjesto za svakog polaznika.";
+  }
 
   if (Object.keys(errors).length > 0) {
     return { status: "error", errors };
@@ -81,7 +88,7 @@ export async function sendSeminarRegistration(
         `OIB: ${oib || "-"}`,
         "",
         "Polaznici:",
-        ...polaznici.map((name, i) => `${i + 1}. ${name}`),
+        ...polaznici.map((p, i) => `${i + 1}. ${p.ime} (${p.radnoMjesto})`),
         "",
         napomena || "-",
       ].join("\n"),
