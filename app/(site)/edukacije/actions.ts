@@ -5,10 +5,13 @@ import nodemailer from "nodemailer";
 export type RegistrationState = {
   status: "idle" | "sent" | "error";
   message?: string;
-  errors?: Partial<Record<"ime" | "email" | "organizacija" | "polaznici", string>>;
+  errors?: Partial<
+    Record<"ime" | "email" | "telefon" | "organizacija" | "oib" | "polaznici", string>
+  >;
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const OIB_RE = /^\d{11}$/;
 
 export async function sendSeminarRegistration(
   _prev: RegistrationState,
@@ -34,7 +37,9 @@ export async function sendSeminarRegistration(
   const errors: RegistrationState["errors"] = {};
   if (!ime) errors.ime = "Unesite ime i prezime.";
   if (!EMAIL_RE.test(email)) errors.email = "Unesite ispravnu email adresu.";
+  if (!telefon) errors.telefon = "Unesite telefon.";
   if (!organizacija) errors.organizacija = "Unesite naziv ustanove/tvrtke.";
+  if (!OIB_RE.test(oib)) errors.oib = "OIB mora imati točno 11 znamenaka.";
   if (polaznici.length === 0) errors.polaznici = "Unesite barem jednog polaznika.";
 
   if (Object.keys(errors).length > 0) {

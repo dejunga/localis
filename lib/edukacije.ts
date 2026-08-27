@@ -67,7 +67,7 @@ const seminars: Seminar[] = [
       "prepoznati najčešće pogreške u prvostupanjskim upravnim postupcima JLS-a i znati ih ispraviti prije donošenja rješenja",
       "naučiti kako smanjiti broj uspješnih žalbi kroz kvalitetnije vođenje postupka i obrazlaganje rješenja",
       "upoznati pretpostavke, rokove i tijela nadležna za pojedine izvanredne pravne lijekove (obnova postupka, oglašavanje ništavim, ukidanje i poništavanje po nadzornom pravu, izvanredno ukidanje)",
-      "dobiti praktične, primjenjive smjernice za svakodnevni rad — svojevrsan „interni sustav ranog upozorenja” za rizične predmete",
+      "dobiti praktične, primjenjive smjernice za svakodnevni rad, svojevrsan „interni sustav ranog upozorenja” za rizične predmete",
       "dobiti realističan odgovor na pitanje koliko se rizika uopće može ukloniti, a koliko se njime može samo upravljati",
     ],
     agenda: [

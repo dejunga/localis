@@ -94,27 +94,34 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="telefon" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Telefon
+            Telefon *
           </label>
           <input
             id="telefon"
             name="telefon"
             type="tel"
+            required
             className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
             placeholder="+385 91 234 5678"
           />
         </div>
         <div>
           <label htmlFor="oib" className="block text-sm font-medium text-gray-700 mb-1.5">
-            OIB ustanove/tvrtke
+            OIB ustanove/tvrtke *
           </label>
           <input
             id="oib"
             name="oib"
             type="text"
+            inputMode="numeric"
+            required
+            pattern="\d{11}"
+            maxLength={11}
+            title="OIB mora imati točno 11 znamenaka."
             className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
             placeholder="12345678901"
           />
+          {state.errors?.oib && <p className="text-red-600 text-xs mt-1.5">{state.errors.oib}</p>}
         </div>
       </div>
 
@@ -138,14 +145,14 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1.5">Polaznici *</label>
         <div className="space-y-2.5">
-          {participantRows.map((id, index) => (
+          {participantRows.map((id) => (
             <div key={id} className="flex items-center gap-2.5">
               <input
                 name="polaznik_ime"
                 type="text"
                 required
                 className="flex-1 px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
-                placeholder={`Ime i prezime polaznika ${index + 1}`}
+                placeholder="Ime i prezime polaznika"
               />
               {participantRows.length > 1 && (
                 <button

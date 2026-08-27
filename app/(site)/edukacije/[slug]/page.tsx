@@ -79,7 +79,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
           <p className="text-gray-300">
             <span className="text-white font-medium">{seminar.lecturer.name}</span>
-            {" — "}
+            {", "}
             {seminar.lecturer.role}
           </p>
         </div>
