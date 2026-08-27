@@ -259,24 +259,41 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
         </section>
 
         {/* Registration */}
-        <section id="prijava" className="mb-20 scroll-mt-24 text-center">
-          <h2 className="text-xl font-bold text-[var(--navy)] mb-2 font-[family-name:var(--font-playfair)]">
-            Prijava
-          </h2>
-          <p className="text-gray-500 text-sm mb-8">
-            {seminar.registrationDeadline ? (
-              <>
-                Molimo prijavite sudjelovanje najkasnije do{" "}
-                <strong className="font-bold text-[var(--navy)]">
-                  {seminar.registrationDeadline}
-                </strong>
-              </>
-            ) : (
-              "Popunite prijavnicu ispod, javit ćemo vam se s potvrdom."
-            )}
-          </p>
-          <div className="max-w-xl mx-auto text-left">
-            <RegistracijaForm seminarTitle={seminar.title} />
+        <section id="prijava" className="mb-20 scroll-mt-24">
+          <div className="relative bg-[var(--navy)] rounded-2xl overflow-hidden px-6 py-12 sm:px-12 sm:py-14">
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-0 right-0 w-72 h-72 bg-[var(--gold)]/10 rounded-full -translate-y-1/2 translate-x-1/4" />
+              <div className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
+            </div>
+
+            <div className="relative text-center mb-8">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <div className="h-px w-8 bg-[var(--gold)]" />
+                <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
+                  Osigurajte svoje mjesto
+                </span>
+                <div className="h-px w-8 bg-[var(--gold)]" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-playfair)]">
+                Prijava
+              </h2>
+              <p className="text-gray-300 text-sm">
+                {seminar.registrationDeadline ? (
+                  <>
+                    Molimo prijavite sudjelovanje najkasnije do{" "}
+                    <strong className="font-bold text-[var(--gold)]">
+                      {seminar.registrationDeadline}
+                    </strong>
+                  </>
+                ) : (
+                  "Popunite prijavnicu ispod, javit ćemo vam se s potvrdom."
+                )}
+              </p>
+            </div>
+
+            <div className="relative max-w-xl mx-auto bg-white rounded-xl p-6 sm:p-8 shadow-xl text-left">
+              <RegistracijaForm seminarTitle={seminar.title} />
+            </div>
           </div>
         </section>
       </div>
