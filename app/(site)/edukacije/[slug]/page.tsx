@@ -175,24 +175,51 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 key={i}
                 className="rounded-xl border border-gray-100 bg-white shadow-sm p-6 sm:p-7"
               >
-                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-5 mb-3">
-                  <span className="inline-flex items-center justify-center px-3.5 py-1.5 rounded-full bg-[var(--navy)] text-white text-sm font-semibold w-fit shrink-0">
-                    {item.time}
-                  </span>
-                  <div className="font-bold text-[var(--navy)] text-lg font-[family-name:var(--font-playfair)]">
-                    {item.title}
-                  </div>
+                <span className="inline-flex items-center justify-center px-3.5 py-1.5 rounded-full bg-[var(--navy)] text-white text-sm font-semibold w-fit mb-4">
+                  {item.time}
+                </span>
+                <div className="space-y-6">
+                  {item.topics.map((topic, ti) => (
+                    <div key={ti}>
+                      <div className="font-bold text-[var(--navy)] text-lg font-[family-name:var(--font-playfair)] mb-2">
+                        {topic.title}
+                      </div>
+                      {topic.points && (
+                        <ul className="space-y-1.5">
+                          {topic.points.map((point, pi) =>
+                            typeof point === "string" ? (
+                              <li
+                                key={pi}
+                                className="text-sm text-gray-600 flex items-start gap-2"
+                              >
+                                <span className="text-[var(--gold)] mt-0.5">–</span>
+                                {point}
+                              </li>
+                            ) : (
+                              <li key={pi}>
+                                <div className="text-sm text-gray-600 flex items-start gap-2">
+                                  <span className="text-[var(--gold)] mt-0.5">–</span>
+                                  {point.label}
+                                </div>
+                                <ul className="pl-6 mt-1.5 space-y-1">
+                                  {point.subPoints.map((sub) => (
+                                    <li
+                                      key={sub}
+                                      className="text-sm text-gray-500 flex items-start gap-2"
+                                    >
+                                      <span className="text-gray-300 mt-0.5">–</span>
+                                      {sub}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </li>
+                            ),
+                          )}
+                        </ul>
+                      )}
+                    </div>
+                  ))}
                 </div>
-                {item.points && (
-                  <ul className="space-y-1.5 sm:pl-[5.5rem]">
-                    {item.points.map((point) => (
-                      <li key={point} className="text-sm text-gray-600 flex items-start gap-2">
-                        <span className="text-[var(--gold)] mt-0.5">–</span>
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </div>
             ))}
           </div>

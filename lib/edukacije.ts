@@ -5,10 +5,16 @@ export type Lecturer = {
   photo?: { url: string; alt: string };
 };
 
+export type AgendaPoint = string | { label: string; subPoints: string[] };
+
+export type AgendaTopic = {
+  title: string;
+  points?: AgendaPoint[];
+};
+
 export type AgendaItem = {
   time: string;
-  title: string;
-  points?: string[];
+  topics: AgendaTopic[];
 };
 
 export type Seminar = {
@@ -73,33 +79,45 @@ const seminars: Seminar[] = [
     agenda: [
       {
         time: "9.30 – 11.00",
-        title: "Zaštita prava stranaka u postupcima upravnog odlučivanja",
-        points: [
-          "Pravomoćnost i pravna sigurnost",
-          "Stečena prava i legitimna očekivanja utemeljena na pravomoćnim upravnim aktima",
-          "Izvanredni pravni lijekovi u upravnom postupku",
+        topics: [
+          {
+            title: "Zaštita prava stranaka u postupcima upravnog odlučivanja",
+            points: [
+              "Pravomoćnost i pravna sigurnost",
+              "Stečena prava i legitimna očekivanja utemeljena na pravomoćnim upravnim aktima",
+              "Izvanredni pravni lijekovi u upravnom postupku",
+              {
+                label: "Obnova postupka",
+                subPoints: [
+                  "Dopuštenost primjene",
+                  "Razlozi",
+                  "Pokretanje",
+                  "Postupak",
+                  "Zaštita",
+                ],
+              },
+            ],
+          },
         ],
       },
-      {
-        time: "9.30 – 11.00",
-        title: "Obnova postupka",
-        points: ["Dopuštenost primjene", "Razlozi", "Pokretanje", "Postupak", "Zaštita"],
-      },
-      { time: "11.00 – 11.30", title: "Pauza za kavu" },
+      { time: "11.00 – 11.30", topics: [{ title: "Pauza za kavu" }] },
       {
         time: "11.30 – 13.00",
-        title: "Poništavanje i ukidanje rješenja",
-        points: ["Dopuštenost primjene", "Razlozi", "Pokretanje", "Postupak", "Zaštita"],
+        topics: [
+          {
+            title: "Poništavanje i ukidanje rješenja",
+            points: ["Dopuštenost primjene", "Razlozi", "Pokretanje", "Postupak", "Zaštita"],
+          },
+          {
+            title: "Oglašavanje rješenja ništavim",
+            points: ["Dopuštenost primjene", "Razlozi", "Pokretanje", "Postupak", "Zaštita"],
+          },
+        ],
       },
-      {
-        time: "11.30 – 13.00",
-        title: "Oglašavanje rješenja ništavim",
-        points: ["Dopuštenost primjene", "Razlozi", "Pokretanje", "Postupak", "Zaštita"],
-      },
-      { time: "13.00 – 13.30", title: "Pauza za kavu" },
-      { time: "13.30 – 14.15", title: "Diskusija i odgovori na pitanja" },
-      { time: "14.15 – 14.45", title: "Završna riječ i podjela certifikata" },
-      { time: "15.00", title: "Kraj radionice" },
+      { time: "13.00 – 13.30", topics: [{ title: "Pauza za kavu" }] },
+      { time: "13.30 – 14.15", topics: [{ title: "Diskusija i odgovori na pitanja" }] },
+      { time: "14.15 – 14.45", topics: [{ title: "Završna riječ i podjela certifikata" }] },
+      { time: "15.00", topics: [{ title: "Kraj radionice" }] },
     ],
     lecturer: {
       name: "Prof. dr. sc. Dario Đerđa",
