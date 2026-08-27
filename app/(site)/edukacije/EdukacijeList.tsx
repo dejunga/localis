@@ -25,7 +25,7 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
           transition={{ duration: 0.5, delay: i * 0.08 }}
           className="group flex flex-col"
         >
-          <div className="relative aspect-[16/9] rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 mb-5 overflow-hidden flex items-center justify-center">
+          <div className="relative aspect-[4/5] rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 mb-5 overflow-hidden flex items-center justify-center">
             {seminar.coverImage ? (
               <Image
                 src={seminar.coverImage.url}
@@ -49,13 +49,13 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
             <Link href={`/edukacije/${seminar.slug}`}>{seminar.title}</Link>
           </h2>
 
-          <div className="flex flex-col gap-1.5 mb-4 text-gray-400 text-xs">
-            <div className="flex items-center gap-1.5">
-              <Calendar size={12} />
+          <div className="flex flex-col gap-2 mb-4 text-gray-600 text-sm">
+            <div className="flex items-center gap-2">
+              <Calendar size={15} className="text-[var(--navy)]" />
               {seminar.dateLabel}
             </div>
-            <div className="flex items-center gap-1.5">
-              <MapPin size={12} />
+            <div className="flex items-center gap-2">
+              <MapPin size={15} className="text-[var(--navy)]" />
               {seminar.location}
             </div>
           </div>

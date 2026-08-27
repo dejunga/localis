@@ -1,12 +1,15 @@
 "use client";
 
-import { startTransition, useActionState } from "react";
+import { startTransition, useActionState, useRef, useState } from "react";
+import { Plus, X } from "lucide-react";
 import { sendSeminarRegistration, type RegistrationState } from "../actions";
 
 const initialState: RegistrationState = { status: "idle" };
 
 export default function RegistracijaForm({ seminarTitle }: { seminarTitle: string }) {
   const [state, formAction, pending] = useActionState(sendSeminarRegistration, initialState);
+  const [participantRows, setParticipantRows] = useState<number[]>([0]);
+  const nextRowId = useRef(1);
 
   // Submitamo ručno umjesto preko <form action> jer React inače resetira
   // polja nakon svake akcije – i onda korisnik izgubi unos kad padne validacija.
@@ -14,6 +17,14 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     startTransition(() => formAction(formData));
+  }
+
+  function addParticipant() {
+    setParticipantRows((rows) => [...rows, nextRowId.current++]);
+  }
+
+  function removeParticipant(id: number) {
+    setParticipantRows((rows) => rows.filter((rowId) => rowId !== id));
   }
 
   if (state.status === "sent") {
@@ -50,7 +61,7 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <div>
           <label htmlFor="ime" className="block text-sm font-medium text-gray-700 mb-1.5">
-            Ime i prezime *
+            Ime i prezime (kontakt osoba) *
           </label>
           <input
             id="ime"
@@ -125,6 +136,44 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
       </div>
 
       <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1.5">Polaznici *</label>
+        <div className="space-y-2.5">
+          {participantRows.map((id, index) => (
+            <div key={id} className="flex items-center gap-2.5">
+              <input
+                name="polaznik_ime"
+                type="text"
+                required
+                className="flex-1 px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+                placeholder={`Ime i prezime polaznika ${index + 1}`}
+              />
+              {participantRows.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeParticipant(id)}
+                  aria-label="Ukloni polaznika"
+                  className="shrink-0 w-10 h-10 flex items-center justify-center rounded-lg border border-gray-200 text-gray-400 hover:text-red-600 hover:border-red-200 transition-colors"
+                >
+                  <X size={16} />
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+        {state.errors?.polaznici && (
+          <p className="text-red-600 text-xs mt-1.5">{state.errors.polaznici}</p>
+        )}
+        <button
+          type="button"
+          onClick={addParticipant}
+          className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--navy)] hover:text-[var(--navy-light)] transition-colors"
+        >
+          <Plus size={16} />
+          Dodaj polaznika
+        </button>
+      </div>
+
+      <div>
         <label htmlFor="napomena" className="block text-sm font-medium text-gray-700 mb-1.5">
           Napomena
         </label>
@@ -133,7 +182,7 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
           name="napomena"
           rows={4}
           className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all resize-none"
-          placeholder="Broj polaznika, pitanja ili napomene uz prijavu..."
+          placeholder="Pitanja ili napomene uz prijavu..."
         />
       </div>
 

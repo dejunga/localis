@@ -98,6 +98,8 @@ const seminars: Seminar[] = [
       },
       { time: "13.00 – 13.30", title: "Pauza za kavu" },
       { time: "13.30 – 14.15", title: "Diskusija i odgovori na pitanja" },
+      { time: "14.15 – 14.45", title: "Završna riječ i podjela certifikata" },
+      { time: "15.00", title: "Kraj radionice" },
     ],
     lecturer: {
       name: "Prof. dr. sc. Dario Đerđa",

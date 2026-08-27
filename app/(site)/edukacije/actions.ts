@@ -5,7 +5,7 @@ import nodemailer from "nodemailer";
 export type RegistrationState = {
   status: "idle" | "sent" | "error";
   message?: string;
-  errors?: Partial<Record<"ime" | "email" | "organizacija", string>>;
+  errors?: Partial<Record<"ime" | "email" | "organizacija" | "polaznici", string>>;
 };
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -26,11 +26,16 @@ export async function sendSeminarRegistration(
   const organizacija = String(formData.get("organizacija") ?? "").trim();
   const oib = String(formData.get("oib") ?? "").trim();
   const napomena = String(formData.get("napomena") ?? "").trim();
+  const polaznici = formData
+    .getAll("polaznik_ime")
+    .map((value) => String(value).trim())
+    .filter(Boolean);
 
   const errors: RegistrationState["errors"] = {};
   if (!ime) errors.ime = "Unesite ime i prezime.";
   if (!EMAIL_RE.test(email)) errors.email = "Unesite ispravnu email adresu.";
   if (!organizacija) errors.organizacija = "Unesite naziv ustanove/tvrtke.";
+  if (polaznici.length === 0) errors.polaznici = "Unesite barem jednog polaznika.";
 
   if (Object.keys(errors).length > 0) {
     return { status: "error", errors };
@@ -69,6 +74,9 @@ export async function sendSeminarRegistration(
         `Telefon: ${telefon || "-"}`,
         `Ustanova/tvrtka: ${organizacija}`,
         `OIB: ${oib || "-"}`,
+        "",
+        "Polaznici:",
+        ...polaznici.map((name, i) => `${i + 1}. ${name}`),
         "",
         napomena || "-",
       ].join("\n"),

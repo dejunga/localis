@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock, MapPin, Coins, CheckCircle2, Users } from "lucide-react";
 import { getSeminar, getSeminarSlugs } from "@/lib/edukacije";
 import RegistracijaForm from "./RegistracijaForm";
+import PrijaviSeButton from "./PrijaviSeButton";
 
 export async function generateStaticParams() {
   const slugs = await getSeminarSlugs();
@@ -107,12 +108,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
         </div>
 
         <div className="flex justify-center mb-20">
-          <a
-            href="#prijava"
-            className="inline-flex items-center px-8 py-3.5 bg-[var(--navy)] text-white font-medium rounded hover:bg-[var(--navy-light)] transition-colors"
-          >
-            Prijavite se
-          </a>
+          <PrijaviSeButton />
         </div>
 
         {/* Description */}
@@ -188,7 +184,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                   </div>
                 </div>
                 {item.points && (
-                  <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 sm:pl-[5.5rem]">
+                  <ul className="space-y-1.5 sm:pl-[5.5rem]">
                     {item.points.map((point) => (
                       <li key={point} className="text-sm text-gray-600 flex items-start gap-2">
                         <span className="text-[var(--gold)] mt-0.5">–</span>
@@ -241,9 +237,16 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             Prijava
           </h2>
           <p className="text-gray-500 text-sm mb-8">
-            {seminar.registrationDeadline
-              ? `Molimo prijavite sudjelovanje najkasnije do ${seminar.registrationDeadline}.`
-              : "Popunite prijavnicu ispod, javit ćemo vam se s potvrdom."}
+            {seminar.registrationDeadline ? (
+              <>
+                Molimo prijavite sudjelovanje najkasnije do{" "}
+                <strong className="font-bold text-[var(--navy)]">
+                  {seminar.registrationDeadline}
+                </strong>
+              </>
+            ) : (
+              "Popunite prijavnicu ispod, javit ćemo vam se s potvrdom."
+            )}
           </p>
           <div className="max-w-xl mx-auto text-left">
             <RegistracijaForm seminarTitle={seminar.title} />
