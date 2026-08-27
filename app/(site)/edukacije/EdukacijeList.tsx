@@ -32,7 +32,7 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
                 alt={seminar.coverImage.alt}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover"
+                className="object-cover object-top"
               />
             ) : (
               <div className="text-[var(--navy)]/15 text-7xl font-bold font-[family-name:var(--font-playfair)]">

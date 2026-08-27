@@ -86,21 +86,21 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
       <div className="max-w-4xl mx-auto px-6">
         {/* Info cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 -mt-10 mb-16">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 -mt-10 mb-16">
           {infoCards.map(({ icon: Icon, label, value, sub }) => (
             <div
               key={label}
-              className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 flex flex-col gap-2"
+              className="bg-white rounded-xl border border-gray-100 shadow-md p-6 flex flex-col gap-3"
             >
-              <div className="w-9 h-9 bg-[var(--navy)]/8 rounded-lg flex items-center justify-center">
-                <Icon size={16} className="text-[var(--navy)]" />
+              <div className="w-12 h-12 bg-[var(--navy)]/8 rounded-lg flex items-center justify-center">
+                <Icon size={22} className="text-[var(--navy)]" />
               </div>
               <div>
-                <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-0.5">
+                <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">
                   {label}
                 </div>
-                <div className="text-sm font-semibold text-[var(--navy)]">{value}</div>
-                {sub && <div className="text-xs text-gray-400 mt-0.5">{sub}</div>}
+                <div className="text-lg font-bold text-[var(--navy)] leading-snug">{value}</div>
+                {sub && <div className="text-xs text-gray-400 mt-1">{sub}</div>}
               </div>
             </div>
           ))}
@@ -170,22 +170,28 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
         {/* Agenda */}
         <section className="mb-20">
-          <h2 className="text-xl font-bold text-[var(--navy)] mb-8 font-[family-name:var(--font-playfair)]">
+          <h2 className="text-2xl font-bold text-[var(--navy)] mb-8 font-[family-name:var(--font-playfair)]">
             Program radionice
           </h2>
-          <div className="space-y-0 border-l-2 border-gray-100 ml-1.5">
+          <div className="space-y-4">
             {seminar.agenda.map((item, i) => (
-              <div key={i} className="relative pl-8 pb-8 last:pb-0">
-                <div className="absolute -left-[7px] top-1 w-3 h-3 rounded-full bg-[var(--gold)]" />
-                <div className="text-xs font-semibold text-[var(--gold)] uppercase tracking-wider mb-1">
-                  {item.time}
+              <div
+                key={i}
+                className="rounded-xl border border-gray-100 bg-white shadow-sm p-6 sm:p-7"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-5 mb-3">
+                  <span className="inline-flex items-center justify-center px-3.5 py-1.5 rounded-full bg-[var(--navy)] text-white text-sm font-semibold w-fit shrink-0">
+                    {item.time}
+                  </span>
+                  <div className="font-bold text-[var(--navy)] text-lg font-[family-name:var(--font-playfair)]">
+                    {item.title}
+                  </div>
                 </div>
-                <div className="font-semibold text-[var(--navy)] mb-2">{item.title}</div>
                 {item.points && (
-                  <ul className="space-y-1">
+                  <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-1.5 sm:pl-[5.5rem]">
                     {item.points.map((point) => (
-                      <li key={point} className="text-sm text-gray-500 flex items-start gap-2">
-                        <span className="text-gray-300">–</span>
+                      <li key={point} className="text-sm text-gray-600 flex items-start gap-2">
+                        <span className="text-[var(--gold)] mt-0.5">–</span>
                         {point}
                       </li>
                     ))}
@@ -202,17 +208,17 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             O predavaču
           </h2>
           <div className="flex flex-col sm:flex-row gap-8 items-start">
-            <div className="relative w-32 h-40 rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
+            <div className="relative w-44 h-56 rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
               {seminar.lecturer.photo ? (
                 <Image
                   src={seminar.lecturer.photo.url}
                   alt={seminar.lecturer.photo.alt}
                   fill
-                  sizes="128px"
+                  sizes="176px"
                   className="object-cover"
                 />
               ) : (
-                <span className="text-[var(--navy)]/20 text-4xl font-bold font-[family-name:var(--font-playfair)]">
+                <span className="text-[var(--navy)]/20 text-5xl font-bold font-[family-name:var(--font-playfair)]">
                   {seminar.lecturer.name.split(" ").find((word) => !word.endsWith("."))?.[0]}
                 </span>
               )}
@@ -230,7 +236,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
         </section>
 
         {/* Registration */}
-        <section id="prijava" className="mb-20 scroll-mt-24">
+        <section id="prijava" className="mb-20 scroll-mt-24 text-center">
           <h2 className="text-xl font-bold text-[var(--navy)] mb-2 font-[family-name:var(--font-playfair)]">
             Prijava
           </h2>
@@ -239,7 +245,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
               ? `Molimo prijavite sudjelovanje najkasnije do ${seminar.registrationDeadline}.`
               : "Popunite prijavnicu ispod, javit ćemo vam se s potvrdom."}
           </p>
-          <div className="max-w-xl">
+          <div className="max-w-xl mx-auto text-left">
             <RegistracijaForm seminarTitle={seminar.title} />
           </div>
         </section>

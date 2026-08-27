@@ -105,6 +105,7 @@ const seminars: Seminar[] = [
       bio: "Prof. dr. sc. Dario Đerđa redoviti je profesor u trajnom izboru na Pravnom fakultetu u Rijeci i predstojnik je Katedre za upravno pravo. Od 2023. godine obavlja dužnost dekana na Pravnom fakultetu, a od 2023. godine pomoćnik je rektora Sveučilišta u Rijeci za pravna pitanja. Autor je više od sto znanstvenih i stručnih članaka i poglavlja u knjigama te nekoliko znanstvenih monografija i visokoškolskih udžbenika. Koautor je Komentara Zakona o upravnim sporovima, za koji je dobio priznanje Zaklade dr. sc. Jadranko Crnić, kao najviše nagrade u pravnoj struci u Republici Hrvatskoj, za napisanu knjigu koja je posebno doprinijela razvoju pravne struke. Aktivno je sudjelovao na brojnim uglednim međunarodnim i domaćim konferencijama te je član uredništava nekoliko znanstvenih časopisa. Kao član radnih skupina sudjelovao je u izradi više nacrta prijedloga zakona i drugih propisa, među kojima se posebno ističu Zakon o općem upravnom postupku, Zakon o upravnim sporovima te Zakon o visokom obrazovanju i znanstvenoj djelatnosti.",
       photo: { url: "/images/edukacije/derdja.jpg", alt: "Prof. dr. sc. Dario Đerđa" },
     },
+    coverImage: { url: "/images/edukacije/derdja.jpg", alt: "Prof. dr. sc. Dario Đerđa" },
   },
 ];
 
