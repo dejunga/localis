@@ -125,7 +125,7 @@ export default function UslugeePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
-                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+                className={`scroll-mt-28 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
                   i % 2 === 1 ? "lg:grid-flow-dense" : ""
                 }`}
               >
