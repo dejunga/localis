@@ -47,6 +47,29 @@ export const metadata: Metadata = {
   },
 };
 
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  name: "LOCALIS",
+  legalName: "LOCALIS, obrt za savjetovanje i edukaciju",
+  description,
+  url: siteUrl,
+  email: "info@localis.hr",
+  telephone: "+385953135158",
+  founder: {
+    "@type": "Person",
+    name: "Marija Jungić",
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Ljudevita Gaja 8",
+    postalCode: "43290",
+    addressLocality: "Grubišno Polje",
+    addressCountry: "HR",
+  },
+  areaServed: "HR",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -58,6 +81,10 @@ export default function RootLayout({
       className={`${inter.variable} ${playfair.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {children}
         <Analytics />
         <SpeedInsights />

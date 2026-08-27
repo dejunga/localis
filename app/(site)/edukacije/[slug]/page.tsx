@@ -35,11 +35,52 @@ export async function generateMetadata({
   };
 }
 
+function toIsoTime(hrTime: string): string {
+  const [h, m] = hrTime.trim().split(".");
+  return `${h.padStart(2, "0")}:${(m ?? "00").padStart(2, "0")}:00`;
+}
+
 export default async function SeminarPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const seminar = await getSeminar(slug);
 
   if (!seminar) notFound();
+
+  const [startRaw, endRaw] = seminar.time.split("–").map((s) => s.trim());
+  const price = Number(seminar.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
+
+  const eventJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: seminar.title,
+    description: seminar.excerpt,
+    startDate: `${seminar.date}T${toIsoTime(startRaw)}+02:00`,
+    endDate: endRaw ? `${seminar.date}T${toIsoTime(endRaw)}+02:00` : undefined,
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    location: {
+      "@type": "Place",
+      name: seminar.location,
+      address: seminar.locationDetail ?? seminar.location,
+    },
+    image: seminar.coverImage ? [seminar.coverImage.url] : undefined,
+    organizer: {
+      "@type": "Organization",
+      name: "LOCALIS",
+      url: "https://www.localis.hr",
+    },
+    performer: {
+      "@type": "Person",
+      name: seminar.lecturer.name,
+    },
+    offers: {
+      "@type": "Offer",
+      price: Number.isFinite(price) ? price : undefined,
+      priceCurrency: "EUR",
+      availability: "https://schema.org/InStock",
+      url: `https://www.localis.hr/edukacije/${seminar.slug}`,
+    },
+  };
 
   const infoCards = [
     { icon: Calendar, label: "Datum", value: seminar.dateLabel },
@@ -55,6 +96,10 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+      />
       {/* Hero */}
       <section className="bg-[var(--navy)] pt-32 pb-16">
         <div className="max-w-4xl mx-auto px-6">
