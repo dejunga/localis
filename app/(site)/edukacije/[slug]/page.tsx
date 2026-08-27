@@ -192,13 +192,13 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                                 key={pi}
                                 className="text-sm text-gray-600 flex items-start gap-2"
                               >
-                                <span className="text-[var(--gold)] mt-0.5">–</span>
+                                <span className="text-[var(--gold)] mt-0.5">→</span>
                                 {point}
                               </li>
                             ) : (
                               <li key={pi}>
                                 <div className="text-sm text-gray-600 flex items-start gap-2">
-                                  <span className="text-[var(--gold)] mt-0.5">–</span>
+                                  <span className="text-[var(--gold)] mt-0.5">→</span>
                                   {point.label}
                                 </div>
                                 <ul className="pl-6 mt-1.5 space-y-1">
