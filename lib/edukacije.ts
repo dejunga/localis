@@ -116,7 +116,10 @@ const seminars: Seminar[] = [
       },
       { time: "13.00 – 13.30", topics: [{ title: "Pauza za kavu" }] },
       { time: "13.30 – 14.15", topics: [{ title: "Diskusija i odgovori na pitanja" }] },
-      { time: "14.15 – 14.45", topics: [{ title: "Završna riječ i podjela certifikata" }] },
+      {
+        time: "14.15 – 14.45",
+        topics: [{ title: "Završna riječ i podjela potvrda o sudjelovanju" }],
+      },
       { time: "15.00", topics: [{ title: "Kraj radionice" }] },
     ],
     lecturer: {
