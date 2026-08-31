@@ -65,16 +65,16 @@ export default function ONamaPage() {
               </h2>
               <div className="space-y-4 text-gray-600 leading-relaxed">
                 <p>
-                  LOCALIS, obrt za savjetovanje i edukaciju, osnovan je s
-                  ciljem da pomogne u rješavanju svakodnevnih izazova s
-                  kojima se u stvarnosti suočavaju službenici jedinica
-                  lokalne samouprave i zaposlenici pravnih osoba koje su
-                  osnovane za obavljanje poslova od značaja za lokalnu
-                  samoupravu – ali i ostali koji se u svakodnevnom radu
-                  susreću s temama iz sustava lokalne samouprave: pravnici u
-                  javnom i privatnom sektoru, zaposlenici u kadrovskim
-                  odjelima, poduzetnici, obrtnici i drugi stručnjaci koji u
-                  svom radu primjenjuju pravne propise.
+                  LOCALIS je osnovan s ciljem da pomogne u rješavanju
+                  svakodnevnih izazova s kojima se u stvarnosti suočavaju
+                  službenici jedinica lokalne samouprave i zaposlenici
+                  pravnih osoba koje su osnovane za obavljanje poslova od
+                  značaja za lokalnu samoupravu – ali i ostali koji se u
+                  svakodnevnom radu susreću s temama iz sustava lokalne
+                  samouprave: pravnici u javnom i privatnom sektoru,
+                  zaposlenici u kadrovskim odjelima, poduzetnici, obrtnici i
+                  drugi stručnjaci koji u svom radu primjenjuju pravne
+                  propise.
                 </p>
                 <p>
                   Osnivačica Marija Jungić prepoznala je potrebu za

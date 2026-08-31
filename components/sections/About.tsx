@@ -35,12 +35,11 @@ export default function About() {
             </h2>
 
             <p className="text-gray-600 leading-relaxed mb-5 text-lg">
-              LOCALIS, obrt za savjetovanje i edukaciju, osnovan je s ciljem
-              da pomogne u rješavanju svakodnevnih izazova s kojima se
-              suočavaju službenici jedinica lokalne samouprave – ali i svi
-              koji se u svom radu susreću s temama iz sustava lokalne
-              samouprave: pravnici, zaposlenici u kadrovskim odjelima,
-              poduzetnici i obrtnici.
+              LOCALIS je osnovan s ciljem da pomogne u rješavanju
+              svakodnevnih izazova s kojima se suočavaju službenici jedinica
+              lokalne samouprave – ali i svi koji se u svom radu susreću s
+              temama iz sustava lokalne samouprave: pravnici, zaposlenici u
+              kadrovskim odjelima, poduzetnici i obrtnici.
             </p>
 
             <p className="text-gray-600 leading-relaxed mb-8">

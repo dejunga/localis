@@ -94,7 +94,7 @@ export default function KontaktPage() {
 
               <div className="border-t border-gray-100 pt-8">
                 <h3 className="text-sm font-semibold text-[var(--navy)] uppercase tracking-wider mb-5">
-                  Podaci o obrtu
+                  Službeni podaci
                 </h3>
                 <dl className="space-y-3">
                   {[
