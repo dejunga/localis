@@ -85,18 +85,12 @@ const seminars: Seminar[] = [
             points: [
               "Pravomoćnost i pravna sigurnost",
               "Stečena prava i legitimna očekivanja utemeljena na pravomoćnim upravnim aktima",
-              "Izvanredni pravni lijekovi u upravnom postupku",
-              {
-                label: "Obnova postupka",
-                subPoints: [
-                  "Dopuštenost primjene",
-                  "Razlozi",
-                  "Pokretanje",
-                  "Postupak",
-                  "Zaštita",
-                ],
-              },
             ],
+          },
+          { title: "Izvanredni pravni lijekovi u upravnom postupku" },
+          {
+            title: "Obnova postupka",
+            points: ["Dopuštenost primjene", "Razlozi", "Pokretanje", "Postupak", "Zaštita"],
           },
         ],
       },
