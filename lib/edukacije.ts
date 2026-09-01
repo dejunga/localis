@@ -50,7 +50,7 @@ const seminars: Seminar[] = [
       "Radionica o dopuštenosti, razlozima i postupku primjene obnove postupka, poništavanja, ukidanja i oglašavanja rješenja ništavim, s naglaskom na sudsku praksu upravnih sudova.",
     date: "2026-09-14",
     dateLabel: "14. rujna 2026.",
-    time: "9.30 – 14.15",
+    time: "9.30 – 15.00",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Zagrebačka avenija 100A, Kongresna dvorana Bethoveen B",
     price: "199,00 EUR",
