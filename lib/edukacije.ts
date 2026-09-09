@@ -55,7 +55,6 @@ const seminars: Seminar[] = [
     locationDetail: "Zagrebačka avenija 100A, Kongresna dvorana Bethoveen B",
     price: "199,00 EUR",
     priceNote: "Pružatelj nije u sustavu PDV-a.",
-    registrationDeadline: "8. rujna 2026.",
     description: [
       "Na stručnoj radionici analizirati će se i diskutirati sustav izvanrednih pravnih lijekova u Republici Hrvatskoj. Razmatrat će se učinak primjene izvanrednih pravnih lijekova na pravomoćna rješenja, stečena prava i legitimna očekivanja adresata upravnih akata.",
       "Posebna pozornost posvetiti će se dopuštenosti primjene obnove postupka, poništavanja i ukidanja rješenja te oglašavanja rješenja ništavim. Uz pravno teorijsku analizu pozitivnih propisa poseban naglasak staviti će se na odluke upravnih sudova o dopuštenosti primjene izvanrednih pravnih lijekova, postupku njihove provedbe i pravnoj zaštiti. Stručna radionica uključiti će raspravu i odgovore na pitanja.",

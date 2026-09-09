@@ -322,18 +322,14 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-playfair)]">
                 Prijava
               </h2>
-              <p className="text-gray-300 text-sm">
-                {seminar.registrationDeadline ? (
-                  <>
-                    Molimo prijavite sudjelovanje najkasnije do{" "}
-                    <strong className="font-bold text-[var(--gold)]">
-                      {seminar.registrationDeadline}
-                    </strong>
-                  </>
-                ) : (
-                  "Popunite prijavnicu ispod, javit ćemo vam se s potvrdom."
-                )}
-              </p>
+              {seminar.registrationDeadline && (
+                <p className="text-gray-300 text-sm">
+                  Molimo prijavite sudjelovanje najkasnije do{" "}
+                  <strong className="font-bold text-[var(--gold)]">
+                    {seminar.registrationDeadline}
+                  </strong>
+                </p>
+              )}
             </div>
 
             <div className="relative max-w-xl mx-auto bg-white rounded-xl p-6 sm:p-8 shadow-xl text-left">
