@@ -272,9 +272,6 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
         {/* Lecturer */}
         <section className="mb-20">
-          <h2 className="text-xl font-bold text-[var(--navy)] mb-8 font-[family-name:var(--font-playfair)]">
-            O predavaču
-          </h2>
           <div className="flex flex-col sm:flex-row gap-8 items-start">
             <div className="relative w-44 h-56 rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
               {seminar.lecturer.photo ? (
