@@ -25,7 +25,11 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
           transition={{ duration: 0.5, delay: i * 0.08 }}
           className="group flex flex-col"
         >
-          <div className="relative aspect-[4/5] rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 mb-5 overflow-hidden flex items-center justify-center">
+          <Link
+            href={`/edukacije/${seminar.slug}`}
+            aria-label={seminar.title}
+            className="relative aspect-[4/5] rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 mb-5 overflow-hidden flex items-center justify-center"
+          >
             {seminar.coverImage ? (
               <Image
                 src={seminar.coverImage.url}
@@ -39,7 +43,7 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
                 {seminar.title[0]}
               </div>
             )}
-          </div>
+          </Link>
 
           <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--gold)]/10 text-[var(--navy)] w-fit mb-3">
             {seminar.kicker}

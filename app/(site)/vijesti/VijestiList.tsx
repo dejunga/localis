@@ -31,7 +31,11 @@ export default function VijestiList({ posts }: { posts: PostCard[] }) {
           transition={{ duration: 0.5, delay: i * 0.08 }}
           className="group flex flex-col"
         >
-          <div className="relative aspect-[16/9] rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 mb-5 overflow-hidden flex items-center justify-center">
+          <Link
+            href={`/vijesti/${post.slug}`}
+            aria-label={post.title}
+            className="relative aspect-[16/9] rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 mb-5 overflow-hidden flex items-center justify-center"
+          >
             {post.imageUrl ? (
               <Image
                 src={post.imageUrl}
@@ -45,7 +49,7 @@ export default function VijestiList({ posts }: { posts: PostCard[] }) {
                 {post.title[0]}
               </div>
             )}
-          </div>
+          </Link>
 
           <div className="flex items-center gap-3 mb-3">
             <span
