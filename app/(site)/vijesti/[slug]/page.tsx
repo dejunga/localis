@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { getPost, getPostSlugs, formatDate } from "@/lib/posts";
+import PostGallery from "./PostGallery";
 
 const categoryColors: Record<string, string> = {
   Edukacija: "bg-blue-50 text-blue-700",
@@ -104,20 +105,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             : <p>{post.excerpt}</p>}
         </div>
 
-        <div className="mt-16 pt-8 border-t border-gray-100">
-          <p className="text-gray-400 text-sm mb-4">Autor</p>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[var(--navy)] rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-sm font-[family-name:var(--font-playfair)]">
-                M
-              </span>
-            </div>
-            <div>
-              <div className="font-semibold text-[var(--navy)] text-sm">Marija Jungić</div>
-              <div className="text-gray-400 text-xs">LOCALIS – Edukacija i savjetovanje</div>
-            </div>
-          </div>
-        </div>
+        {post.gallery?.length ? (
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold text-[var(--navy)] mb-6 font-[family-name:var(--font-playfair)]">
+              Fotografije s edukacije
+            </h2>
+            <PostGallery images={post.gallery} />
+          </section>
+        ) : null}
       </div>
     </div>
   );
