@@ -270,6 +270,11 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                   {item.topics.map((topic, ti) => (
                     <div key={ti}>
                       <div className="font-bold text-[var(--navy)] text-lg font-[family-name:var(--font-playfair)] mb-2">
+                        {topic.label && (
+                          <span className="inline-block align-middle mr-2.5 px-2.5 py-0.5 rounded-full bg-[var(--gold)]/12 text-[var(--gold)] text-xs font-sans font-semibold uppercase tracking-wider">
+                            {topic.label}
+                          </span>
+                        )}
                         {topic.title}
                       </div>
                       {topic.points && (

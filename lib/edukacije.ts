@@ -9,6 +9,7 @@ export type Lecturer = {
 export type AgendaPoint = string | { label: string; subPoints: string[] };
 
 export type AgendaTopic = {
+  label?: string; // npr. "Modul 1" – prikazuje se kao oznaka uz naslov, u sans fontu
   title: string;
   points?: AgendaPoint[];
 };
@@ -175,7 +176,7 @@ const seminars: Seminar[] = [
       {
         time: "9.30 – 11.00",
         topics: [
-          { title: "Modul 1: Normativni okvir i granice normiranja" },
+          { label: "Modul 1", title: "Normativni okvir i granice normiranja" },
           {
             title: "Jedinstvena metodološko-nomotehnička pravila",
             points: [
@@ -207,7 +208,7 @@ const seminars: Seminar[] = [
       {
         time: "11.30 – 13.00",
         topics: [
-          { title: "Modul 2: Kako napisati zakonit i nomotehnički ispravan akt" },
+          { label: "Modul 2", title: "Kako napisati zakonit i nomotehnički ispravan akt" },
           {
             title: "Struktura propisa",
             points: ["Uvodni dio", "Glavni dio", "Završne odredbe", "Prilozi i dodaci"],
@@ -228,7 +229,7 @@ const seminars: Seminar[] = [
       {
         time: "13.30 – 14.15",
         topics: [
-          { title: "Modul 3: Sudska praksa i najčešće pogreške" },
+          { label: "Modul 3", title: "Sudska praksa i najčešće pogreške" },
           { title: "Test ustavnosti i zakonitosti akta" },
           {
             title: "Najčešći razlozi ukidanja općih akata",
