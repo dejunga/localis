@@ -2,7 +2,8 @@ export type Lecturer = {
   name: string;
   role?: string;
   bio: string;
-  photo?: { url: string; alt: string };
+  // position = CSS object-position za izrez na kartici liste (npr. "center 35%")
+  photo?: { url: string; alt: string; position?: string };
 };
 
 export type AgendaPoint = string | { label: string; subPoints: string[] };
@@ -32,6 +33,7 @@ export type Seminar = {
   priceNote?: string;
   registrationDeadline?: string;
   description: string[];
+  descriptionHighlighted?: boolean; // opis u žutom okviru umjesto običnog teksta
   helpText?: string;
   helpTitle?: string;
   targetAudience?: string[];
@@ -40,6 +42,7 @@ export type Seminar = {
   agenda: AgendaItem[];
   lecturers: Lecturer[];
   lecturersNote?: { title?: string; text: string }; // žuti okvir ispod biografija predavača
+  // Slika na kartici liste. Ako nije zadana, kartica slaže fotografije predavača.
   coverImage?: { url: string; alt: string };
 };
 
@@ -138,6 +141,7 @@ const seminars: Seminar[] = [
       "Radionica o izradi općih akata jedinica lokalne i područne (regionalne) samouprave iz kuta onoga tko provjerava njihovu ustavnost i zakonitost – pravni temelj, nadležnost tijela, prijelazne odredbe i sudska praksa.",
     date: "2026-09-28",
     dateLabel: "28. rujna 2026.",
+    descriptionHighlighted: true,
     time: "9.00 – 15.00",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Kongresni centar, Zagrebačka avenija 100A, dvorana Beethoven",
@@ -258,7 +262,11 @@ const seminars: Seminar[] = [
         name: "Vinkica Duvnjak, dipl.iur",
         role: "zamjenica ravnateljice Ureda za zakonodavstvo Vlade RH",
         bio: "Vinkica Duvnjak zamjenica je ravnateljice Ureda za zakonodavstvo Vlade Republike Hrvatske. Više od dva desetljeća svakodnevno ocjenjuje jesu li propisi usklađeni s Ustavom i pravnim poretkom. Izrađuje mišljenja o usklađenosti prijedloga zakona i drugih propisa, nacrte propisa po nalogu Vlade te očitovanja Vlade u postupcima pred sudovima i Ustavnim sudom. Sudjelovala je u radnim skupinama za izradu brojnih zakona, među kojima su Zakon o lokalnim izborima i Zakon o državnim službenicima. Nomotehnika je njezino uže stručno područje. Ima nastavno naslovno zvanje predavačice za taj predmet i vodi vježbe iz nomotehnike na studiju javne uprave Pravnog fakulteta u Zagrebu. U Državnoj školi za javnu upravu predaje na programima izrade propisa, a nomotehničke smjernice prenosi i službenicima jedinica lokalne i područne (regionalne) samouprave. Sustav lokalne samouprave dobro poznaje i iz rada u Državnoj ispitnoj komisiji.",
-        photo: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl.iur" },
+        photo: {
+          url: "/images/edukacije/duvnjak.jpg",
+          alt: "Vinkica Duvnjak, dipl.iur",
+          position: "center 32%",
+        },
       },
       {
         name: "Aleksandra Jozić-Ileković, dipl.iur.",
@@ -266,6 +274,7 @@ const seminars: Seminar[] = [
         photo: {
           url: "/images/edukacije/jozic-ilekovic.jpg",
           alt: "Aleksandra Jozić-Ileković, dipl.iur.",
+          position: "center 45%",
         },
       },
     ],
@@ -273,7 +282,6 @@ const seminars: Seminar[] = [
       title: "Što radionica donosi",
       text: "Obje predavačice prošle su Ured za zakonodavstvo Vlade, gdje se svakodnevno ocjenjuje ustavnost i zakonitost propisa. Uz to, svaka donosi i vlastito iskustvo: jedna iz izrade propisa i nomotehnike, druga iz upravnog nadzora i ustavnog prava. Polaznici će zato opći akt vidjeti očima onoga tko ga provjerava. Saznat će gdje nastaju najčešće pogreške i kako akt napisati tako da prođe test ustavnosti i zakonitosti.",
     },
-    coverImage: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl.iur" },
   },
 ];
 

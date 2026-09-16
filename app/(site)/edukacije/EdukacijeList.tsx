@@ -7,6 +7,10 @@ import { ArrowRight, Calendar, MapPin } from "lucide-react";
 import type { Seminar } from "@/lib/edukacije";
 
 // pastSlugs računa server – klijent ne gleda sat, da ne dođe do hydration mismatcha.
+function lecturerPhotos(seminar: Seminar) {
+  return seminar.lecturers.flatMap((lecturer) => (lecturer.photo ? [lecturer.photo] : []));
+}
+
 export default function EdukacijeList({
   seminars,
   pastSlugs,
@@ -45,6 +49,31 @@ export default function EdukacijeList({
                 sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 className="object-cover object-top"
               />
+            ) : lecturerPhotos(seminar).length > 0 ? (
+              // Više predavača: manji portreti na tamnoj podlozi, u stilu sekcije za prijavu
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--navy)] to-[var(--navy-light)]">
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-[var(--gold)]/15 rounded-full -translate-y-1/2 translate-x-1/3" />
+                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/3" />
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center gap-4 px-6">
+                  {lecturerPhotos(seminar).map((photo, pi) => (
+                    <div
+                      key={photo.url}
+                      className={`relative w-[42%] aspect-[3/4] rounded-xl overflow-hidden ring-2 ring-[var(--gold)]/70 shadow-xl transition-transform duration-500 group-hover:scale-[1.03] ${pi % 2 === 0 ? "-translate-y-3" : "translate-y-3"}`}
+                    >
+                      <Image
+                        src={photo.url}
+                        alt={photo.alt}
+                        fill
+                        sizes="(max-width: 768px) 42vw, (max-width: 1024px) 21vw, 14vw"
+                        className="object-cover"
+                        style={{ objectPosition: photo.position ?? "center top" }}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
             ) : (
               <div className="text-[var(--navy)]/15 text-7xl font-bold font-[family-name:var(--font-playfair)]">
                 {seminar.title[0]}

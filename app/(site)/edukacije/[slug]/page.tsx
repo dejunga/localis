@@ -35,6 +35,8 @@ export async function generateMetadata({
 
   if (!seminar) return { title: "Edukacija nije pronađena – LOCALIS" };
 
+  const image = seminar.coverImage ?? seminar.lecturers.find((l) => l.photo)?.photo;
+
   return {
     title: `${seminar.title} – LOCALIS`,
     description: seminar.excerpt,
@@ -43,7 +45,7 @@ export async function generateMetadata({
       type: "article",
       title: seminar.title,
       description: seminar.excerpt,
-      images: seminar.coverImage ? [seminar.coverImage.url] : undefined,
+      images: image ? [image.url] : undefined,
     },
   };
 }
@@ -77,7 +79,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       name: seminar.location,
       address: seminar.locationDetail ?? seminar.location,
     },
-    image: seminar.coverImage ? [seminar.coverImage.url] : undefined,
+    image: (seminar.coverImage ?? seminar.lecturers.find((l) => l.photo)?.photo)?.url,
     organizer: {
       "@type": "Organization",
       name: "LOCALIS",
@@ -184,7 +186,13 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
         {/* Description */}
         <section className="mb-16">
-          <div className="prose prose-lg max-w-none text-gray-600 leading-relaxed space-y-4">
+          <div
+            className={
+              seminar.descriptionHighlighted
+                ? "bg-[var(--gold)]/6 border-l-4 border-[var(--gold)] rounded-r-lg p-6 text-gray-700 leading-relaxed space-y-4"
+                : "prose prose-lg max-w-none text-gray-600 leading-relaxed space-y-4"
+            }
+          >
             {seminar.description.map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
             ))}
