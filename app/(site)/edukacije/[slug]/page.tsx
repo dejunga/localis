@@ -128,7 +128,12 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
           </div>
 
           <h1 className="text-3xl md:text-4xl font-bold text-white font-[family-name:var(--font-playfair)] leading-tight mb-4">
-            {seminar.title}
+            {(seminar.titleLines ?? [seminar.title]).map((line, i, lines) => (
+              <span key={line}>
+                {line}
+                {i < lines.length - 1 && <br />}
+              </span>
+            ))}
           </h1>
 
           <div className="space-y-1">

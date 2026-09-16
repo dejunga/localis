@@ -20,6 +20,7 @@ export type AgendaItem = {
 export type Seminar = {
   slug: string;
   title: string;
+  titleLines?: string[]; // ručni prijelom naslova u prikazu (h1 i kartica); title ostaje za metadata
   kicker: string;
   excerpt: string;
   date: string; // ISO, for sorting
@@ -130,6 +131,7 @@ const seminars: Seminar[] = [
   {
     slug: "kako-izraditi-opci-akt-u-jlprs",
     title: "Kako izraditi opći akt u JLP(R)S: od pravnog temelja do sudske prakse",
+    titleLines: ["Kako izraditi opći akt u JLP(R)S:", "Od pravnog temelja do sudske prakse"],
     kicker: "Praktična radionica",
     excerpt:
       "Radionica o izradi općih akata jedinica lokalne i područne (regionalne) samouprave iz kuta onoga tko provjerava njihovu ustavnost i zakonitost – pravni temelj, nadležnost tijela, prijelazne odredbe i sudska praksa.",

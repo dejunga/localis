@@ -50,7 +50,14 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
           </span>
 
           <h2 className="text-lg font-bold text-[var(--navy)] mb-2 leading-snug group-hover:text-[var(--navy-light)] transition-colors font-[family-name:var(--font-playfair)]">
-            <Link href={`/edukacije/${seminar.slug}`}>{seminar.title}</Link>
+            <Link href={`/edukacije/${seminar.slug}`}>
+              {(seminar.titleLines ?? [seminar.title]).map((line, i, lines) => (
+                <span key={line}>
+                  {line}
+                  {i < lines.length - 1 && <br />}
+                </span>
+              ))}
+            </Link>
           </h2>
 
           <div className="flex flex-col gap-2 mb-4 text-gray-600 text-sm">
