@@ -146,9 +146,6 @@ const seminars: Seminar[] = [
       "Opći akti jedinica lokalne samouprave sve se češće poništavaju i ukidaju, a svaka pogreška znači novi postupak, izgubljeno vrijeme i pravnu nesigurnost za građane. Cilj radionice je da polaznici nauče izraditi opći akt koji će izdržati provjeru ustavnosti i zakonitosti, i to od pravnog temelja do prijelaznih odredbi. Predavačice će iz rada u sustavu državne uprave i sudske prakse pokazati gdje nastaju najčešće pogreške i kako ih izbjeći.",
       "Na praktičnoj radionici analizirat će se i raspraviti izrada općih akata jedinica lokalne i područne (regionalne) samouprave, i to iz kuta onoga tko provjerava njihovu ustavnost i zakonitost. Kroz konkretne primjere i odluke Visokog upravnog suda i Ustavnog suda obradit će se pravni temelj za donošenje akta, razgraničenje nadležnosti predstavničkog i izvršnog tijela, propisivanje potpora i subvencija te prekršaja i novčanih kazni, zaštita stečenih prava, prijelazne odredbe i povratno djelovanje. Polaznici će moći postaviti pitanja iz vlastite prakse i dobiti konkretne odgovore.",
     ],
-    helpTitle: "Što radionica donosi",
-    helpText:
-      "Obje predavačice prošle su Ured za zakonodavstvo Vlade, gdje se svakodnevno ocjenjuje ustavnost i zakonitost propisa. Uz to, svaka donosi i vlastito iskustvo: jedna iz izrade propisa i nomotehnike, druga iz upravnog nadzora i ustavnog prava. Polaznici će zato opći akt vidjeti očima onoga tko ga provjerava. Saznat će gdje nastaju najčešće pogreške i kako akt napisati tako da prođe test ustavnosti i zakonitosti.",
     questions: [
       "Kako napraviti zakonit i pravilan akt iz nadležnosti lokalne samouprave?",
       "Koji su najčešći razlozi poništavanja/ukidanja općih akata?",
