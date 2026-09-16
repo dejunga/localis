@@ -200,7 +200,7 @@ const seminars: Seminar[] = [
               "Kada i kako akt „pada”",
             ],
           },
-          { title: "Praktična vježba", points: ["„Koje tijelo donosi ovaj akt?”"] },
+          { title: "Praktična vježba", points: ["Koje tijelo donosi ovaj akt?"] },
         ],
       },
       { time: "11.00 – 11.30", topics: [{ title: "Pauza za kavu" }] },
