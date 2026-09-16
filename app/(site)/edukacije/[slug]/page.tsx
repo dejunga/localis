@@ -135,8 +135,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             {seminar.lecturers.map((lecturer) => (
               <p key={lecturer.name} className="text-gray-300">
                 <span className="text-white font-medium">{lecturer.name}</span>
-                {", "}
-                {lecturer.role}
+                {lecturer.role && `, ${lecturer.role}`}
               </p>
             ))}
           </div>
@@ -312,8 +311,12 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 )}
               </div>
               <div>
-                <div className="font-bold text-[var(--navy)] text-lg mb-1">{lecturer.name}</div>
-                <div className="text-[var(--gold)] text-sm font-medium mb-4">{lecturer.role}</div>
+                <div className={`font-bold text-[var(--navy)] text-lg ${lecturer.role ? "mb-1" : "mb-4"}`}>
+                  {lecturer.name}
+                </div>
+                {lecturer.role && (
+                  <div className="text-[var(--gold)] text-sm font-medium mb-4">{lecturer.role}</div>
+                )}
                 <p className="text-gray-600 text-sm leading-relaxed">{lecturer.bio}</p>
               </div>
             </div>

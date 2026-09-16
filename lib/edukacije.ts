@@ -1,6 +1,6 @@
 export type Lecturer = {
   name: string;
-  role: string;
+  role?: string;
   bio: string;
   photo?: { url: string; alt: string };
 };
@@ -261,12 +261,11 @@ const seminars: Seminar[] = [
         photo: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl. iur." },
       },
       {
-        name: "Aleksandra Jozić-Ileković, dipl. iur.",
-        role: "Bivša zamjenica predstojnika Ureda za zakonodavstvo Vlade Republike Hrvatske",
+        name: "Aleksandra Jozić-Ileković, dipl.iur.",
         bio: "Aleksandra Jozić-Ileković diplomirana je pravnica s položenim pravosudnim ispitom i 38 godina radnog iskustva, većinom u državnoj upravi. Deset godina radila je u Uredu za zakonodavstvo Vlade Republike Hrvatske kao savjetnica, a zatim kao zamjenica predstojnika. U tom je razdoblju ocjenjivala usklađenost propisa s Ustavom i pravnim poretkom. U Ministarstvu uprave bila je savjetnica ministra, savjetnica specijalistica i viša upravna inspektorica, pa zakonitost akata poznaje i iz kuta onoga tko provodi nadzor. Dvadeset godina ispitivala je i predavala Ustavno pravo i Sustav državne uprave na državnom stručnom ispitu. Objavila je niz stručnih članaka iz ustavnog prava, nomotehnike i normative te je sudjelovala u brojnim radnim skupinama za izradu zakona. Bila je potpredsjednica Državnog izbornog povjerenstva te članica i predsjednica Povjerenstva za sprječavanje sukoba interesa. Rad lokalne samouprave poznaje iznutra, jer je karijeru započela u gradskoj upravi Grada Zagreba.",
         photo: {
           url: "/images/edukacije/jozic-ilekovic.jpg",
-          alt: "Aleksandra Jozić-Ileković, dipl. iur.",
+          alt: "Aleksandra Jozić-Ileković, dipl.iur.",
         },
       },
     ],
