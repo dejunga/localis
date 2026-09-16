@@ -6,7 +6,13 @@ import { sendSeminarRegistration, type RegistrationState } from "../actions";
 
 const initialState: RegistrationState = { status: "idle" };
 
-export default function RegistracijaForm({ seminarTitle }: { seminarTitle: string }) {
+export default function RegistracijaForm({
+  seminarSlug,
+  seminarTitle,
+}: {
+  seminarSlug: string;
+  seminarTitle: string;
+}) {
   const [state, formAction, pending] = useActionState(sendSeminarRegistration, initialState);
   const [participantRows, setParticipantRows] = useState<number[]>([0]);
   const nextRowId = useRef(1);
@@ -40,6 +46,7 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <input type="hidden" name="seminar" value={seminarTitle} />
+      <input type="hidden" name="slug" value={seminarSlug} />
       <input
         type="text"
         name="website"

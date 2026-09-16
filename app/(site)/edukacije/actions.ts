@@ -1,6 +1,7 @@
 "use server";
 
 import nodemailer from "nodemailer";
+import { getSeminar, isSeminarPast } from "@/lib/edukacije";
 
 export type RegistrationState = {
   status: "idle" | "sent" | "error";
@@ -23,6 +24,15 @@ export async function sendSeminarRegistration(
   // Honeypot – botovi popunjavaju skrivena polja, ljudi ne
   if (formData.get("website")) {
     return { status: "sent" };
+  }
+
+  const slug = String(formData.get("slug") ?? "").trim();
+  const seminar = await getSeminar(slug);
+  if (!seminar || isSeminarPast(seminar)) {
+    return {
+      status: "error",
+      message: "Prijave za ovu edukaciju više nisu moguće.",
+    };
   }
 
   const seminarTitle = String(formData.get("seminar") ?? "").trim();

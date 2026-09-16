@@ -12,9 +12,13 @@ import {
   Users,
   HelpCircle,
 } from "lucide-react";
-import { getSeminar, getSeminarSlugs } from "@/lib/edukacije";
+import { getSeminar, getSeminarSlugs, isSeminarPast } from "@/lib/edukacije";
 import RegistracijaForm from "./RegistracijaForm";
 import PrijaviSeButton from "./PrijaviSeButton";
+
+// Stranica je statična; regenerira se svakih sat vremena da prošle edukacije
+// izgube gumb i formu za prijavu bez novog builda.
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const slugs = await getSeminarSlugs();
@@ -55,6 +59,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
   if (!seminar) notFound();
 
+  const past = isSeminarPast(seminar);
   const [startRaw, endRaw] = seminar.time.split("–").map((s) => s.trim());
   const price = Number(seminar.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
 
@@ -82,13 +87,15 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       "@type": "Person",
       name: lecturer.name,
     })),
-    offers: {
-      "@type": "Offer",
-      price: Number.isFinite(price) ? price : undefined,
-      priceCurrency: "EUR",
-      availability: "https://schema.org/InStock",
-      url: `https://www.localis.hr/edukacije/${seminar.slug}`,
-    },
+    offers: past
+      ? undefined
+      : {
+          "@type": "Offer",
+          price: Number.isFinite(price) ? price : undefined,
+          priceCurrency: "EUR",
+          availability: "https://schema.org/InStock",
+          url: `https://www.localis.hr/edukacije/${seminar.slug}`,
+        },
   };
 
   const infoCards = [
@@ -169,9 +176,11 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
           ))}
         </div>
 
-        <div className="flex justify-center mb-20">
-          <PrijaviSeButton />
-        </div>
+        {!past && (
+          <div className="flex justify-center mb-20">
+            <PrijaviSeButton />
+          </div>
+        )}
 
         {/* Description */}
         <section className="mb-16">
@@ -326,6 +335,17 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
               </div>
             </div>
           ))}
+
+          {seminar.lecturersNote && (
+            <div className="bg-[var(--gold)]/6 border-l-4 border-[var(--gold)] rounded-r-lg p-6">
+              {seminar.lecturersNote.title && (
+                <h2 className="text-lg font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)] mb-2">
+                  {seminar.lecturersNote.title}
+                </h2>
+              )}
+              <p className="text-gray-700 leading-relaxed">{seminar.lecturersNote.text}</p>
+            </div>
+          )}
         </section>
 
         {/* Registration */}
@@ -345,9 +365,18 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 <div className="h-px w-8 bg-[var(--gold)]" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-playfair)]">
-                Prijava
+                {past ? "Edukacija je održana" : "Prijava"}
               </h2>
-              {seminar.registrationDeadline && (
+              {past && (
+                <p className="text-gray-300 text-sm">
+                  Prijave za ovu edukaciju više nisu moguće. Pogledajte{" "}
+                  <Link href="/edukacije" className="text-[var(--gold)] underline underline-offset-4">
+                    nadolazeće edukacije
+                  </Link>
+                  .
+                </p>
+              )}
+              {!past && seminar.registrationDeadline && (
                 <p className="text-gray-300 text-sm">
                   Molimo prijavite sudjelovanje najkasnije do{" "}
                   <strong className="font-bold text-[var(--gold)]">
@@ -357,9 +386,11 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
               )}
             </div>
 
-            <div className="relative max-w-xl mx-auto bg-white rounded-xl p-4 sm:p-8 shadow-xl text-left">
-              <RegistracijaForm seminarTitle={seminar.title} />
-            </div>
+            {!past && (
+              <div className="relative max-w-xl mx-auto bg-white rounded-xl p-4 sm:p-8 shadow-xl text-left">
+                <RegistracijaForm seminarSlug={seminar.slug} seminarTitle={seminar.title} />
+              </div>
+            )}
           </div>
         </section>
       </div>

@@ -6,7 +6,14 @@ import Image from "next/image";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 import type { Seminar } from "@/lib/edukacije";
 
-export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
+// pastSlugs računa server – klijent ne gleda sat, da ne dođe do hydration mismatcha.
+export default function EdukacijeList({
+  seminars,
+  pastSlugs,
+}: {
+  seminars: Seminar[];
+  pastSlugs: string[];
+}) {
   if (seminars.length === 0) {
     return (
       <p className="text-gray-500 text-center py-10">
@@ -45,9 +52,16 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
             )}
           </Link>
 
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--gold)]/10 text-[var(--navy)] w-fit mb-3">
-            {seminar.kicker}
-          </span>
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--gold)]/10 text-[var(--navy)]">
+              {seminar.kicker}
+            </span>
+            {pastSlugs.includes(seminar.slug) && (
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
+                Održano
+              </span>
+            )}
+          </div>
 
           <h2 className="text-lg font-bold text-[var(--navy)] mb-2 leading-snug group-hover:text-[var(--navy-light)] transition-colors font-[family-name:var(--font-playfair)]">
             <Link href={`/edukacije/${seminar.slug}`}>

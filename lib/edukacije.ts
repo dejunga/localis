@@ -39,6 +39,7 @@ export type Seminar = {
   goals: string[];
   agenda: AgendaItem[];
   lecturers: Lecturer[];
+  lecturersNote?: { title?: string; text: string }; // žuti okvir ispod biografija predavača
   coverImage?: { url: string; alt: string };
 };
 
@@ -268,6 +269,10 @@ const seminars: Seminar[] = [
         },
       },
     ],
+    lecturersNote: {
+      title: "Što radionica donosi",
+      text: "Obje predavačice prošle su Ured za zakonodavstvo Vlade, gdje se svakodnevno ocjenjuje ustavnost i zakonitost propisa. Uz to, svaka donosi i vlastito iskustvo: jedna iz izrade propisa i nomotehnike, druga iz upravnog nadzora i ustavnog prava. Polaznici će zato opći akt vidjeti očima onoga tko ga provjerava. Saznat će gdje nastaju najčešće pogreške i kako akt napisati tako da prođe test ustavnosti i zakonitosti.",
+    },
     coverImage: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl.iur" },
   },
 ];
@@ -286,4 +291,10 @@ export async function getSeminar(slug: string): Promise<Seminar | null> {
 
 export async function getSeminarSlugs(): Promise<string[]> {
   return seminars.map((seminar) => seminar.slug);
+}
+
+// Edukacija je prošla kad istekne dan održavanja (po zagrebačkom vremenu).
+export function isSeminarPast(seminar: Pick<Seminar, "date">, now = new Date()): boolean {
+  const today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Zagreb" }).format(now);
+  return seminar.date < today;
 }
