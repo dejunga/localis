@@ -143,6 +143,23 @@ export default function RegistracijaForm({ seminarTitle }: { seminarTitle: strin
       </div>
 
       <div>
+        <label htmlFor="adresa" className="block text-sm font-medium text-gray-700 mb-1.5">
+          Adresa ustanove/tvrtke *
+        </label>
+        <input
+          id="adresa"
+          name="adresa"
+          type="text"
+          required
+          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+          placeholder="Ulica i broj, poštanski broj i mjesto"
+        />
+        {state.errors?.adresa && (
+          <p className="text-red-600 text-xs mt-1.5">{state.errors.adresa}</p>
+        )}
+      </div>
+
+      <div>
         <label className="block text-sm font-medium text-gray-700 mb-1.5">Polaznici *</label>
         <div className="space-y-2.5">
           {participantRows.map((id) => (

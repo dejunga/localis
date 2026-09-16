@@ -6,7 +6,10 @@ export type RegistrationState = {
   status: "idle" | "sent" | "error";
   message?: string;
   errors?: Partial<
-    Record<"ime" | "email" | "telefon" | "organizacija" | "oib" | "polaznici", string>
+    Record<
+      "ime" | "email" | "telefon" | "organizacija" | "adresa" | "oib" | "polaznici",
+      string
+    >
   >;
 };
 
@@ -27,6 +30,7 @@ export async function sendSeminarRegistration(
   const email = String(formData.get("email") ?? "").trim();
   const telefon = String(formData.get("telefon") ?? "").trim();
   const organizacija = String(formData.get("organizacija") ?? "").trim();
+  const adresa = String(formData.get("adresa") ?? "").trim();
   const oib = String(formData.get("oib") ?? "").trim();
   const napomena = String(formData.get("napomena") ?? "").trim();
   const polaznikImena = formData.getAll("polaznik_ime").map((value) => String(value).trim());
@@ -42,6 +46,7 @@ export async function sendSeminarRegistration(
   if (!EMAIL_RE.test(email)) errors.email = "Unesite ispravnu email adresu.";
   if (!telefon) errors.telefon = "Unesite telefon.";
   if (!organizacija) errors.organizacija = "Unesite naziv ustanove/tvrtke.";
+  if (!adresa) errors.adresa = "Unesite adresu ustanove/tvrtke.";
   if (!OIB_RE.test(oib)) errors.oib = "OIB mora imati točno 11 znamenaka.";
   if (polaznici.length === 0) {
     errors.polaznici = "Unesite barem jednog polaznika.";
@@ -85,6 +90,7 @@ export async function sendSeminarRegistration(
         `Email: ${email}`,
         `Telefon: ${telefon || "-"}`,
         `Ustanova/tvrtka: ${organizacija}`,
+        `Adresa: ${adresa}`,
         `OIB: ${oib || "-"}`,
         "",
         "Polaznici:",
