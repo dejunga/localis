@@ -257,10 +257,10 @@ const seminars: Seminar[] = [
     ],
     lecturers: [
       {
-        name: "Vinkica Duvnjak, dipl. iur.",
-        role: "Zamjenica ravnateljice Ureda za zakonodavstvo Vlade Republike Hrvatske",
+        name: "Vinkica Duvnjak, dipl.iur",
+        role: "zamjenica ravnateljice Ureda za zakonodavstvo Vlade RH",
         bio: "Vinkica Duvnjak zamjenica je ravnateljice Ureda za zakonodavstvo Vlade Republike Hrvatske. Više od dva desetljeća svakodnevno ocjenjuje jesu li propisi usklađeni s Ustavom i pravnim poretkom. Izrađuje mišljenja o usklađenosti prijedloga zakona i drugih propisa, nacrte propisa po nalogu Vlade te očitovanja Vlade u postupcima pred sudovima i Ustavnim sudom. Sudjelovala je u radnim skupinama za izradu brojnih zakona, među kojima su Zakon o lokalnim izborima i Zakon o državnim službenicima. Nomotehnika je njezino uže stručno područje. Ima nastavno naslovno zvanje predavačice za taj predmet i vodi vježbe iz nomotehnike na studiju javne uprave Pravnog fakulteta u Zagrebu. U Državnoj školi za javnu upravu predaje na programima izrade propisa, a nomotehničke smjernice prenosi i službenicima jedinica lokalne i područne (regionalne) samouprave. Sustav lokalne samouprave dobro poznaje i iz rada u Državnoj ispitnoj komisiji.",
-        photo: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl. iur." },
+        photo: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl.iur" },
       },
       {
         name: "Aleksandra Jozić-Ileković, dipl.iur.",
@@ -271,7 +271,7 @@ const seminars: Seminar[] = [
         },
       },
     ],
-    coverImage: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl. iur." },
+    coverImage: { url: "/images/edukacije/duvnjak.jpg", alt: "Vinkica Duvnjak, dipl.iur" },
   },
 ];
 
