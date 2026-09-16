@@ -2,7 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Calendar, Clock, MapPin, Coins, CheckCircle2, Users } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  Clock,
+  MapPin,
+  Coins,
+  CheckCircle2,
+  Users,
+  HelpCircle,
+} from "lucide-react";
 import { getSeminar, getSeminarSlugs } from "@/lib/edukacije";
 import RegistracijaForm from "./RegistracijaForm";
 import PrijaviSeButton from "./PrijaviSeButton";
@@ -69,10 +78,10 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       name: "LOCALIS",
       url: "https://www.localis.hr",
     },
-    performer: {
+    performer: seminar.lecturers.map((lecturer) => ({
       "@type": "Person",
-      name: seminar.lecturer.name,
-    },
+      name: lecturer.name,
+    })),
     offers: {
       "@type": "Offer",
       price: Number.isFinite(price) ? price : undefined,
@@ -122,11 +131,15 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             {seminar.title}
           </h1>
 
-          <p className="text-gray-300">
-            <span className="text-white font-medium">{seminar.lecturer.name}</span>
-            {", "}
-            {seminar.lecturer.role}
-          </p>
+          <div className="space-y-1">
+            {seminar.lecturers.map((lecturer) => (
+              <p key={lecturer.name} className="text-gray-300">
+                <span className="text-white font-medium">{lecturer.name}</span>
+                {", "}
+                {lecturer.role}
+              </p>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -166,22 +179,31 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
           {seminar.helpText && (
             <div className="mt-8 bg-[var(--gold)]/6 border-l-4 border-[var(--gold)] rounded-r-lg p-6">
+              {seminar.helpTitle && (
+                <h2 className="text-lg font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)] mb-2">
+                  {seminar.helpTitle}
+                </h2>
+              )}
               <p className="text-gray-700 leading-relaxed">{seminar.helpText}</p>
             </div>
           )}
         </section>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
-          {/* Target audience */}
+          {/* Target audience or "Prijavite se i saznajte" */}
           <section>
             <div className="flex items-center gap-2.5 mb-5">
-              <Users size={18} className="text-[var(--navy)]" />
+              {seminar.targetAudience ? (
+                <Users size={18} className="text-[var(--navy)]" />
+              ) : (
+                <HelpCircle size={18} className="text-[var(--navy)]" />
+              )}
               <h2 className="text-xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
-                Kome je namijenjeno
+                {seminar.targetAudience ? "Kome je namijenjeno" : "Prijavite se i saznajte"}
               </h2>
             </div>
             <ul className="space-y-2.5">
-              {seminar.targetAudience.map((item) => (
+              {(seminar.targetAudience ?? seminar.questions ?? []).map((item) => (
                 <li key={item} className="flex items-start gap-2.5 text-gray-600 text-sm">
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--gold)] mt-1.5 shrink-0" />
                   {item}
@@ -270,39 +292,37 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
           </div>
         </section>
 
-        {/* Lecturer */}
-        <section className="mb-20">
-          <div className="flex flex-col sm:flex-row gap-8 items-start">
-            <div className="relative w-44 h-56 rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
-              {seminar.lecturer.photo ? (
-                <Image
-                  src={seminar.lecturer.photo.url}
-                  alt={seminar.lecturer.photo.alt}
-                  fill
-                  sizes="176px"
-                  className="object-cover"
-                />
-              ) : (
-                <span className="text-[var(--navy)]/20 text-5xl font-bold font-[family-name:var(--font-playfair)]">
-                  {seminar.lecturer.name.split(" ").find((word) => !word.endsWith("."))?.[0]}
-                </span>
-              )}
-            </div>
-            <div>
-              <div className="font-bold text-[var(--navy)] text-lg mb-1">
-                {seminar.lecturer.name}
+        {/* Lecturers */}
+        <section className="mb-20 space-y-12">
+          {seminar.lecturers.map((lecturer) => (
+            <div key={lecturer.name} className="flex flex-col sm:flex-row gap-8 items-start">
+              <div className="relative w-44 h-56 rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
+                {lecturer.photo ? (
+                  <Image
+                    src={lecturer.photo.url}
+                    alt={lecturer.photo.alt}
+                    fill
+                    sizes="176px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <span className="text-[var(--navy)]/20 text-5xl font-bold font-[family-name:var(--font-playfair)]">
+                    {lecturer.name.split(" ").find((word) => !word.endsWith("."))?.[0]}
+                  </span>
+                )}
               </div>
-              <div className="text-[var(--gold)] text-sm font-medium mb-4">
-                {seminar.lecturer.role}
+              <div>
+                <div className="font-bold text-[var(--navy)] text-lg mb-1">{lecturer.name}</div>
+                <div className="text-[var(--gold)] text-sm font-medium mb-4">{lecturer.role}</div>
+                <p className="text-gray-600 text-sm leading-relaxed">{lecturer.bio}</p>
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed">{seminar.lecturer.bio}</p>
             </div>
-          </div>
+          ))}
         </section>
 
         {/* Registration */}
         <section id="prijava" className="mb-20 scroll-mt-24">
-          <div className="relative bg-[var(--navy)] rounded-2xl overflow-hidden px-6 py-12 sm:px-12 sm:py-14">
+          <div className="relative bg-[var(--navy)] rounded-2xl overflow-hidden px-3 py-10 sm:px-12 sm:py-14">
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-0 right-0 w-72 h-72 bg-[var(--gold)]/10 rounded-full -translate-y-1/2 translate-x-1/4" />
               <div className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
@@ -329,7 +349,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
               )}
             </div>
 
-            <div className="relative max-w-xl mx-auto bg-white rounded-xl p-6 sm:p-8 shadow-xl text-left">
+            <div className="relative max-w-xl mx-auto bg-white rounded-xl p-4 sm:p-8 shadow-xl text-left">
               <RegistracijaForm seminarTitle={seminar.title} />
             </div>
           </div>
