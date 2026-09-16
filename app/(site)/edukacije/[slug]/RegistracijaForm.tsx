@@ -109,7 +109,7 @@ export default function RegistracijaForm({
             type="tel"
             required
             className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
-            placeholder="+385 91 234 5678"
+            placeholder="091 234 5678"
           />
         </div>
         <div>
