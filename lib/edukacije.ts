@@ -221,7 +221,7 @@ const seminars: Seminar[] = [
             ],
           },
           { title: "Zaštita stečenih prava", points: ["Prijelazne odredbe", "Retroaktivnost"] },
-          { title: "Praktična vježba", points: ["„Pronađite 10 grešaka u nacrtu akta”"] },
+          { title: "Praktična vježba", points: ["Pronađite 10 grešaka u nacrtu akta"] },
         ],
       },
       { time: "13.00 – 13.30", topics: [{ title: "Pauza za kavu" }] },
