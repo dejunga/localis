@@ -129,7 +129,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
           <h1 className="text-3xl md:text-4xl font-bold text-white font-[family-name:var(--font-playfair)] leading-tight mb-4">
             {(seminar.titleLines ?? [seminar.title]).map((line, i, lines) => (
-              <span key={line}>
+              <span key={line} className={i > 0 ? "text-[0.85em]" : undefined}>
                 {line}
                 {i < lines.length - 1 && <br />}
               </span>

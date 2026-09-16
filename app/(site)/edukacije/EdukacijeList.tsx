@@ -52,7 +52,7 @@ export default function EdukacijeList({ seminars }: { seminars: Seminar[] }) {
           <h2 className="text-lg font-bold text-[var(--navy)] mb-2 leading-snug group-hover:text-[var(--navy-light)] transition-colors font-[family-name:var(--font-playfair)]">
             <Link href={`/edukacije/${seminar.slug}`}>
               {(seminar.titleLines ?? [seminar.title]).map((line, i, lines) => (
-                <span key={line}>
+                <span key={line} className={i > 0 ? "text-[0.85em]" : undefined}>
                   {line}
                   {i < lines.length - 1 && <br />}
                 </span>
