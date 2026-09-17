@@ -75,7 +75,7 @@ export default function RegistracijaForm({
             name="ime"
             type="text"
             required
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
             placeholder="Marko Marković"
           />
           {state.errors?.ime && <p className="text-red-600 text-xs mt-1.5">{state.errors.ime}</p>}
@@ -89,7 +89,7 @@ export default function RegistracijaForm({
             name="email"
             type="email"
             required
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
             placeholder="marko@email.com"
           />
           {state.errors?.email && (
@@ -108,7 +108,7 @@ export default function RegistracijaForm({
             name="telefon"
             type="tel"
             required
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
             placeholder="091 234 5678"
           />
         </div>
@@ -125,7 +125,7 @@ export default function RegistracijaForm({
             pattern="\d{11}"
             maxLength={11}
             title="OIB mora imati točno 11 znamenaka."
-            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
             placeholder="12345678901"
           />
           {state.errors?.oib && <p className="text-red-600 text-xs mt-1.5">{state.errors.oib}</p>}
@@ -141,7 +141,7 @@ export default function RegistracijaForm({
           name="organizacija"
           type="text"
           required
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
           placeholder="Naziv jedinice lokalne samouprave, tvrtke ili ureda"
         />
         {state.errors?.organizacija && (
@@ -158,7 +158,7 @@ export default function RegistracijaForm({
           name="adresa"
           type="text"
           required
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
           placeholder="Ulica i broj, poštanski broj i mjesto"
         />
         {state.errors?.adresa && (
@@ -176,14 +176,14 @@ export default function RegistracijaForm({
                   name="polaznik_ime"
                   type="text"
                   required
-                  className="px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+                  className="px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
                   placeholder="Ime i prezime polaznika"
                 />
                 <input
                   name="polaznik_radno_mjesto"
                   type="text"
                   required
-                  className="px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
+                  className="px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
                   placeholder="Radno mjesto"
                 />
               </div>
@@ -221,7 +221,7 @@ export default function RegistracijaForm({
           id="napomena"
           name="napomena"
           rows={4}
-          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all resize-none"
+          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all resize-none"
           placeholder="Pitanja ili napomene uz prijavu..."
         />
       </div>
