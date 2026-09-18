@@ -31,10 +31,12 @@ export async function setPostavke(nove: Postavke): Promise<void> {
     { kljuc: "dani_valjanosti", vrijednost: String(nove.daniValjanosti) },
     { kljuc: "potpisnik", vrijednost: nove.potpisnik },
   ];
-  for (const row of rows) {
-    await db
-      .insert(postavke)
-      .values(row)
-      .onConflictDoUpdate({ target: postavke.kljuc, set: { vrijednost: row.vrijednost } });
-  }
+  await db.transaction(async (tx) => {
+    for (const row of rows) {
+      await tx
+        .insert(postavke)
+        .values(row)
+        .onConflictDoUpdate({ target: postavke.kljuc, set: { vrijednost: row.vrijednost } });
+    }
+  });
 }

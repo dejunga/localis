@@ -1,6 +1,6 @@
 import { defineConfig } from "vitest/config";
 import { config } from "dotenv";
-import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 config({ path: ".env.local" });
 
@@ -10,6 +10,6 @@ export default defineConfig({
     include: ["lib/**/*.test.ts", "lib/**/*.test.tsx"],
   },
   resolve: {
-    alias: { "@": path.resolve(__dirname, ".") },
+    alias: { "@": fileURLToPath(new URL(".", import.meta.url)) },
   },
 });
