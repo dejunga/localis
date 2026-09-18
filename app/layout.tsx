@@ -20,15 +20,15 @@ const geistMono = Geist_Mono({
 });
 
 const siteUrl = "https://www.localis.hr";
-const title = "LOCALIS – Edukacija i savjetovanje";
+const title = "LOCALIS - Edukacija i savjetovanje";
 const description =
-  "LOCALIS pruža usluge edukacije, organizacije seminara i poslovnog savjetovanja. Vl. Marija Jungić, Grubišno Polje.";
+  "LOCALIS pruža usluge edukacije, organizacije seminara i poslovnog savjetovanja za jedinice lokalne samouprave i sve koji se u radu susreću s propisima lokalne samouprave.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title,
   description,
-  keywords: ["edukacija", "savjetovanje", "seminari", "LOCALIS", "Grubišno Polje"],
+  keywords: ["edukacija", "savjetovanje", "seminari", "lokalna samouprava", "LOCALIS"],
   alternates: {
     canonical: "/",
   },
@@ -49,24 +49,12 @@ export const metadata: Metadata = {
 
 const organizationJsonLd = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": "Organization",
   name: "LOCALIS",
-  legalName: "LOCALIS, obrt za savjetovanje i edukaciju",
   description,
   url: siteUrl,
   email: "info@localis.hr",
   telephone: "+385953135158",
-  founder: {
-    "@type": "Person",
-    name: "Marija Jungić",
-  },
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "Ljudevita Gaja 8",
-    postalCode: "43290",
-    addressLocality: "Grubišno Polje",
-    addressCountry: "HR",
-  },
   areaServed: "HR",
 };
 

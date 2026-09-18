@@ -25,10 +25,10 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPost(slug);
 
-  if (!post) return { title: "Članak nije pronađen – LOCALIS" };
+  if (!post) return { title: "Članak nije pronađen - LOCALIS" };
 
   return {
-    title: `${post.title} – LOCALIS`,
+    title: `${post.title} - LOCALIS`,
     description: post.excerpt,
     alternates: { canonical: `/vijesti/${post.slug}` },
     openGraph: {

@@ -21,7 +21,7 @@ export async function sendSeminarRegistration(
   _prev: RegistrationState,
   formData: FormData,
 ): Promise<RegistrationState> {
-  // Honeypot – botovi popunjavaju skrivena polja, ljudi ne
+  // Honeypot - botovi popunjavaju skrivena polja, ljudi ne
   if (formData.get("website")) {
     return { status: "sent" };
   }
@@ -92,7 +92,7 @@ export async function sendSeminarRegistration(
       from: `"LOCALIS web" <${user}>`,
       to,
       replyTo: `"${ime}" <${email}>`,
-      subject: `Nova prijava na edukaciju – ${seminarTitle || "edukacija"}`,
+      subject: `Nova prijava na edukaciju - ${seminarTitle || "edukacija"}`,
       text: [
         `Edukacija: ${seminarTitle || "-"}`,
         "",

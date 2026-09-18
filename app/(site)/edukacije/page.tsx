@@ -4,7 +4,7 @@ import EdukacijeHero from "./EdukacijeHero";
 import EdukacijeList from "./EdukacijeList";
 
 export const metadata: Metadata = {
-  title: "Edukacije – LOCALIS",
+  title: "Edukacije - LOCALIS",
   description:
     "Radionice, seminari i predavanja za službenike lokalne samouprave i sve koji se u svom radu susreću s upravnim pravom.",
   alternates: { canonical: "/edukacije" },

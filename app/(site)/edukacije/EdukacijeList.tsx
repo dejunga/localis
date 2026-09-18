@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ArrowRight, Calendar, MapPin } from "lucide-react";
 import type { Seminar } from "@/lib/edukacije";
 
-// pastSlugs računa server – klijent ne gleda sat, da ne dođe do hydration mismatcha.
+// pastSlugs računa server - klijent ne gleda sat, da ne dođe do hydration mismatcha.
 function lecturerPhotos(seminar: Seminar) {
   return seminar.lecturers.flatMap((lecturer) => (lecturer.photo ? [lecturer.photo] : []));
 }

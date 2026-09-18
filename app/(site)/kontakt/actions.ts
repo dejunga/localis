@@ -14,7 +14,7 @@ export async function sendContactMessage(
   _prev: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
-  // Honeypot – botovi popunjavaju skrivena polja, ljudi ne
+  // Honeypot - botovi popunjavaju skrivena polja, ljudi ne
   if (formData.get("website")) {
     return { status: "sent" };
   }
@@ -57,7 +57,7 @@ export async function sendContactMessage(
       from: `"LOCALIS web" <${user}>`,
       to,
       replyTo: `"${ime}" <${email}>`,
-      subject: `Nova poruka s weba – ${ime}`,
+      subject: `Nova poruka s weba - ${ime}`,
       text: [
         `Ime i prezime: ${ime}`,
         `Email: ${email}`,

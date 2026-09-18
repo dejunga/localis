@@ -11,7 +11,7 @@ export default function KontaktPage() {
   const [state, formAction, pending] = useActionState(sendContactMessage, initialState);
 
   // Submitamo ručno umjesto preko <form action> jer React inače resetira
-  // polja nakon svake akcije – i onda korisnik izgubi unos kad padne validacija.
+  // polja nakon svake akcije - i onda korisnik izgubi unos kad padne validacija.
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -98,9 +98,7 @@ export default function KontaktPage() {
                 </h3>
                 <dl className="space-y-3">
                   {[
-                    ["Naziv subjekta", "LOCALIS, obrt za savjetovanje i edukaciju"],
-                    ["Adresa", "Ljudevita Gaja 8, 43 290 Grubišno Polje"],
-                    ["Vlasnica", "Marija Jungić, mag.iur."],
+                    ["Naziv subjekta", "LOCALIS"],
                     ["Voditeljica ureda", "Milada Sofka"],
                     ["OIB", "07277793412"],
                     ["MB", "99344858"],

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import KontaktContent from "./KontaktContent";
 
 export const metadata: Metadata = {
-  title: "Kontakt – LOCALIS",
+  title: "Kontakt - LOCALIS",
   description:
-    "Kontaktirajte LOCALIS, obrt za savjetovanje i edukaciju, Ljudevita Gaja 8, Grubišno Polje. Email: info@localis.hr, telefon: 095/313-5158.",
+    "Kontaktirajte LOCALIS. Email: info@localis.hr, telefon: 095/313-5158.",
   alternates: { canonical: "/kontakt" },
 };
 

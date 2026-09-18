@@ -10,7 +10,7 @@ const services = [
     icon: GraduationCap,
     title: "Edukacija i praktične radionice",
     description:
-      "Nudimo prilagođene edukacije za službenike u jedinicama lokalne samouprave i zaposlenike pravnih osoba koje su osnovane za obavljanje poslova od značaja za lokalnu samoupravu. Naše edukacije pružaju akademski profesori i stručnjaci praktičari koji pokrivaju širok spektar tema – od mekih vještina do specifičnih stručnih znanja.",
+      "Nudimo prilagođene edukacije za službenike u jedinicama lokalne samouprave i zaposlenike pravnih osoba koje su osnovane za obavljanje poslova od značaja za lokalnu samoupravu. Naše edukacije pružaju akademski profesori i stručnjaci praktičari koji pokrivaju širok spektar tema - od mekih vještina do specifičnih stručnih znanja.",
     features: [
       "Prilagođene edukacije oblikovane prema stvarnim potrebama i specifičnostima svake jedinice",
       "Radionice i interaktivna predavanja o aktualnim temama i zakonodavnim novinama",
@@ -27,7 +27,7 @@ const services = [
     icon: CalendarDays,
     title: "Organizacija seminara i poslovnih događaja",
     description:
-      "Brinemo o kompletnoj organizaciji vaših poslovnih događaja. Od ideje do realizacije – logistika, program, predavači, materijali – sve na jednom mjestu.",
+      "Brinemo o kompletnoj organizaciji vaših poslovnih događaja. Od ideje do realizacije - logistika, program, predavači, materijali - sve na jednom mjestu.",
     features: [
       "Planiranje i koordinacija",
       "Odabir lokacije i tehničke opreme",
@@ -41,7 +41,7 @@ const services = [
     icon: Briefcase,
     title: "Poslovno savjetovanje",
     description:
-      "Stručno savjetovanje u svim fazama poslovanja – od pokretanja obrta ili tvrtke do optimizacije postojećih procesa i dugoročnog strateškog planiranja.",
+      "Stručno savjetovanje u svim fazama poslovanja - od pokretanja obrta ili tvrtke do optimizacije postojećih procesa i dugoročnog strateškog planiranja.",
     features: [
       "Analiza poslovanja i preporuke",
       "Izrada poslovnih planova",
@@ -70,7 +70,7 @@ const services = [
     icon: Code2,
     title: "Digitalne i podatkovne usluge",
     description:
-      "Uz edukacije i savjetovanje za lokalnu samoupravu, LOCALIS nudi i razvoj digitalnih rješenja za treće strane – od jednostavnih web stranica i baza podataka do analize i vizualizacije podataka prilagođene potrebama klijenata.",
+      "Uz edukacije i savjetovanje za lokalnu samoupravu, LOCALIS nudi i razvoj digitalnih rješenja za treće strane - od jednostavnih web stranica i baza podataka do analize i vizualizacije podataka prilagođene potrebama klijenata.",
     features: [
       "Izrada i razvoj web stranica prilagođenih potrebama klijenta",
       "Razvoj web aplikacija po mjeri",
@@ -104,7 +104,7 @@ export default function UslugeePage() {
               Naše usluge
             </h1>
             <p className="text-gray-300 mt-4 max-w-xl text-lg">
-              Sveobuhvatna podrška vašem poslovnom razvoju – edukacija i
+              Sveobuhvatna podrška vašem poslovnom razvoju - edukacija i
               praktične radionice, organizacija seminara, savjetovanje i
               administracija.
             </p>

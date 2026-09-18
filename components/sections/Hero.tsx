@@ -56,7 +56,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="text-gray-300 text-lg md:text-xl leading-relaxed mb-10 max-w-xl"
           >
-            Osnažujemo one koji svakodnevno vode gradove i općine – uz
+            Osnažujemo one koji svakodnevno vode gradove i općine - uz
             edukaciju, organizaciju seminara i poslovno savjetovanje
             prilagođeno vašim potrebama.
           </motion.p>

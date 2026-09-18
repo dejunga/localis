@@ -9,7 +9,7 @@ export type Lecturer = {
 export type AgendaPoint = string | { label: string; subPoints: string[] };
 
 export type AgendaTopic = {
-  label?: string; // npr. "Modul 1" – prikazuje se kao oznaka uz naslov, u sans fontu
+  label?: string; // npr. "Modul 1" - prikazuje se kao oznaka uz naslov, u sans fontu
   title: string;
   points?: AgendaPoint[];
 };
@@ -38,7 +38,7 @@ export type Seminar = {
   helpText?: string;
   helpTitle?: string;
   targetAudience?: string[];
-  questions?: string[]; // "Prijavite se i saznajte" – prikazuje se umjesto ciljne skupine ako ona nije navedena
+  questions?: string[]; // "Prijavite se i saznajte" - prikazuje se umjesto ciljne skupine ako ona nije navedena
   goals: string[];
   agenda: AgendaItem[];
   lecturers: Lecturer[];
@@ -52,13 +52,13 @@ const seminars: Seminar[] = [
   {
     slug: "izvanredni-pravni-lijekovi-u-upravnom-postupku",
     title:
-      "Primjena izvanrednih pravnih lijekova u upravnom postupku – pogled na pravnu teoriju i sudsku praksu",
+      "Primjena izvanrednih pravnih lijekova u upravnom postupku - pogled na pravnu teoriju i sudsku praksu",
     kicker: "Praktična radionica",
     excerpt:
       "Radionica o dopuštenosti, razlozima i postupku primjene obnove postupka, poništavanja, ukidanja i oglašavanja rješenja ništavim, s naglaskom na sudsku praksu upravnih sudova.",
     date: "2026-09-14",
     dateLabel: "14. rujna 2026.",
-    time: "9.30 – 15.00",
+    time: "9.30 - 15.00",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Zagrebačka avenija 100A, Kongresna dvorana Bethoveen B",
     price: "199,00 EUR",
@@ -85,7 +85,7 @@ const seminars: Seminar[] = [
     ],
     agenda: [
       {
-        time: "9.30 – 11.00",
+        time: "9.30 - 11.00",
         topics: [
           {
             title: "Zaštita prava stranaka u postupcima upravnog odlučivanja",
@@ -101,9 +101,9 @@ const seminars: Seminar[] = [
           },
         ],
       },
-      { time: "11.00 – 11.30", topics: [{ title: "Pauza za kavu" }] },
+      { time: "11.00 - 11.30", topics: [{ title: "Pauza za kavu" }] },
       {
-        time: "11.30 – 13.00",
+        time: "11.30 - 13.00",
         topics: [
           {
             title: "Poništavanje i ukidanje rješenja",
@@ -115,10 +115,10 @@ const seminars: Seminar[] = [
           },
         ],
       },
-      { time: "13.00 – 13.30", topics: [{ title: "Pauza za kavu" }] },
-      { time: "13.30 – 14.15", topics: [{ title: "Diskusija i odgovori na pitanja" }] },
+      { time: "13.00 - 13.30", topics: [{ title: "Pauza za kavu" }] },
+      { time: "13.30 - 14.15", topics: [{ title: "Diskusija i odgovori na pitanja" }] },
       {
-        time: "14.15 – 14.45",
+        time: "14.15 - 14.45",
         topics: [{ title: "Završna riječ i podjela potvrda o sudjelovanju" }],
       },
       { time: "15.00", topics: [{ title: "Kraj radionice" }] },
@@ -139,11 +139,11 @@ const seminars: Seminar[] = [
     titleLines: ["Kako izraditi opći akt u JLP(R)S:", "od pravnog temelja do sudske prakse"],
     kicker: "Praktična radionica",
     excerpt:
-      "Radionica o izradi općih akata jedinica lokalne i područne (regionalne) samouprave iz kuta onoga tko provjerava njihovu ustavnost i zakonitost – pravni temelj, nadležnost tijela, prijelazne odredbe i sudska praksa.",
+      "Radionica o izradi općih akata jedinica lokalne i područne (regionalne) samouprave iz kuta onoga tko provjerava njihovu ustavnost i zakonitost - pravni temelj, nadležnost tijela, prijelazne odredbe i sudska praksa.",
     date: "2026-09-28",
     dateLabel: "28. rujna 2026.",
     descriptionHighlighted: true,
-    time: "9.00 – 15.00",
+    time: "9.00 - 15.00",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Kongresni centar, Zagrebačka avenija 100A, dvorana Beethoven",
     price: "199,00 EUR",
@@ -172,9 +172,9 @@ const seminars: Seminar[] = [
       "smanjiti rizik da akt bude poništen ili ukinut u nadzoru ili pred sudom, kako bi jedinica lokalne samouprave dobila akte na koje se građani i službe mogu osloniti",
     ],
     agenda: [
-      { time: "9.00 – 9.30", topics: [{ title: "Registracija polaznika i uvodna riječ" }] },
+      { time: "9.00 - 9.30", topics: [{ title: "Registracija polaznika i uvodna riječ" }] },
       {
-        time: "9.30 – 11.00",
+        time: "9.30 - 11.00",
         topics: [
           { label: "Modul 1", title: "Normativni okvir i granice normiranja" },
           {
@@ -204,9 +204,9 @@ const seminars: Seminar[] = [
           { title: "Praktična vježba", points: ["Koje tijelo donosi ovaj akt?"] },
         ],
       },
-      { time: "11.00 – 11.30", topics: [{ title: "Pauza za kavu" }] },
+      { time: "11.00 - 11.30", topics: [{ title: "Pauza za kavu" }] },
       {
-        time: "11.30 – 13.00",
+        time: "11.30 - 13.00",
         topics: [
           { label: "Modul 2", title: "Kako napisati zakonit i nomotehnički ispravan akt" },
           {
@@ -225,9 +225,9 @@ const seminars: Seminar[] = [
           { title: "Praktična vježba", points: ["Pronađite 10 grešaka u nacrtu akta"] },
         ],
       },
-      { time: "13.00 – 13.30", topics: [{ title: "Pauza za kavu" }] },
+      { time: "13.00 - 13.30", topics: [{ title: "Pauza za kavu" }] },
       {
-        time: "13.30 – 14.15",
+        time: "13.30 - 14.15",
         topics: [
           { label: "Modul 3", title: "Sudska praksa i najčešće pogreške" },
           { title: "Test ustavnosti i zakonitosti akta" },
@@ -251,9 +251,9 @@ const seminars: Seminar[] = [
           },
         ],
       },
-      { time: "14.15 – 14.45", topics: [{ title: "Diskusija i odgovori na pitanja" }] },
+      { time: "14.15 - 14.45", topics: [{ title: "Diskusija i odgovori na pitanja" }] },
       {
-        time: "14.45 – 15.00",
+        time: "14.45 - 15.00",
         topics: [{ title: "Završna riječ i podjela potvrda o sudjelovanju" }],
       },
       { time: "15.00", topics: [{ title: "Završetak radionice" }] },

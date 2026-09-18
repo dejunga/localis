@@ -37,13 +37,13 @@ export default function About() {
             <p className="text-gray-600 leading-relaxed mb-5 text-lg">
               LOCALIS je osnovan s ciljem da pomogne u rješavanju
               svakodnevnih izazova s kojima se suočavaju službenici jedinica
-              lokalne samouprave – ali i svi koji se u svom radu susreću s
+              lokalne samouprave - ali i svi koji se u svom radu susreću s
               temama iz sustava lokalne samouprave: pravnici, zaposlenici u
               kadrovskim odjelima, poduzetnici i obrtnici.
             </p>
 
             <p className="text-gray-600 leading-relaxed mb-8">
-              Teme koje obrađujemo napokon dolaze na dnevni red – svaku
+              Teme koje obrađujemo napokon dolaze na dnevni red - svaku
               obrađujemo stručno, ali prije svega praktično, tako da
               polaznici odlaze s konkretnim smjernicama koje mogu odmah
               primijeniti u svom radu.

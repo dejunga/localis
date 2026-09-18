@@ -9,7 +9,7 @@ const services = [
     icon: GraduationCap,
     title: "Edukacija i praktične radionice",
     description:
-      "Prilagođene edukacije za službenike lokalne samouprave i sve koji se u radu susreću s tim temama – od radionica do online tečajeva.",
+      "Prilagođene edukacije za službenike lokalne samouprave i sve koji se u radu susreću s tim temama - od radionica do online tečajeva.",
     href: "/usluge#obrazovanje",
   },
   {
@@ -23,7 +23,7 @@ const services = [
     icon: Briefcase,
     title: "Poslovno savjetovanje",
     description:
-      "Stručno savjetovanje u svim fazama poslovanja – od pokretanja obrta do EU fondova i strateškog planiranja.",
+      "Stručno savjetovanje u svim fazama poslovanja - od pokretanja obrta do EU fondova i strateškog planiranja.",
     href: "/usluge#savjetovanje",
   },
   {

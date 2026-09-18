@@ -4,7 +4,7 @@ import VijestiHero from "./VijestiHero";
 import VijestiList from "./VijestiList";
 
 export const metadata: Metadata = {
-  title: "Vijesti i članci – LOCALIS",
+  title: "Vijesti i članci - LOCALIS",
   description:
     "Stručni članci, savjeti i novosti iz područja edukacije, savjetovanja i poslovanja.",
   alternates: { canonical: "/vijesti" },

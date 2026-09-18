@@ -18,7 +18,7 @@ export default function RegistracijaForm({
   const nextRowId = useRef(1);
 
   // Submitamo ručno umjesto preko <form action> jer React inače resetira
-  // polja nakon svake akcije – i onda korisnik izgubi unos kad padne validacija.
+  // polja nakon svake akcije - i onda korisnik izgubi unos kad padne validacija.
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);

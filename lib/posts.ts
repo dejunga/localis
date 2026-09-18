@@ -18,7 +18,7 @@ export type Post = PostSummary & {
 };
 
 // Ručno dodani članci. Novi post: dodati objekt u niz ispod (najnoviji na vrh nije
-// nužan – getPosts sortira po publishedAt).
+// nužan - getPosts sortira po publishedAt).
 const posts: Post[] = [
   {
     slug: "odrzana-radionica-izvanredni-pravni-lijekovi-u-upravnom-postupku",

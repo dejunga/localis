@@ -33,12 +33,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const seminar = await getSeminar(slug);
 
-  if (!seminar) return { title: "Edukacija nije pronađena – LOCALIS" };
+  if (!seminar) return { title: "Edukacija nije pronađena - LOCALIS" };
 
   const image = seminar.coverImage ?? seminar.lecturers.find((l) => l.photo)?.photo;
 
   return {
-    title: `${seminar.title} – LOCALIS`,
+    title: `${seminar.title} - LOCALIS`,
     description: seminar.excerpt,
     alternates: { canonical: `/edukacije/${seminar.slug}` },
     openGraph: {
@@ -62,7 +62,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
   if (!seminar) notFound();
 
   const past = isSeminarPast(seminar);
-  const [startRaw, endRaw] = seminar.time.split("–").map((s) => s.trim());
+  const [startRaw, endRaw] = seminar.time.split("-").map((s) => s.trim());
   const price = Number(seminar.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
 
   const eventJsonLd = {
@@ -300,7 +300,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                                       key={sub}
                                       className="text-sm text-gray-500 flex items-start gap-2"
                                     >
-                                      <span className="text-gray-300 mt-0.5">–</span>
+                                      <span className="text-gray-300 mt-0.5">-</span>
                                       {sub}
                                     </li>
                                   ))}

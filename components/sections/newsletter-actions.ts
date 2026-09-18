@@ -11,7 +11,7 @@ export async function subscribeNewsletter(
   _prev: NewsletterState,
   formData: FormData,
 ): Promise<NewsletterState> {
-  // Honeypot – botovi popunjavaju skrivena polja, ljudi ne
+  // Honeypot - botovi popunjavaju skrivena polja, ljudi ne
   if (formData.get("website")) {
     return { status: "sent" };
   }
