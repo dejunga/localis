@@ -34,7 +34,7 @@ Admin panel služi za pregled, storno, ispravak i ponovno izdavanje - ne za redo
 | Potpisnik | postavka `potpisnik` |
 | Mjesto i datum izdavanja | "Grubišno Polje, " + danas |
 | Ponuda vrijedi do, rok plaćanja | izračun |
-| Klijent: naziv, OIB, kontakt osoba, tel, email | forma prijave |
+| Klijent: naziv, adresa, OIB, kontakt osoba, tel, email | forma prijave |
 | Broj ponude | brojač iz baze |
 | Predmet (kicker + naslov), predavač, datum, mjesto održavanja, uključeno | `lib/edukacije.ts` |
 | Ime i prezime polaznika | forma prijave, `Ime Prezime, radno mjesto` |
@@ -60,6 +60,7 @@ Jedna po submitu forme.
 | email | text | |
 | telefon | text | |
 | organizacija | text | |
+| adresa | text | adresa ustanove (polje već postoji u formi) |
 | oib | char(11) | |
 | napomena | text | nullable |
 | status | enum | `nova`, `ponuda_poslana`, `stornirana` |
@@ -197,7 +198,7 @@ LOCALIS, obrt za savjetovanje i edukaciju
 - **Storniraj**: `ponude.status=stornirana`, `stornirana_at=now()`, `prijave.status=stornirana`.
   Checkbox "Pošalji klijentu obavijest o stornu" (default uključen) → kratki mail
   "Ponuda br. X je stornirana. Nova ponuda slijedi / kontaktirajte nas."
-- **Uredi prijavu**: kontakt, email, telefon, organizacija, OIB, polaznici (dodaj/ukloni/uredi).
+- **Uredi prijavu**: kontakt, email, telefon, organizacija, adresa, OIB, polaznici (dodaj/ukloni/uredi).
 - **Izdaj novu ponudu**: dozvoljeno samo ako nema aktivne (`poslana`) ponude na prijavi.
   Pokreće isti `izdaj → pdf → blob → email` tok s novim brojem. `prijave.status=ponuda_poslana`.
 - **Pokušaj ponovno**: za ponudu u `greska` - isti broj, ponovi PDF → Blob → email.
@@ -230,7 +231,7 @@ Vizualno 1:1 s postojećom ponudom (referenca: `Ponuda Čabar.pdf`):
 - Logo `localis_logo` gore lijevo.
 - Zaglavlje izdavatelja (naziv bold navy, vl., adresa, T, E, W, OIB, IBAN + banka, SWIFT).
 - "Mjesto i datum: Grubišno Polje, {datum}." / "Ponuda vrijedi do: {datum}."
-- Blok klijenta desno, bold: NAZIV (uppercase kako je unesen), OIB, Kontakt osoba, Tel, e-mail.
+- Blok klijenta desno, bold: NAZIV (kako je unesen), adresa, OIB, Kontakt osoba, Tel, e-mail.
 - "PONUDA BROJ: {broj}" centrirano, navy, zlatna linija ispod.
 - "Predmet ponude: {kicker}" + naslov u kurzivu u navodnicima „…".
 - Tablica meta: Predavač / Datum održavanja / Mjesto održavanja / Ime i prezime polaznika (bold) / Uključeno.
