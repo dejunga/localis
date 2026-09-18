@@ -1,6 +1,6 @@
 "use server";
 
-import nodemailer from "nodemailer";
+import { getMailConfig, sendMail } from "@/lib/email/transport";
 import { getSeminar, isSeminarPast } from "@/lib/edukacije";
 
 export type RegistrationState = {
@@ -68,11 +68,8 @@ export async function sendSeminarRegistration(
     return { status: "error", errors };
   }
 
-  const user = process.env.ZOHO_SMTP_USER;
-  const pass = process.env.ZOHO_SMTP_PASSWORD;
-  const to = process.env.CONTACT_TO ?? user;
-
-  if (!user || !pass) {
+  const mail = getMailConfig();
+  if (!mail) {
     console.error("Prijava na edukaciju: ZOHO_SMTP_USER ili ZOHO_SMTP_PASSWORD nisu postavljeni.");
     return {
       status: "error",
@@ -81,16 +78,9 @@ export async function sendSeminarRegistration(
   }
 
   try {
-    const transport = nodemailer.createTransport({
-      host: "smtppro.zoho.eu",
-      port: 465,
-      secure: true,
-      auth: { user, pass },
-    });
-
-    await transport.sendMail({
-      from: `"LOCALIS web" <${user}>`,
-      to,
+    await sendMail({
+      from: `"LOCALIS web" <${mail.user}>`,
+      to: mail.internalTo,
       replyTo: `"${ime}" <${email}>`,
       subject: `Nova prijava na edukaciju - ${seminarTitle || "edukacija"}`,
       text: [
