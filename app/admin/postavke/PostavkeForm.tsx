@@ -15,7 +15,7 @@ export default function PostavkeForm({ postavke }: { postavke: Postavke }) {
         <input name="brojPonudeSredina" defaultValue={postavke.brojPonudeSredina} className={input} required />
       </label>
       <label className="block text-sm">
-        Dani valjanosti / rok plaćanja (od datuma izdavanja)
+        Radni dani valjanosti / rok plaćanja (pon-pet, od datuma izdavanja)
         <input
           name="daniValjanosti"
           type="number"

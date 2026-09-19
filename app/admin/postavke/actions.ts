@@ -12,7 +12,7 @@ export async function spremiPostavke(_prev: PostavkeState, formData: FormData): 
   const dani = Number(formData.get("daniValjanosti"));
   const potpisnik = String(formData.get("potpisnik") ?? "").trim();
   if (!/^\d+$/.test(sredina)) return { greska: "Srednji dio broja ponude mora biti broj (npr. 112)." };
-  if (!Number.isInteger(dani) || dani < 0 || dani > 60) return { greska: "Dani valjanosti: cijeli broj 0–60." };
+  if (!Number.isInteger(dani) || dani < 0 || dani > 60) return { greska: "Radni dani valjanosti: cijeli broj 0–60." };
   if (!potpisnik) return { greska: "Potpisnik je obavezan." };
   await setPostavke({ brojPonudeSredina: sredina, daniValjanosti: dani, potpisnik });
   revalidatePath("/admin/postavke");

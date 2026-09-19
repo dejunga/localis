@@ -19,7 +19,7 @@ Admin panel služi za pregled, storno, ispravak i ponovno izdavanje - ne za redo
 | Kad se ponuda izdaje | Automatski, odmah nakon prijave. Bez pregleda prije slanja. |
 | Krivi podaci od klijenta | Odgovornost klijenta. Rješava se stornom + novom ponudom u adminu. |
 | Format broja ponude | `{redni}-{sredina}/{yy}`, npr. `8-112/26`. Redni = brojač po godini. Sredina = postavka (trenutno `112`). |
-| Vrijedi do / rok plaćanja | Oba = datum izdavanja + `dani_valjanosti` (postavka, trenutno 2). Cap: nikad nakon datuma edukacije. |
+| Vrijedi do / rok plaćanja | Oba = datum izdavanja + `dani_valjanosti` **radnih dana** (pon-pet, postavka, trenutno 2). Cap: nikad nakon datuma edukacije. Praznici se ne računaju. |
 | Baza | Neon Postgres (Vercel Marketplace) + Drizzle ORM |
 | PDF-ovi | Vercel Blob |
 | PDF generiranje | `@react-pdf/renderer`, font Carlito (metrički Calibri) |
