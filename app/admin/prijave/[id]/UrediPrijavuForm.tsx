@@ -7,14 +7,24 @@ import { spremiIzmjene, type AdminAkcijaState } from "./actions";
 const input =
   "w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20";
 
+function uRedove(polaznici: Polaznik[]) {
+  return polaznici.map((p) => ({ key: p.id, ime: p.ime, radnoMjesto: p.radnoMjesto }));
+}
+
 export default function UrediPrijavuForm({ prijava, polaznici }: { prijava: Prijava; polaznici: Polaznik[] }) {
   const [state, action, pending] = useActionState<AdminAkcijaState, FormData>(
     spremiIzmjene.bind(null, prijava.id),
     {},
   );
-  const [redovi, setRedovi] = useState(
-    polaznici.map((p) => ({ key: p.id, ime: p.ime, radnoMjesto: p.radnoMjesto })),
-  );
+  const [redovi, setRedovi] = useState(() => uRedove(polaznici));
+  // Nakon spremanja polaznici se brišu i ponovno upisuju (novi id-evi) i stranica se revalidira.
+  // Bez ovoga bi redovi ostali na starim vrijednostima jer se state inicijalizira samo jednom.
+  const kljuc = polaznici.map((p) => p.id).join(",");
+  const [zadnjiKljuc, setZadnjiKljuc] = useState(kljuc);
+  if (kljuc !== zadnjiKljuc) {
+    setZadnjiKljuc(kljuc);
+    setRedovi(uRedove(polaznici));
+  }
 
   return (
     <form action={action} className="space-y-4">
