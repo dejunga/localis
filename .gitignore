@@ -43,3 +43,7 @@ next-env.d.ts
 
 # potvrde i zahvalnice — sadrže osobne podatke polaznika
 /potvrde/
+
+# Neon agent skills (lokalni alat, instalira vercel CLI)
+/.agents/
+/skills-lock.json

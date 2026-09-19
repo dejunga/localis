@@ -156,7 +156,7 @@ Ako se pokaže presporo, korak od PDF-a nadalje ide u `after()` - ali ne u v1.
 | Gdje pukne | Što se dogodi |
 |---|---|
 | Validacija | Greške korisniku, ništa u bazi (kao danas). |
-| tx1 (DB nedostupan) | Korisniku "Prijava nije uspjela...", interni mail se pokuša poslati kao danas (fallback). |
+| tx1 (DB nedostupan) | Prijava se ne sprema u bazu, ali interni mail s punim podacima prijave ide na CONTACT_TO s napomenom "Baza nedostupna - prijava NIJE spremljena". Korisniku "Prijava zaprimljena" (podaci su stigli LOCALIS-u). Tek ako ni taj mail ne prođe: "Prijava nije uspjela...". |
 | tx2 / PDF / Blob / email klijentu | Prijava ostaje `nova`. Ponuda dobije `status=greska`, `greska=<poruka>`. Korisniku "Prijava zaprimljena" (istina). Interni mail bez PDF-a s napomenom "Ponuda nije izdana - provjeri /admin". Admin ima "Pokušaj ponovno". |
 | Samo interni mail | Logira se, ne blokira; klijent je već dobio ponudu. |
 
