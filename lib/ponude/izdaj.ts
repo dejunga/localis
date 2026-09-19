@@ -165,9 +165,17 @@ export async function dovrsiPonudu(ponudaId: number): Promise<DovrsiRezultat> {
   const [ponuda] = await db.select().from(ponude).where(eq(ponude.id, ponudaId));
   if (!ponuda) return { ok: false, greska: `Ponuda ${ponudaId} ne postoji.` };
   if (ponuda.status === "stornirana") return { ok: false, greska: "Ponuda je stornirana." };
+  if (ponuda.status === "poslana") {
+    return { ok: false, greska: "Ponuda je već poslana - koristi 'Pošalji mail ponovno'." };
+  }
 
   const prijava = await ucitajPrijavu(ponuda.prijavaId);
   if (!prijava) return { ok: false, greska: "Prijava ne postoji." };
+  if (prijava.polaznici.length !== ponuda.kolicina) {
+    const greska = "Broj polaznika se promijenio - storniraj ponudu i izdaj novu.";
+    await db.update(ponude).set({ status: "greska", greska }).where(eq(ponude.id, ponudaId));
+    return { ok: false, greska };
+  }
 
   try {
     const seminar = await seminarSPonudom(prijava.seminarSlug);
@@ -175,7 +183,8 @@ export async function dovrsiPonudu(ponudaId: number): Promise<DovrsiRezultat> {
     const filename = nazivDatotekePonude(ponuda.broj, prijava.organizacija);
 
     const pdf = await renderPonudaPdf(pdfPodaci(prijava, ponuda, seminar, postavke.potpisnik));
-    const pdfUrl = ponuda.pdfUrl ?? (await uploadPonudaPdf(filename, pdf));
+    // Uvijek svjež upload: stari URL bi nakon admin izmjene prijave pokazivao na zastarjeli PDF.
+    const pdfUrl = await uploadPonudaPdf(filename, pdf);
     await db.update(ponude).set({ pdfUrl }).where(eq(ponude.id, ponudaId));
 
     await posaljiPonuduKlijentu(
@@ -241,7 +250,12 @@ export async function stornirajPonudu(ponudaId: number, obavijestiKlijenta: bool
   if (obavijestiKlijenta && bilaPoslana) {
     const prijava = await ucitajPrijavu(ponuda.prijavaId);
     const postavke = await getPostavke();
-    if (prijava) await posaljiStornoKlijentu(prijava.email, ponuda.broj, postavke.potpisnik);
+    // Storno je već zapisan - neuspjeli mail ne smije izgledati kao neuspjeli storno.
+    try {
+      if (prijava) await posaljiStornoKlijentu(prijava.email, ponuda.broj, postavke.potpisnik);
+    } catch (e) {
+      console.error("Storno: mail klijentu nije poslan.", e);
+    }
   }
 }
 

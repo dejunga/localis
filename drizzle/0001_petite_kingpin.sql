@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "ponude_aktivna_po_prijavi" ON "ponude" USING btree ("prijava_id") WHERE "ponude"."status" <> 'stornirana';

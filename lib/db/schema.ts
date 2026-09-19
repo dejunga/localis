@@ -1,4 +1,4 @@
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 import {
   char,
   date,
@@ -9,6 +9,7 @@ import {
   serial,
   text,
   timestamp,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const prijavaStatus = pgEnum("prijava_status", ["nova", "ponuda_poslana", "stornirana"]);
@@ -41,28 +42,37 @@ export const polaznici = pgTable("polaznici", {
 });
 
 // Ponuda je snapshot: sve što je pisalo na PDF-u sprema se ovdje i ne mijenja se retroaktivno.
-export const ponude = pgTable("ponude", {
-  id: serial("id").primaryKey(),
-  prijavaId: integer("prijava_id")
-    .notNull()
-    .references(() => prijave.id),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  redniBroj: integer("redni_broj").notNull(),
-  godina: integer("godina").notNull(),
-  broj: text("broj").notNull().unique(), // npr. "8-112/26"
-  datumIzdavanja: date("datum_izdavanja").notNull(),
-  vrijediDo: date("vrijedi_do").notNull(),
-  rokPlacanja: date("rok_placanja").notNull(),
-  kolicina: integer("kolicina").notNull(),
-  cijena: numeric("cijena", { precision: 10, scale: 2 }).notNull(),
-  ukupno: numeric("ukupno", { precision: 10, scale: 2 }).notNull(),
-  pdfUrl: text("pdf_url"),
-  // Kreće kao "greska" i prelazi u "poslana" tek kad PDF + Blob + mail prođu.
-  status: ponudaStatus("status").notNull().default("greska"),
-  storniranaAt: timestamp("stornirana_at", { withTimezone: true }),
-  emailPoslanAt: timestamp("email_poslan_at", { withTimezone: true }),
-  greska: text("greska"),
-});
+export const ponude = pgTable(
+  "ponude",
+  {
+    id: serial("id").primaryKey(),
+    prijavaId: integer("prijava_id")
+      .notNull()
+      .references(() => prijave.id),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    redniBroj: integer("redni_broj").notNull(),
+    godina: integer("godina").notNull(),
+    broj: text("broj").notNull().unique(), // npr. "8-112/26"
+    datumIzdavanja: date("datum_izdavanja").notNull(),
+    vrijediDo: date("vrijedi_do").notNull(),
+    rokPlacanja: date("rok_placanja").notNull(),
+    kolicina: integer("kolicina").notNull(),
+    cijena: numeric("cijena", { precision: 10, scale: 2 }).notNull(),
+    ukupno: numeric("ukupno", { precision: 10, scale: 2 }).notNull(),
+    pdfUrl: text("pdf_url"),
+    // Kreće kao "greska" i prelazi u "poslana" tek kad PDF + Blob + mail prođu.
+    status: ponudaStatus("status").notNull().default("greska"),
+    storniranaAt: timestamp("stornirana_at", { withTimezone: true }),
+    emailPoslanAt: timestamp("email_poslan_at", { withTimezone: true }),
+    greska: text("greska"),
+  },
+  (t) => [
+    // Najviše jedna aktivna (ne-stornirana) ponuda po prijavi - štiti od dvoklika u adminu.
+    uniqueIndex("ponude_aktivna_po_prijavi")
+      .on(t.prijavaId)
+      .where(sql`${t.status} <> 'stornirana'`),
+  ],
+);
 
 export const postavke = pgTable("postavke", {
   kljuc: text("kljuc").primaryKey(),
