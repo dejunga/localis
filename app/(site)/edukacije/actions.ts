@@ -1,11 +1,16 @@
 "use server";
 
-import nodemailer from "nodemailer";
+import { getMailConfig } from "@/lib/email/transport";
 import { getSeminar, isSeminarPast } from "@/lib/edukacije";
+import { spremiPrijavu } from "@/lib/prijave/spremi";
+import { izdajPonudu } from "@/lib/ponude/izdaj";
+import { posaljiInterniMail } from "@/lib/ponude/email";
 
 export type RegistrationState = {
   status: "idle" | "sent" | "error";
   message?: string;
+  // Postavljeno kad je ponuda uspješno poslana - forma ispiše na koju adresu.
+  ponudaPoslanaNa?: string;
   errors?: Partial<
     Record<
       "ime" | "email" | "telefon" | "organizacija" | "adresa" | "oib" | "polaznici",
@@ -35,7 +40,6 @@ export async function sendSeminarRegistration(
     };
   }
 
-  const seminarTitle = String(formData.get("seminar") ?? "").trim();
   const ime = String(formData.get("ime") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
   const telefon = String(formData.get("telefon") ?? "").trim();
@@ -68,11 +72,8 @@ export async function sendSeminarRegistration(
     return { status: "error", errors };
   }
 
-  const user = process.env.ZOHO_SMTP_USER;
-  const pass = process.env.ZOHO_SMTP_PASSWORD;
-  const to = process.env.CONTACT_TO ?? user;
-
-  if (!user || !pass) {
+  const mail = getMailConfig();
+  if (!mail) {
     console.error("Prijava na edukaciju: ZOHO_SMTP_USER ili ZOHO_SMTP_PASSWORD nisu postavljeni.");
     return {
       status: "error",
@@ -80,42 +81,59 @@ export async function sendSeminarRegistration(
     };
   }
 
+  const nova = {
+    seminarSlug: seminar.slug,
+    seminarTitle: seminar.title,
+    kontaktIme: ime,
+    email,
+    telefon,
+    organizacija,
+    adresa,
+    oib,
+    napomena: napomena || null,
+    polaznici,
+  };
+
+  // tx1 - ako baza padne, prijava se ne gubi u potpunosti: interni mail ide kao i prije.
+  let prijavaId: number;
   try {
-    const transport = nodemailer.createTransport({
-      host: "smtppro.zoho.eu",
-      port: 465,
-      secure: true,
-      auth: { user, pass },
-    });
-
-    await transport.sendMail({
-      from: `"LOCALIS web" <${user}>`,
-      to,
-      replyTo: `"${ime}" <${email}>`,
-      subject: `Nova prijava na edukaciju - ${seminarTitle || "edukacija"}`,
-      text: [
-        `Edukacija: ${seminarTitle || "-"}`,
-        "",
-        `Ime i prezime: ${ime}`,
-        `Email: ${email}`,
-        `Telefon: ${telefon || "-"}`,
-        `Ustanova/tvrtka: ${organizacija}`,
-        `Adresa: ${adresa}`,
-        `OIB: ${oib || "-"}`,
-        "",
-        "Polaznici:",
-        ...polaznici.map((p, i) => `${i + 1}. ${p.ime} (${p.radnoMjesto})`),
-        "",
-        napomena || "-",
-      ].join("\n"),
-    });
-
-    return { status: "sent" };
+    prijavaId = await spremiPrijavu(nova);
   } catch (error) {
-    console.error("Prijava na edukaciju: slanje nije uspjelo.", error);
-    return {
-      status: "error",
-      message: "Prijava nije uspjela. Pokušajte ponovno ili nam pišite na info@localis.hr.",
-    };
+    console.error("Prijava na edukaciju: spremanje u bazu nije uspjelo.", error);
+    try {
+      await posaljiInterniMail({
+        ...nova,
+        prijavaId: 0,
+        ponuda: null,
+        greska: "Baza nedostupna - prijava NIJE spremljena, ručno je unesi.",
+      });
+    } catch (mailError) {
+      console.error("Prijava na edukaciju: ni interni mail nije poslan.", mailError);
+      return {
+        status: "error",
+        message: "Prijava nije uspjela. Pokušajte ponovno ili nam pišite na info@localis.hr.",
+      };
+    }
+    return { status: "sent" };
+  }
+
+  // Besplatna edukacija / bez ponuda bloka: samo interni mail, kao do sada.
+  if (!seminar.ponuda) {
+    try {
+      await posaljiInterniMail({ ...nova, prijavaId, ponuda: null });
+    } catch (error) {
+      console.error("Prijava na edukaciju: interni mail nije poslan.", error);
+    }
+    return { status: "sent" };
+  }
+
+  // I kad ponuda ne uspije (ili izdajPonudu neočekivano baci), prijava je spremljena -
+  // korisniku je to "zaprimljeno".
+  try {
+    const rezultat = await izdajPonudu(prijavaId);
+    return rezultat.ok ? { status: "sent", ponudaPoslanaNa: email } : { status: "sent" };
+  } catch (error) {
+    console.error(`Prijava ${prijavaId}: izdavanje ponude neočekivano nije uspjelo.`, error);
+    return { status: "sent" };
   }
 }

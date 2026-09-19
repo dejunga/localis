@@ -1,6 +1,6 @@
 "use server";
 
-import nodemailer from "nodemailer";
+import { getMailConfig, sendMail } from "@/lib/email/transport";
 
 export type ContactState = {
   status: "idle" | "sent" | "error";
@@ -33,11 +33,8 @@ export async function sendContactMessage(
     return { status: "error", errors };
   }
 
-  const user = process.env.ZOHO_SMTP_USER;
-  const pass = process.env.ZOHO_SMTP_PASSWORD;
-  const to = process.env.CONTACT_TO ?? user;
-
-  if (!user || !pass) {
+  const mail = getMailConfig();
+  if (!mail) {
     console.error("Kontakt forma: ZOHO_SMTP_USER ili ZOHO_SMTP_PASSWORD nisu postavljeni.");
     return {
       status: "error",
@@ -46,16 +43,9 @@ export async function sendContactMessage(
   }
 
   try {
-    const transport = nodemailer.createTransport({
-      host: "smtppro.zoho.eu",
-      port: 465,
-      secure: true,
-      auth: { user, pass },
-    });
-
-    await transport.sendMail({
-      from: `"LOCALIS web" <${user}>`,
-      to,
+    await sendMail({
+      from: `"LOCALIS web" <${mail.user}>`,
+      to: mail.internalTo,
       replyTo: `"${ime}" <${email}>`,
       subject: `Nova poruka s weba - ${ime}`,
       text: [

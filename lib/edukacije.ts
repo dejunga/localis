@@ -32,6 +32,14 @@ export type Seminar = {
   locationDetail?: string;
   price: string;
   priceNote?: string;
+  // Podaci za automatsku ponudu. Bez ovog bloka prijava ne izdaje ponudu (samo interni mail).
+  ponuda?: {
+    cijena: number; // EUR po polazniku, bez PDV-a
+    predavac: string; // kako piše na ponudi, npr. "Dipl.iur. X i dipl.iur. Y"
+    mjesto: string; // puna adresa održavanja
+    ukljuceno: string;
+    nazivStavke?: string; // default: `${kicker} – ${title}`
+  };
   registrationDeadline?: string;
   description: string[];
   descriptionHighlighted?: boolean; // opis u žutom okviru umjesto običnog teksta
@@ -48,6 +56,7 @@ export type Seminar = {
 };
 
 // Ručno dodane edukacije. Nova edukacija: dodati objekt u niz ispod.
+// Blok `ponuda` je obavezan za plaćene edukacije - bez njega prijava ne šalje ponudu.
 const seminars: Seminar[] = [
   {
     slug: "izvanredni-pravni-lijekovi-u-upravnom-postupku",
@@ -63,6 +72,12 @@ const seminars: Seminar[] = [
     locationDetail: "Zagrebačka avenija 100A, Kongresna dvorana Bethoveen B",
     price: "199,00 EUR",
     priceNote: "Pružatelj nije u sustavu PDV-a.",
+    ponuda: {
+      cijena: 199,
+      predavac: "Prof. dr. sc. Dario Đerđa",
+      mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
+      ukljuceno: "radni materijali, coffee break, potvrda o sudjelovanju",
+    },
     description: [
       "Na stručnoj radionici analizirati će se i diskutirati sustav izvanrednih pravnih lijekova u Republici Hrvatskoj. Razmatrat će se učinak primjene izvanrednih pravnih lijekova na pravomoćna rješenja, stečena prava i legitimna očekivanja adresata upravnih akata.",
       "Posebna pozornost posvetiti će se dopuštenosti primjene obnove postupka, poništavanja i ukidanja rješenja te oglašavanja rješenja ništavim. Uz pravno teorijsku analizu pozitivnih propisa poseban naglasak staviti će se na odluke upravnih sudova o dopuštenosti primjene izvanrednih pravnih lijekova, postupku njihove provedbe i pravnoj zaštiti. Stručna radionica uključiti će raspravu i odgovore na pitanja.",
@@ -148,6 +163,12 @@ const seminars: Seminar[] = [
     locationDetail: "Kongresni centar, Zagrebačka avenija 100A, dvorana Beethoven",
     price: "199,00 EUR",
     priceNote: "Pružatelj nije u sustavu PDV-a.",
+    ponuda: {
+      cijena: 199,
+      predavac: "Dipl.iur. Vikica Duvnjak i dipl.iur. Aleksandra Jozić-Ileković",
+      mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
+      ukljuceno: "radni materijali, coffee break, potvrda o sudjelovanju",
+    },
     description: [
       "Opći akti jedinica lokalne samouprave sve se češće poništavaju i ukidaju, a svaka pogreška znači novi postupak, izgubljeno vrijeme i pravnu nesigurnost za građane. Cilj radionice je da polaznici nauče izraditi opći akt koji će izdržati provjeru ustavnosti i zakonitosti, i to od pravnog temelja do prijelaznih odredbi. Predavačice će iz rada u sustavu državne uprave i sudske prakse pokazati gdje nastaju najčešće pogreške i kako ih izbjeći.",
       "Na praktičnoj radionici analizirat će se i raspraviti izrada općih akata jedinica lokalne i područne (regionalne) samouprave, i to iz kuta onoga tko provjerava njihovu ustavnost i zakonitost. Kroz konkretne primjere i odluke Visokog upravnog suda i Ustavnog suda obradit će se pravni temelj za donošenje akta, razgraničenje nadležnosti predstavničkog i izvršnog tijela, propisivanje potpora i subvencija te prekršaja i novčanih kazni, zaštita stečenih prava, prijelazne odredbe i povratno djelovanje. Polaznici će moći postaviti pitanja iz vlastite prakse i dobiti konkretne odgovore.",

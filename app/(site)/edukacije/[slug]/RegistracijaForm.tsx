@@ -38,7 +38,11 @@ export default function RegistracijaForm({
       <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
         <div className="text-3xl mb-3">✓</div>
         <h3 className="font-semibold text-green-800 mb-1">Prijava zaprimljena!</h3>
-        <p className="text-green-600 text-sm">Javit ćemo vam se s potvrdom u roku od 24 sata.</p>
+        <p className="text-green-600 text-sm">
+          {state.ponudaPoslanaNa
+            ? `Ponudu smo poslali na ${state.ponudaPoslanaNa}. Provjerite i mapu neželjene pošte.`
+            : "Javit ćemo vam se s potvrdom u roku od 24 sata."}
+        </p>
       </div>
     );
   }
