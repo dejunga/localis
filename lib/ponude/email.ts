@@ -1,6 +1,6 @@
 import { getMailConfig, sendMail } from "@/lib/email/transport";
 import { IZDAVATELJ } from "./izdavatelj";
-import { formatDatumHr, type PolaznikZaIspis } from "./format";
+import { formatDatumHr, formatIznos, type PolaznikZaIspis } from "./format";
 
 export type MailKlijentuInput = {
   kontaktIme: string;
@@ -50,7 +50,7 @@ export type InterniMailInput = {
 
 export function tekstInternogMaila(i: InterniMailInput): string {
   const ponudaLinije = i.ponuda
-    ? [`Ponuda: ${i.ponuda.broj}, ukupno ${i.ponuda.ukupno} EUR (PDF u privitku)`]
+    ? [`Ponuda: ${i.ponuda.broj}, ukupno ${formatIznos(i.ponuda.ukupno)} EUR (PDF u privitku)`]
     : i.greska
       ? [`PONUDA NIJE IZDANA - provjeri /admin/prijave/${i.prijavaId}`, `Greška: ${i.greska}`]
       : ["Edukacija nema definiranu ponudu - ponuda nije izdana."];

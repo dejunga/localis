@@ -12,7 +12,9 @@ export const dynamic = "force-dynamic";
 export default async function PrijavaDetaljPage({ params }: { params: Promise<{ id: string }> }) {
   await zahtijevajAdmina();
   const { id } = await params;
-  const prijava = await ucitajPrijavu(Number(id));
+  const prijavaId = Number(id);
+  if (!Number.isInteger(prijavaId)) notFound();
+  const prijava = await ucitajPrijavu(prijavaId);
   if (!prijava) notFound();
 
   const imaAktivnu = prijava.ponude.some((p) => p.status === "poslana" || p.status === "greska");

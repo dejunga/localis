@@ -9,11 +9,13 @@ import { nazivDatotekePonude } from "@/lib/ponude/format";
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!(await jeAdmin())) return new NextResponse("Unauthorized", { status: 401 });
   const { id } = await params;
+  const ponudaId = Number(id);
+  if (!Number.isInteger(ponudaId)) return new NextResponse("Not found", { status: 404 });
   const [row] = await db
     .select({ pdfUrl: ponude.pdfUrl, broj: ponude.broj, organizacija: prijave.organizacija })
     .from(ponude)
     .innerJoin(prijave, eq(prijave.id, ponude.prijavaId))
-    .where(eq(ponude.id, Number(id)));
+    .where(eq(ponude.id, ponudaId));
   if (!row?.pdfUrl) return new NextResponse("Not found", { status: 404 });
   const pdf = await downloadPonudaPdf(row.pdfUrl);
   const filename = encodeURIComponent(nazivDatotekePonude(row.broj, row.organizacija));

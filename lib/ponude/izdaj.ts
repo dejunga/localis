@@ -76,6 +76,8 @@ export async function kreirajPonudu(prijavaId: number): Promise<number> {
         status: "greska",
       })
       .returning({ id: ponude.id });
+    // Prijava je "nova" dok se ponuda finalizira - vraća je iz "stornirana" ako se izdaje nova ponuda.
+    await tx.update(prijave).set({ status: "nova" }).where(eq(prijave.id, prijavaId));
     return row.id;
   });
 }
@@ -187,11 +189,15 @@ export async function dovrsiPonudu(ponudaId: number): Promise<DovrsiRezultat> {
     const pdfUrl = await uploadPonudaPdf(filename, pdf);
     await db.update(ponude).set({ pdfUrl }).where(eq(ponude.id, ponudaId));
 
-    await posaljiPonuduKlijentu(
-      prijava.email,
-      mailKlijentuInput(prijava, ponuda, seminar, postavke.potpisnik),
-      { filename, content: pdf },
-    );
+    // Retry nakon što je mail već otišao, ali statusi nisu upisani - ne šalji klijentu duplikat.
+    if (!ponuda.emailPoslanAt) {
+      await posaljiPonuduKlijentu(
+        prijava.email,
+        mailKlijentuInput(prijava, ponuda, seminar, postavke.potpisnik),
+        { filename, content: pdf },
+      );
+      await db.update(ponude).set({ emailPoslanAt: new Date() }).where(eq(ponude.id, ponudaId));
+    }
 
     await db.transaction(async (tx) => {
       await tx
