@@ -35,7 +35,7 @@ export type Seminar = {
   // Podaci za automatsku ponudu. Bez ovog bloka prijava ne izdaje ponudu (samo interni mail).
   ponuda?: {
     cijena: number; // EUR po polazniku, bez PDV-a
-    predavac: string; // kako piše na ponudi, npr. "Dipl.iur. X i dipl.iur. Y"
+    predavac: string; // kako piše na ponudi, npr. "X dipl.iur. i Y, dipl.iur."
     mjesto: string; // puna adresa održavanja
     ukljuceno: string;
     nazivStavke?: string; // default: `${kicker} – ${title}`
@@ -165,7 +165,7 @@ const seminars: Seminar[] = [
     priceNote: "Pružatelj nije u sustavu PDV-a.",
     ponuda: {
       cijena: 199,
-      predavac: "Dipl.iur. Vikica Duvnjak i dipl.iur. Aleksandra Jozić-Ileković",
+      predavac: "Vikica Duvnjak dipl.iur. i Aleksandra Jozić-Ileković, dipl.iur.",
       mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
       ukljuceno: "radni materijali, coffee break, potvrda o sudjelovanju",
     },

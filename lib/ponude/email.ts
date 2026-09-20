@@ -1,6 +1,6 @@
 import { getMailConfig, sendMail } from "@/lib/email/transport";
 import { IZDAVATELJ } from "./izdavatelj";
-import { formatDatumHr, formatIznos, type PolaznikZaIspis } from "./format";
+import { formatIznos, type PolaznikZaIspis } from "./format";
 
 export type MailKlijentuInput = {
   kontaktIme: string;
@@ -8,8 +8,6 @@ export type MailKlijentuInput = {
   datumLabel: string;
   mjesto: string;
   broj: string;
-  rokPlacanja: string; // ISO
-  polaznici: PolaznikZaIspis[];
   potpisnik: string;
 };
 
@@ -20,11 +18,6 @@ export function tekstMailaKlijentu(i: MailKlijentuInput): string {
     `zahvaljujemo na prijavi na edukaciju „${i.naslov}" (${i.datumLabel}, ${i.mjesto}).`,
     "",
     `U privitku dostavljamo ponudu br. ${i.broj}.`,
-    `Rok plaćanja: ${formatDatumHr(i.rokPlacanja)}`,
-    `Prilikom plaćanja pozovite se na broj: HR00 ${i.broj}.`,
-    "",
-    "Polaznici:",
-    ...i.polaznici.map((p, idx) => `${idx + 1}. ${p.ime}, ${p.radnoMjesto}`),
     "",
     `Za sva pitanja stojimo na raspolaganju: ${IZDAVATELJ.email}, ${IZDAVATELJ.telefon}.`,
     "",

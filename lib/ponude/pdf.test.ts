@@ -18,7 +18,7 @@ const cabar: PonudaPdfData = {
   edukacija: {
     kicker: "Praktična radionica",
     naslov: "Kako izraditi opći akt u JLP(R)S: od pravnog temelja do sudske prakse",
-    predavac: "Dipl.iur. Vikica Duvnjak i dipl.iur. Aleksandra Jozić-Ileković",
+    predavac: "Vikica Duvnjak dipl.iur. i Aleksandra Jozić-Ileković, dipl.iur.",
     datumLabel: "28. rujna 2026.",
     mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
     ukljuceno: "radni materijali, coffee break, potvrda o sudjelovanju",

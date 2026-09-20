@@ -130,8 +130,6 @@ function mailKlijentuInput(
     datumLabel: seminar.dateLabel,
     mjesto: seminar.ponuda.mjesto,
     broj: ponuda.broj,
-    rokPlacanja: ponuda.rokPlacanja,
-    polaznici: prijava.polaznici.map((p) => ({ ime: p.ime, radnoMjesto: p.radnoMjesto })),
     potpisnik,
   };
 }
