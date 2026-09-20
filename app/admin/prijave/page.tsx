@@ -52,6 +52,21 @@ export default async function PrijavePage({
         <button type="submit" className="px-4 py-2 bg-[var(--navy)] text-white rounded-lg">
           Filtriraj
         </button>
+        {edukacija ? (
+          <a
+            href={`/admin/prijave/export?edukacija=${encodeURIComponent(edukacija)}`}
+            className="px-4 py-2 border border-[var(--navy)] text-[var(--navy)] rounded-lg hover:bg-gray-50"
+          >
+            Export za računovodstvo
+          </a>
+        ) : (
+          <span
+            title="Odaberi edukaciju za export"
+            className="px-4 py-2 border border-gray-300 text-gray-400 rounded-lg cursor-not-allowed"
+          >
+            Export za računovodstvo
+          </span>
+        )}
       </form>
 
       <div className="overflow-x-auto bg-white border border-gray-200 rounded-xl">

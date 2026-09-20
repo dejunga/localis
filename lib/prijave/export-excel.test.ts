@@ -24,6 +24,13 @@ const seminar = {
   },
 } as unknown as SeminarZaExport;
 
+// exceljs tipizira vlastiti Buffer; Node Buffer prolazi u runtimeu.
+async function ucitajWorkbook(buf: Buffer) {
+  const wb = new ExcelJS.Workbook();
+  await wb.xlsx.load(buf as unknown as Parameters<typeof wb.xlsx.load>[0]);
+  return wb;
+}
+
 function prijava(over: Partial<PrijavaRed> & { id: number }): PrijavaRed {
   return {
     createdAt: new Date("2026-09-01T10:00:00Z"),
@@ -103,8 +110,7 @@ describe("generirajExcel", () => {
       { nazivPartnera: "A", iznos: 199, oib: "09532532757", adresa: "a", mail: "a@a", telefon: "0911", polaznici: "X" },
       { nazivPartnera: "B", iznos: 398, oib: "22824951663", adresa: "b", mail: "b@b", telefon: "0922", polaznici: "Y i Z" },
     ]);
-    const wb = new ExcelJS.Workbook();
-    await wb.xlsx.load(buf);
+    const wb = await ucitajWorkbook(buf);
     const ws = wb.getWorksheet("POPIS ZA RAČUNE 28.9")!;
     expect(ws.getCell("A1").value).toBe("NAZIV PARTNERA");
     expect(ws.getCell("G1").value).toBe("IME I PREZIME POLAZNIKA");
@@ -122,8 +128,7 @@ describe("generirajExcel", () => {
 
   it("bez redova: UKUPNO = 0 bez formule", async () => {
     const buf = await generirajExcel(seminar, []);
-    const wb = new ExcelJS.Workbook();
-    await wb.xlsx.load(buf);
+    const wb = await ucitajWorkbook(buf);
     const ws = wb.worksheets[0];
     expect(ws.getCell("A2").value).toBe("UKUPNO");
     expect(ws.getCell("B2").value).toBe(0);
