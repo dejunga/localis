@@ -14,7 +14,7 @@ export async function ucitajPrijavu(id: number): Promise<PrijavaDetalji | null> 
   return { ...p, polaznici: pol, ponude: pon };
 }
 
-export type PrijavaRed = Prijava & { brojPolaznika: number; zadnjaPonuda: Ponuda | null };
+export type PrijavaRed = Prijava & { polaznici: Polaznik[]; brojPolaznika: number; zadnjaPonuda: Ponuda | null };
 
 export async function ucitajPrijave(filter?: {
   seminarSlug?: string;
