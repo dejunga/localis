@@ -3,12 +3,17 @@
 import { motion } from "framer-motion";
 import { Mail, Phone } from "lucide-react";
 import { startTransition, useActionState } from "react";
+import SlanjeOverlay, { saMinimalnimTrajanjem } from "@/components/SlanjeOverlay";
 import { sendContactMessage, type ContactState } from "./actions";
 
 const initialState: ContactState = { status: "idle" };
 
+const KORACI = ["Provjera poruke", "Slanje poruke"];
+
+const posaljiPoruku = saMinimalnimTrajanjem(sendContactMessage);
+
 export default function KontaktPage() {
-  const [state, formAction, pending] = useActionState(sendContactMessage, initialState);
+  const [state, formAction, pending] = useActionState(posaljiPoruku, initialState);
 
   // Submitamo ručno umjesto preko <form action> jer React inače resetira
   // polja nakon svake akcije - i onda korisnik izgubi unos kad padne validacija.
@@ -20,6 +25,8 @@ export default function KontaktPage() {
 
   return (
     <>
+      {pending && <SlanjeOverlay naslov="Šaljemo vašu poruku" koraci={KORACI} />}
+
       {/* Hero */}
       <section className="bg-[var(--navy)] pt-32 pb-20">
         <div className="max-w-6xl mx-auto px-6">
@@ -124,13 +131,14 @@ export default function KontaktPage() {
               </h2>
 
               {state.status === "sent" ? (
-                <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
+                <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center animate-in fade-in zoom-in-95 duration-500">
                   <div className="text-3xl mb-3">✓</div>
                   <h3 className="font-semibold text-green-800 mb-1">Poruka poslana!</h3>
                   <p className="text-green-600 text-sm">Odgovorimo vam u roku od 24 sata.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
+                // inert: dok traje slanje, polja se ne mogu dohvatiti ni tipkovnicom
+                <form onSubmit={handleSubmit} inert={pending} className="space-y-5">
                   <input
                     type="text"
                     name="website"
@@ -157,6 +165,7 @@ export default function KontaktPage() {
                       <input
                         id="ime"
                         name="ime"
+                        maxLength={120}
                         type="text"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -173,6 +182,7 @@ export default function KontaktPage() {
                       <input
                         id="email"
                         name="email"
+                        maxLength={254}
                         type="email"
                         required
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -191,6 +201,7 @@ export default function KontaktPage() {
                     <input
                       id="telefon"
                       name="telefon"
+                      maxLength={40}
                       type="tel"
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
                       placeholder="+385 91 234 5678"
@@ -204,6 +215,7 @@ export default function KontaktPage() {
                     <textarea
                       id="poruka"
                       name="poruka"
+                      maxLength={5000}
                       required
                       rows={5}
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all resize-none"
