@@ -20,7 +20,7 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
   const imaAktivnu = prijava.ponude.some((p) => p.status === "poslana" || p.status === "greska");
 
   return (
-    <div className="space-y-8">
+    <div className="max-w-6xl mx-auto space-y-8">
       <div>
         <Link href="/admin/prijave" className="text-sm text-[var(--navy)] hover:underline">
           ← Sve prijave
