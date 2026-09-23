@@ -27,7 +27,7 @@ function dismiss() {
 }
 
 // Obavijest o kolačićima (ZEK / GDPR). Stranica ne postavlja kolačiće, a Vercel
-// Analytics radi bez njih, pa nije potrebna privola – dovoljna je diskretna obavijest.
+// Analytics radi bez njih, pa nije potrebna privola - dovoljna je diskretna obavijest.
 export default function CookieNotice() {
   // Na serveru vraćamo true da se obavijest ne renderira prije hidracije.
   const dismissed = useSyncExternalStore(subscribe, isDismissed, () => true);

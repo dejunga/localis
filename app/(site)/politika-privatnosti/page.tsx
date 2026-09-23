@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Politika privatnosti – LOCALIS",
+  title: "Politika privatnosti - LOCALIS",
   description:
     "Kako LOCALIS prikuplja, koristi i štiti osobne podatke posjetitelja web stranice i polaznika edukacija te informacije o kolačićima.",
   alternates: { canonical: "/politika-privatnosti" },
@@ -41,9 +41,7 @@ export default function PolitikaPrivatnostiPage() {
 
         <Section title="1. Voditelj obrade">
           <p>
-            LOCALIS, obrt za savjetovanje i edukaciju, vl. Marija Jungić
-            <br />
-            Ljudevita Gaja 8, 43290 Grubišno Polje
+            LOCALIS
             <br />
             OIB: 07277793412
             <br />
@@ -69,9 +67,10 @@ export default function PolitikaPrivatnostiPage() {
           <p>
             <strong className="text-[var(--navy)]">Prijava na edukaciju.</strong> Ime i prezime
             osobe koja prijavljuje, e-mail adresa, broj telefona, naziv i adresa ustanove ili
-            tvrtke, OIB, imena i radna mjesta polaznika te napomena. Podatke koristimo za
-            organizaciju edukacije, komunikaciju s polaznicima, izdavanje računa i potvrda o
-            sudjelovanju. Pravna osnova je izvršenje ugovora i ispunjavanje zakonskih obveza
+            tvrtke, OIB, imena i radna mjesta polaznika te napomena. Prijavu spremamo u našu
+            evidenciju prijava i na temelju nje izrađujemo ponudu koju vam šaljemo e-mailom.
+            Podatke koristimo za organizaciju edukacije, komunikaciju s polaznicima, izdavanje
+            ponuda, računa i potvrda o sudjelovanju. Pravna osnova je izvršenje ugovora i ispunjavanje zakonskih obveza
             (čl. 6. st. 1. t. (b) i (c) GDPR-a).
           </p>
           <p>
@@ -92,6 +91,10 @@ export default function PolitikaPrivatnostiPage() {
             podatak ne sadrži osobne podatke i možete ga obrisati u postavkama preglednika.
           </p>
           <p>
+            Tehnički nužan kolačić za prijavu koristi se isključivo u administratorskom dijelu
+            stranice, kojem pristupa samo LOCALIS, i ne postavlja se posjetiteljima.
+          </p>
+          <p>
             Ako u budućnosti uvedemo kolačiće za koje je potrebna vaša privola, prije toga
             ćemo vas o tome obavijestiti i zatražiti privolu.
           </p>
@@ -104,8 +107,9 @@ export default function PolitikaPrivatnostiPage() {
             našem nalogu:
           </p>
           <ul className="list-disc pl-5 space-y-1">
-            <li>Vercel Inc. – smještaj web stranice i statistika posjeta</li>
-            <li>Zoho Corporation – e-mail usluga putem koje primamo poruke i prijave</li>
+            <li>Vercel Inc. - smještaj web stranice, statistika posjeta i pohrana ponuda</li>
+            <li>Neon Inc. - baza podataka u kojoj se čuvaju prijave na edukacije</li>
+            <li>Zoho Corporation - e-mail usluga putem koje primamo poruke i prijave</li>
           </ul>
           <p>
             Ako se podaci prenose izvan Europskog gospodarskog prostora, prijenos se temelji na
@@ -116,9 +120,9 @@ export default function PolitikaPrivatnostiPage() {
 
         <Section title="5. Koliko dugo čuvamo podatke">
           <ul className="list-disc pl-5 space-y-1">
-            <li>Upite iz kontakt obrasca – koliko je potrebno za odgovor i daljnju komunikaciju.</li>
+            <li>Upite iz kontakt obrasca - koliko je potrebno za odgovor i daljnju komunikaciju.</li>
             <li>
-              Podatke iz prijava na edukacije i račune – u rokovima propisanim poreznim i
+              Podatke iz prijava na edukacije i račune - u rokovima propisanim poreznim i
               računovodstvenim propisima.
             </li>
           </ul>
