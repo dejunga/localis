@@ -22,7 +22,8 @@ export default function Navbar() {
   // Pojedinačni članak počinje bijelom pozadinom, pa bi prozirni navbar ondje
   // bio bijeli tekst na bijelom. Ostale stranice imaju tamni hero.
   const isArticle = pathname?.startsWith("/vijesti/") ?? false;
-  const solid = scrolled || isArticle;
+  // Stranice bez tamnog hero dijela trebaju puni navbar od vrha.
+  const solid = scrolled || isArticle || pathname === "/politika-privatnosti";
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);

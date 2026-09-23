@@ -97,9 +97,15 @@ export default function Footer() {
           <p className="text-gray-500 text-sm">
             © {new Date().getFullYear()} LOCALIS. Sva prava pridržana.
           </p>
-          <p className="text-gray-600 text-xs">
-            OIB: 07277793412
-          </p>
+          <div className="flex items-center gap-4 text-xs">
+            <Link
+              href="/politika-privatnosti"
+              className="text-gray-500 hover:text-white transition-colors"
+            >
+              Politika privatnosti
+            </Link>
+            <p className="text-gray-600">OIB: 07277793412</p>
+          </div>
         </div>
       </div>
     </footer>

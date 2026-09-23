@@ -1,5 +1,6 @@
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import CookieNotice from "@/components/layout/CookieNotice";
 
 // Studio (/studio) namjerno je izvan ove grupe pa nema navbar ni footer.
 export default function SiteLayout({
@@ -12,6 +13,7 @@ export default function SiteLayout({
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <CookieNotice />
     </>
   );
 }
