@@ -13,6 +13,7 @@ describe("tekstMailaKlijentu", () => {
     });
     expect(t).toContain("Poštovani/a Ines Loknar Josić,");
     expect(t).toContain("ponudu br. 7-112/26");
+    expect(t).toContain("svoje mjesto osigurate dostavom narudžbenice");
     expect(t).not.toContain("Rok plaćanja");
     expect(t).not.toContain("HR00");
     expect(t).not.toContain("Polaznici:");

@@ -18,6 +18,7 @@ export function tekstMailaKlijentu(i: MailKlijentuInput): string {
     `zahvaljujemo na prijavi na edukaciju „${i.naslov}" (${i.datumLabel}, ${i.mjesto}).`,
     "",
     `U privitku dostavljamo ponudu br. ${i.broj}.`,
+    "Molimo da uplatu izvršite u roku navedenom u ponudi ili da svoje mjesto osigurate dostavom narudžbenice.",
     "",
     `Za sva pitanja stojimo na raspolaganju: ${IZDAVATELJ.email}, ${IZDAVATELJ.telefon}.`,
     "",
