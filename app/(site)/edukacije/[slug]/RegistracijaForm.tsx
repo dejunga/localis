@@ -1,17 +1,80 @@
 "use client";
 
-import { startTransition, useActionState, useRef, useState } from "react";
-import { Plus, X } from "lucide-react";
+import { startTransition, useActionState, useEffect, useRef, useState } from "react";
+import { Loader2, Plus, X } from "lucide-react";
 import { sendSeminarRegistration, type RegistrationState } from "../actions";
 
 const initialState: RegistrationState = { status: "idle" };
 
+// Server action ne javlja napredak - koraci se mijenjaju po vremenu i zadnji
+// ostaje prikazan dok ne stigne stvarni odgovor.
+const KORACI_S_PONUDOM = [
+  "Spremamo vašu prijavu…",
+  "Izrađujemo ponudu…",
+  "Šaljemo ponudu na vaš e-mail…",
+];
+const KORACI_BEZ_PONUDE = ["Spremamo vašu prijavu…", "Šaljemo prijavu…"];
+const TRAJANJE_KORAKA_MS = 1000;
+// Validacijske greške se vrate odmah - overlay se ne prikazuje za kratke odgovore
+const ODGODA_OVERLAYA_MS = 300;
+
+function SlanjeOverlay({ imaPonudu }: { imaPonudu: boolean }) {
+  const koraci = imaPonudu ? KORACI_S_PONUDOM : KORACI_BEZ_PONUDE;
+  const [vidljiv, setVidljiv] = useState(false);
+  const [korak, setKorak] = useState(0);
+
+  useEffect(() => {
+    const odgoda = setTimeout(() => setVidljiv(true), ODGODA_OVERLAYA_MS);
+    const interval = setInterval(
+      () => setKorak((k) => Math.min(k + 1, koraci.length - 1)),
+      TRAJANJE_KORAKA_MS,
+    );
+    return () => {
+      clearTimeout(odgoda);
+      clearInterval(interval);
+    };
+  }, [koraci.length]);
+
+  useEffect(() => {
+    if (!vidljiv) return;
+    const prije = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prije;
+    };
+  }, [vidljiv]);
+
+  if (!vidljiv) return null;
+
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      className="fixed inset-0 z-60 flex items-center justify-center bg-white/90 backdrop-blur-sm px-4"
+    >
+      <div className="max-w-sm text-center">
+        <Loader2
+          size={40}
+          aria-hidden="true"
+          className="mx-auto mb-5 text-[var(--navy)] animate-spin motion-reduce:animate-none"
+        />
+        <p className="text-lg font-semibold text-[var(--navy)]">{koraci[korak]}</p>
+        <p className="mt-2 text-sm text-gray-500">
+          Ovo može potrajati nekoliko sekundi. Molimo ne zatvarajte stranicu.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function RegistracijaForm({
   seminarSlug,
   seminarTitle,
+  imaPonudu,
 }: {
   seminarSlug: string;
   seminarTitle: string;
+  imaPonudu: boolean;
 }) {
   const [state, formAction, pending] = useActionState(sendSeminarRegistration, initialState);
   const [participantRows, setParticipantRows] = useState<number[]>([0]);
@@ -49,6 +112,7 @@ export default function RegistracijaForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {pending && <SlanjeOverlay imaPonudu={imaPonudu} />}
       <input type="hidden" name="seminar" value={seminarTitle} />
       <input type="hidden" name="slug" value={seminarSlug} />
       <input

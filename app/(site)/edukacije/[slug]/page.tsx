@@ -401,7 +401,11 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
             {!past && (
               <div className="relative max-w-xl mx-auto bg-white rounded-xl p-4 sm:p-8 shadow-xl text-left">
-                <RegistracijaForm seminarSlug={seminar.slug} seminarTitle={seminar.title} />
+                <RegistracijaForm
+                  seminarSlug={seminar.slug}
+                  seminarTitle={seminar.title}
+                  imaPonudu={Boolean(seminar.ponuda)}
+                />
               </div>
             )}
           </div>
