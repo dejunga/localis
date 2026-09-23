@@ -4,7 +4,7 @@ export const IZDAVATELJ = {
   vlasnik: "vl. Marija Jungić",
   adresa: "Ljudevita Gaja 8, 43290 Grubišno Polje",
   mjesto: "Grubišno Polje",
-  telefon: "+385 (0) 95 3135 158",
+  telefon: "095 3135 158",
   email: "info@localis.hr",
   web: "www.localis.hr",
   oib: "07277793412",
