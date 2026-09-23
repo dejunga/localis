@@ -15,6 +15,13 @@
       "when": 1789798221327,
       "tag": "0001_petite_kingpin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790201556096,
+      "tag": "0002_early_sally_floyd",
+      "breakpoints": true
     }
   ]
 }

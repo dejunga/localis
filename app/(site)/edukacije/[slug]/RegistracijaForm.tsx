@@ -2,6 +2,7 @@
 
 import { startTransition, useActionState, useEffect, useRef, useState } from "react";
 import { Check, Loader2, Plus, X } from "lucide-react";
+import { MAX_DULJINA, MAX_POLAZNIKA } from "@/lib/prijave/limiti";
 import { sendSeminarRegistration, type RegistrationState } from "../actions";
 
 const initialState: RegistrationState = { status: "idle" };
@@ -127,7 +128,9 @@ export default function RegistracijaForm({
   }
 
   function addParticipant() {
-    setParticipantRows((rows) => [...rows, nextRowId.current++]);
+    setParticipantRows((rows) =>
+      rows.length >= MAX_POLAZNIKA ? rows : [...rows, nextRowId.current++],
+    );
   }
 
   function removeParticipant(id: number) {
@@ -181,6 +184,7 @@ export default function RegistracijaForm({
             <input
               id="ime"
               name="ime"
+              maxLength={MAX_DULJINA.ime}
               type="text"
               required
               className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -195,6 +199,7 @@ export default function RegistracijaForm({
             <input
               id="email"
               name="email"
+              maxLength={MAX_DULJINA.email}
               type="email"
               required
               className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -214,6 +219,7 @@ export default function RegistracijaForm({
             <input
               id="telefon"
               name="telefon"
+              maxLength={MAX_DULJINA.telefon}
               type="tel"
               required
               className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -247,6 +253,7 @@ export default function RegistracijaForm({
           <input
             id="organizacija"
             name="organizacija"
+            maxLength={MAX_DULJINA.organizacija}
             type="text"
             required
             className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -264,6 +271,7 @@ export default function RegistracijaForm({
           <input
             id="adresa"
             name="adresa"
+            maxLength={MAX_DULJINA.adresa}
             type="text"
             required
             className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -282,6 +290,7 @@ export default function RegistracijaForm({
                 <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   <input
                     name="polaznik_ime"
+                    maxLength={MAX_DULJINA.polaznikIme}
                     type="text"
                     required
                     className="px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -289,6 +298,7 @@ export default function RegistracijaForm({
                   />
                   <input
                     name="polaznik_radno_mjesto"
+                    maxLength={MAX_DULJINA.polaznikRadnoMjesto}
                     type="text"
                     required
                     className="px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all"
@@ -311,14 +321,16 @@ export default function RegistracijaForm({
           {state.errors?.polaznici && (
             <p className="text-red-600 text-xs mt-1.5">{state.errors.polaznici}</p>
           )}
-          <button
-            type="button"
-            onClick={addParticipant}
-            className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--navy)] hover:text-[var(--navy-light)] transition-colors"
-          >
-            <Plus size={16} />
-            Dodaj polaznika
-          </button>
+          {participantRows.length < MAX_POLAZNIKA && (
+            <button
+              type="button"
+              onClick={addParticipant}
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--navy)] hover:text-[var(--navy-light)] transition-colors"
+            >
+              <Plus size={16} />
+              Dodaj polaznika
+            </button>
+          )}
         </div>
   
         <div>
@@ -328,6 +340,7 @@ export default function RegistracijaForm({
           <textarea
             id="napomena"
             name="napomena"
+            maxLength={MAX_DULJINA.napomena}
             rows={4}
             className="w-full px-4 py-3 rounded-lg border border-gray-200 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-all resize-none"
             placeholder="Pitanja ili napomene uz prijavu..."

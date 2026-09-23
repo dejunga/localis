@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm";
 import {
   char,
   date,
+  index,
   integer,
   numeric,
   pgEnum,
@@ -83,6 +84,21 @@ export const brojacPonuda = pgTable("brojac_ponuda", {
   godina: integer("godina").primaryKey(),
   zadnjiBroj: integer("zadnji_broj").notNull().default(0),
 });
+
+// Zaštita javnih formi od spama: jedan red = jedan pokušaj slanja pod ključem
+// (npr. "prijava-ip:<hash>"). Redovi stariji od dan brišu se pri svakom pokušaju.
+export const rateLimitPokusaji = pgTable(
+  "rate_limit_pokusaji",
+  {
+    id: serial("id").primaryKey(),
+    kljuc: text("kljuc").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    index("rate_limit_kljuc_vrijeme").on(t.kljuc, t.createdAt),
+    index("rate_limit_vrijeme").on(t.createdAt),
+  ],
+);
 
 // Relacije za db.query.* (admin lista).
 export const prijaveRelations = relations(prijave, ({ many }) => ({
