@@ -10,7 +10,8 @@ export type ContactState = {
   errors?: Partial<Record<"ime" | "email" | "poruka", string>>;
 };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Bez zareza, zagrada i navodnika - adresa ide u zaglavlja maila i ne smije se razbiti na više primatelja.
+const EMAIL_RE = /^[^\s@,;<>()"]+@[^\s@,;<>()"]+\.[^\s@,;<>()"]+$/;
 
 export async function sendContactMessage(
   _prev: ContactState,
@@ -76,7 +77,8 @@ export async function sendContactMessage(
     await sendMail({
       from: `"LOCALIS web" <${mail.user}>`,
       to: mail.internalTo,
-      replyTo: `"${ime}" <${email}>`,
+      // Objekt umjesto stringa - nodemailer sam escapea ime, pa se kroz njega ne može podmetnuti dodatna adresa.
+      replyTo: { name: ime, address: email },
       subject: `Nova poruka s weba - ${ime}`,
       text: [
         `Ime i prezime: ${ime}`,

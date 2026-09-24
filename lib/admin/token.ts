@@ -1,6 +1,6 @@
 // Bez `next/*` importa - ovaj modul koristi i proxy.ts i server akcije.
 export const ADMIN_COOKIE = "localis_admin";
-export const TRAJANJE_MS = 30 * 24 * 60 * 60 * 1000; // 30 dana
+export const TRAJANJE_MS = 7 * 24 * 60 * 60 * 1000; // 7 dana
 
 function secret(): string {
   const s = process.env.ADMIN_SESSION_SECRET;

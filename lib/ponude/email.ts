@@ -91,7 +91,8 @@ export async function posaljiInterniMail(input: InterniMailInput, privitak?: Pri
   await sendMail({
     from: `"LOCALIS web" <${mail.user}>`,
     to: mail.internalTo,
-    replyTo: `"${input.kontaktIme}" <${input.email}>`,
+    // Objekt umjesto stringa - nodemailer sam escapea ime, pa se kroz njega ne može podmetnuti dodatna adresa.
+    replyTo: { name: input.kontaktIme, address: input.email },
     subject: `Nova prijava na edukaciju - ${input.seminarTitle}`,
     text: tekstInternogMaila(input),
     attachments: privitak

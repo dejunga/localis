@@ -1,5 +1,4 @@
-import nodemailer from "nodemailer";
-import type Mail from "nodemailer/lib/mailer";
+import nodemailer, { type SendMailOptions, type Transporter } from "nodemailer";
 
 export type MailConfig = {
   user: string; // Zoho račun s kojeg se šalje (info@localis.hr)
@@ -17,7 +16,7 @@ export function getMailConfig(): MailConfig | null {
   return { user, internalTo: process.env.CONTACT_TO ?? user };
 }
 
-let cached: nodemailer.Transporter | null = null;
+let cached: Transporter | null = null;
 
 function getTransport() {
   if (cached) return cached;
@@ -31,7 +30,7 @@ function getTransport() {
 }
 
 // EMAIL_DRY_RUN=1 -> mail se logira umjesto šalje (lokalno, testovi).
-export async function sendMail(options: Mail.Options): Promise<void> {
+export async function sendMail(options: SendMailOptions): Promise<void> {
   if (process.env.EMAIL_DRY_RUN === "1") {
     const attachments = (options.attachments ?? []).map((a) => a.filename).join(", ");
     console.log(

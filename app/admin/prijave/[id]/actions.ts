@@ -7,7 +7,8 @@ import { dovrsiPonudu, izdajPonudu, ponovnoPosaljiMail, stornirajPonudu } from "
 
 export type AdminAkcijaState = { poruka?: string; greska?: string };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Bez zareza, zagrada i navodnika - adresa ide u zaglavlja maila i ne smije se razbiti na više primatelja.
+const EMAIL_RE = /^[^\s@,;<>()"]+@[^\s@,;<>()"]+\.[^\s@,;<>()"]+$/;
 const OIB_RE = /^\d{11}$/;
 
 function osvjezi(prijavaId: number) {

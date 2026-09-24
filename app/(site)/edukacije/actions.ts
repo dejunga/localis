@@ -22,7 +22,8 @@ export type RegistrationState = {
   >;
 };
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Bez zareza, zagrada i navodnika - adresa ide u zaglavlja maila i ne smije se razbiti na više primatelja.
+const EMAIL_RE = /^[^\s@,;<>()"]+@[^\s@,;<>()"]+\.[^\s@,;<>()"]+$/;
 const OIB_RE = /^\d{11}$/;
 
 export async function sendSeminarRegistration(
