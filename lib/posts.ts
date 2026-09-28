@@ -21,6 +21,42 @@ export type Post = PostSummary & {
 // nužan - getPosts sortira po publishedAt).
 const posts: Post[] = [
   {
+    slug: "odrzana-radionica-kako-izraditi-opci-akt-u-jlprs",
+    title: "Uspješno održana radionica o izradi općih akata u JLP(R)S",
+    excerpt:
+      "U Hotelu Antunović u Zagrebu 28. rujna 2026. održali smo praktičnu radionicu Vinkice Duvnjak i Aleksandre Jozić-Ileković o izradi općih akata. Donosimo dojmove i fotografije s edukacije.",
+    category: "Edukacija",
+    publishedAt: "2026-09-28",
+    readTime: 2,
+    coverImage: {
+      url: "/images/vijesti/edukacija-2026-09-28/01.jpg",
+      alt: "Vinkica Duvnjak otvara radionicu u dvorani Beethoven Hotela Antunović",
+    },
+    body: [
+      "U dvorani Beethoven Kongresnog centra Hotela Antunović u Zagrebu 28. rujna 2026. održana je praktična radionica „Kako izraditi opći akt u JLP(R)S: od pravnog temelja do sudske prakse”. Predavačice su bile Vinkica Duvnjak, zamjenica ravnateljice Ureda za zakonodavstvo Vlade Republike Hrvatske, i Aleksandra Jozić-Ileković, dugogodišnja savjetnica i zamjenica predstojnika u istom Uredu.",
+      "Radionica je okupila službenike jedinica lokalne i područne (regionalne) samouprave koji u svakodnevnom radu pripremaju opće akte. Kroz tri modula obrađeni su normativni okvir i granice normiranja, struktura propisa, pravni temelj, stupanje na snagu i prijelazne odredbe te najčešći razlozi zbog kojih Ustavni sud i Visoki upravni sud ukidaju opće akte.",
+      "Predavačice su opći akt pokazale očima onoga tko ga provjerava. Uz primjere iz prakse i odluke sudova, sudionici su kroz praktične vježbe tražili pogreške u nacrtu akta i dobili check-listu pitanja koja treba postaviti prije upućivanja akta u proceduru.",
+      "Posebno nas je razveselila aktivnost sudionika. Pitanja iz vlastite prakse postavljala su se tijekom cijelog dana, a predavačice su na njih davale jasne i konkretne odgovore.",
+      "Zahvaljujemo Vinkici Duvnjak i Aleksandri Jozić-Ileković na izvrsnom predavanju, a svim sudionicima na povjerenju i aktivnom sudjelovanju. Vidimo se na sljedećoj edukaciji!",
+    ],
+    gallery: [
+      { url: "/images/vijesti/edukacija-2026-09-28/02.jpg", alt: "Vinkica Duvnjak na početku predavanja" },
+      { url: "/images/vijesti/edukacija-2026-09-28/03.jpg", alt: "Vinkica Duvnjak uz uvodni slajd radionice" },
+      { url: "/images/vijesti/edukacija-2026-09-28/04.jpg", alt: "Pogled na dvoranu tijekom predavanja" },
+      { url: "/images/vijesti/edukacija-2026-09-28/05.jpg", alt: "Sudionici radionice za stolovima" },
+      { url: "/images/vijesti/edukacija-2026-09-28/06.jpg", alt: "Aleksandra Jozić-Ileković prati izlaganje" },
+      { url: "/images/vijesti/edukacija-2026-09-28/07.jpg", alt: "Sudionici prate izlaganje" },
+      { url: "/images/vijesti/edukacija-2026-09-28/08.jpg", alt: "Vinkica Duvnjak tijekom prvog modula" },
+      { url: "/images/vijesti/edukacija-2026-09-28/09.jpg", alt: "Predavačice uz dijagram zakonodavnog postupka" },
+      { url: "/images/vijesti/edukacija-2026-09-28/10.jpg", alt: "Sudionici pažljivo prate predavanje" },
+      { url: "/images/vijesti/edukacija-2026-09-28/11.jpg", alt: "Aleksandra Jozić-Ileković objašnjava dijagram zakonodavnog postupka" },
+      { url: "/images/vijesti/edukacija-2026-09-28/12.jpg", alt: "Aleksandra Jozić-Ileković u razgovoru sa sudionicima" },
+      { url: "/images/vijesti/edukacija-2026-09-28/13.jpg", alt: "Aleksandra Jozić-Ileković o nedostatku pravnog temelja" },
+      { url: "/images/vijesti/edukacija-2026-09-28/14.jpg", alt: "Pogled na dvoranu iz reda sudionika" },
+      { url: "/images/vijesti/edukacija-2026-09-28/15.jpg", alt: "Rasprava sa sudionicima radionice" },
+    ],
+  },
+  {
     slug: "odrzana-radionica-izvanredni-pravni-lijekovi-u-upravnom-postupku",
     title:
       "Uspješno održana radionica o izvanrednim pravnim lijekovima u upravnom postupku",
