@@ -16,9 +16,9 @@ import { getSeminar, getSeminarSlugs, isSeminarPast } from "@/lib/edukacije";
 import RegistracijaForm from "./RegistracijaForm";
 import PrijaviSeButton from "./PrijaviSeButton";
 
-// Stranica je statična; regenerira se svakih sat vremena da prošle edukacije
+// Stranica je statična; regenerira se svakih 5 minuta da edukacije koje su počele
 // izgube gumb i formu za prijavu bez novog builda.
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export async function generateStaticParams() {
   const slugs = await getSeminarSlugs();

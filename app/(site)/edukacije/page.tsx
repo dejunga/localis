@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/edukacije" },
 };
 
-// Regenerira se svakih sat vremena da prošle edukacije dobiju oznaku „Održano”.
-export const revalidate = 3600;
+// Regenerira se svakih 5 minuta da edukacije koje su počele dobiju oznaku „Održano”.
+export const revalidate = 300;
 
 export default async function EdukacijePage() {
   const seminars = await getSeminars();

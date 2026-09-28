@@ -323,8 +323,23 @@ export async function getSeminarSlugs(): Promise<string[]> {
   return seminars.map((seminar) => seminar.slug);
 }
 
-// Edukacija je prošla kad istekne dan održavanja (po zagrebačkom vremenu).
-export function isSeminarPast(seminar: Pick<Seminar, "date">, now = new Date()): boolean {
-  const today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Zagreb" }).format(now);
-  return seminar.date < today;
+// Prijave se zatvaraju kad edukacija počne (početak iz `time`, npr. "9.00 - 15.00"),
+// po zagrebačkom vremenu. Ako se početak ne da pročitati, zatvara se u ponoć na dan održavanja.
+export function isSeminarPast(
+  seminar: Pick<Seminar, "date" | "time">,
+  now = new Date(),
+): boolean {
+  const match = seminar.time.trim().match(/^(\d{1,2})(?:[.:](\d{2}))?/);
+  const startsAt = `${seminar.date} ${(match?.[1] ?? "0").padStart(2, "0")}:${match?.[2] ?? "00"}`;
+  // sv-SE daje "YYYY-MM-DD HH:MM", pa se stringovi mogu uspoređivati izravno.
+  const nowZagreb = new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Europe/Zagreb",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(now);
+  return nowZagreb >= startsAt;
 }
