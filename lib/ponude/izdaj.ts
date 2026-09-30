@@ -1,7 +1,7 @@
 import { eq, sql } from "drizzle-orm";
 import { db, type Tx } from "@/lib/db";
 import { brojacPonuda, ponude, prijave, type Ponuda } from "@/lib/db/schema";
-import { getSeminar, type Seminar } from "@/lib/edukacije";
+import { aktualnaCijena, getSeminar, type Seminar } from "@/lib/edukacije";
 import { getPostavke } from "@/lib/postavke";
 import { ucitajPrijavu, type PrijavaDetalji } from "@/lib/prijave/ucitaj";
 import { downloadPonudaPdf, uploadPonudaPdf } from "./blob";
@@ -55,7 +55,8 @@ export async function kreirajPonudu(prijavaId: number): Promise<number> {
     datumEdukacije: seminar.date,
   });
   const kolicina = prijava.polaznici.length;
-  const cijena = seminar.ponuda.cijena;
+  // Rana prijava gleda datum prijave, ne izdavanja - nova ponuda nakon storna zadržava cijenu.
+  const cijena = aktualnaCijena(seminar, prijava.createdAt).cijena ?? seminar.ponuda.cijena;
   const ukupno = kolicina * cijena;
 
   return db.transaction(async (tx) => {

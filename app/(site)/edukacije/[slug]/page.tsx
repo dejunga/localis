@@ -12,7 +12,7 @@ import {
   Users,
   HelpCircle,
 } from "lucide-react";
-import { getSeminar, getSeminarSlugs, isSeminarPast } from "@/lib/edukacije";
+import { aktualnaCijena, getSeminar, getSeminarSlugs, isSeminarPast } from "@/lib/edukacije";
 import RegistracijaForm from "./RegistracijaForm";
 import PrijaviSeButton from "./PrijaviSeButton";
 
@@ -63,7 +63,8 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
   const past = isSeminarPast(seminar);
   const [startRaw, endRaw] = seminar.time.split("-").map((s) => s.trim());
-  const price = Number(seminar.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
+  const cijena = aktualnaCijena(seminar);
+  const price = Number(cijena.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
 
   const eventJsonLd = {
     "@context": "https://schema.org",
@@ -109,7 +110,18 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       value: seminar.location,
       sub: seminar.locationDetail,
     },
-    { icon: Coins, label: "Kotizacija", value: seminar.price, sub: seminar.priceNote },
+    {
+      icon: Coins,
+      label: cijena.rana ? "Kotizacija - rana prijava" : "Kotizacija",
+      value: cijena.price,
+      sub: [
+        cijena.rana &&
+          `Za prijave do ${seminar.ranaPrijava?.doLabel} Nakon toga ${seminar.price}.`,
+        seminar.priceNote,
+      ]
+        .filter(Boolean)
+        .join(" "),
+    },
   ];
 
   return (
