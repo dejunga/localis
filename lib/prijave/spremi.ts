@@ -62,3 +62,8 @@ export async function azurirajPrijavu(id: number, p: IzmjenaPrijave): Promise<vo
       .values(p.polaznici.map((pl) => ({ prijavaId: id, ime: pl.ime, radnoMjesto: pl.radnoMjesto })));
   });
 }
+
+// Prazan string briše broj narudžbenice.
+export async function spremiBrojNarudzbenice(id: number, broj: string | null): Promise<void> {
+  await db.update(prijave).set({ brojNarudzbenice: broj }).where(eq(prijave.id, id));
+}

@@ -30,6 +30,8 @@ export const prijave = pgTable("prijave", {
   adresa: text("adresa").notNull(),
   oib: char("oib", { length: 11 }).notNull(),
   napomena: text("napomena"),
+  // Admin upisuje ručno kad klijent pošalje narudžbenicu; ide u export za računovodstvo.
+  brojNarudzbenice: text("broj_narudzbenice"),
   status: prijavaStatus("status").notNull().default("nova"),
 });
 

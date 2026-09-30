@@ -13,6 +13,7 @@ export type ExportRed = {
   mail: string;
   telefon: string;
   polaznici: string;
+  brojNarudzbenice: string;
 };
 
 const EUR_FMT = '#,##0.00 "€"';
@@ -35,6 +36,7 @@ export function redoviZaExport(prijave: PrijavaRed[]): ExportRed[] {
       mail: p.email,
       telefon: p.telefon,
       polaznici: spojiImena(p.polaznici.map((x) => x.ime)),
+      brojNarudzbenice: p.brojNarudzbenice ?? "",
     }));
 }
 
@@ -67,6 +69,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     { key: "mail", width: 29 },
     { key: "telefon", width: 20 },
     { key: "polaznici", width: 37 },
+    { key: "brojNarudzbenice", width: 22 },
   ];
   const header = ws.addRow([
     "NAZIV PARTNERA",
@@ -76,15 +79,26 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     "MAIL",
     "TELEFON",
     "IME I PREZIME POLAZNIKA",
+    "BROJ NARUDŽBENICE",
   ]);
   header.font = { bold: true };
 
   for (const r of redovi) {
-    const row = ws.addRow([r.nazivPartnera, r.iznos, r.oib, r.adresa, r.mail, r.telefon, r.polaznici]);
+    const row = ws.addRow([
+      r.nazivPartnera,
+      r.iznos,
+      r.oib,
+      r.adresa,
+      r.mail,
+      r.telefon,
+      r.polaznici,
+      r.brojNarudzbenice,
+    ]);
     row.getCell(2).numFmt = EUR_FMT;
     // OIB i telefon kao tekst da Excel ne odbaci vodeću nulu.
     row.getCell(3).numFmt = "@";
     row.getCell(6).numFmt = "@";
+    row.getCell(8).numFmt = "@";
   }
 
   const zadnji = ws.rowCount;

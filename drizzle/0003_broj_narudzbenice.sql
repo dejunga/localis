@@ -1,0 +1,1 @@
+ALTER TABLE "prijave" ADD COLUMN "broj_narudzbenice" text;

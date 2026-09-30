@@ -4,6 +4,8 @@ import { zahtijevajAdmina } from "@/lib/admin/session";
 import { ucitajPrijavu } from "@/lib/prijave/ucitaj";
 import { formatDatumHr, formatIznos } from "@/lib/ponude/format";
 import StatusBadge from "../../StatusBadge";
+import NarudzbenicaBadge from "../../NarudzbenicaBadge";
+import NarudzbenicaForm from "./NarudzbenicaForm";
 import UrediPrijavuForm from "./UrediPrijavuForm";
 import { IzdajNovuGumb, PonudaAkcije } from "./PonudaAkcije";
 
@@ -70,6 +72,20 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
             <IzdajNovuGumb prijavaId={prijava.id} />
           </div>
         )}
+      </section>
+
+      <section className="bg-white border border-gray-200 rounded-xl p-6">
+        <h2 className="font-semibold mb-1 flex items-center gap-3">
+          Narudžbenica <NarudzbenicaBadge broj={prijava.brojNarudzbenice} />
+        </h2>
+        <p className="text-xs text-gray-500 mb-4">
+          Upiši broj kad klijent pošalje narudžbenicu. Ide u export za računovodstvo. Prazno polje briše broj.
+        </p>
+        <NarudzbenicaForm
+          key={prijava.brojNarudzbenice ?? ""}
+          prijavaId={prijava.id}
+          brojNarudzbenice={prijava.brojNarudzbenice}
+        />
       </section>
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">

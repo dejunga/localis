@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { zahtijevajAdmina } from "@/lib/admin/session";
-import { azurirajPrijavu } from "@/lib/prijave/spremi";
+import { azurirajPrijavu, spremiBrojNarudzbenice } from "@/lib/prijave/spremi";
 import { dovrsiPonudu, izdajPonudu, ponovnoPosaljiMail, stornirajPonudu } from "@/lib/ponude/izdaj";
 
 export type AdminAkcijaState = { poruka?: string; greska?: string };
@@ -48,6 +48,19 @@ export async function spremiIzmjene(
   await azurirajPrijavu(prijavaId, p);
   osvjezi(prijavaId);
   return { poruka: "Izmjene spremljene. Postojeća ponuda NIJE promijenjena - storniraj je i izdaj novu." };
+}
+
+export async function spremiNarudzbenicu(
+  prijavaId: number,
+  _prev: AdminAkcijaState,
+  formData: FormData,
+): Promise<AdminAkcijaState> {
+  await zahtijevajAdmina();
+  const broj = String(formData.get("brojNarudzbenice") ?? "").trim();
+  if (broj.length > 100) return { greska: "Broj narudžbenice je predug." };
+  await spremiBrojNarudzbenice(prijavaId, broj || null);
+  osvjezi(prijavaId);
+  return { poruka: broj ? "Broj narudžbenice spremljen." : "Broj narudžbenice obrisan." };
 }
 
 export async function storniraj(

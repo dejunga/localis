@@ -43,6 +43,7 @@ function prijava(over: Partial<PrijavaRed> & { id: number }): PrijavaRed {
     adresa: "Braće Radića 87, 31531 Viljevo",
     oib: "09532532757",
     napomena: null,
+    brojNarudzbenice: null,
     status: "ponuda_poslana",
     brojPolaznika: 1,
     zadnjaPonuda: { ukupno: "199.00", status: "poslana" } as PrijavaRed["zadnjaPonuda"],
@@ -90,7 +91,13 @@ describe("redoviZaExport", () => {
       mail: "procelnik@viljevo.hr",
       telefon: "095 851 29 89",
       polaznici: "Silvija Profeta i Snježana Mezdić",
+      brojNarudzbenice: "",
     });
+  });
+
+  it("prenosi ručno upisan broj narudžbenice", () => {
+    const [r] = redoviZaExport([prijava({ id: 1, brojNarudzbenice: "45/2026" })]);
+    expect(r.brojNarudzbenice).toBe("45/2026");
   });
 });
 
@@ -107,8 +114,8 @@ describe("nazivi", () => {
 describe("generirajExcel", () => {
   it("piše zaglavlje, redove, SUM formulu i naziv usluge", async () => {
     const buf = await generirajExcel(seminar, [
-      { nazivPartnera: "A", iznos: 199, oib: "09532532757", adresa: "a", mail: "a@a", telefon: "0911", polaznici: "X" },
-      { nazivPartnera: "B", iznos: 398, oib: "22824951663", adresa: "b", mail: "b@b", telefon: "0922", polaznici: "Y i Z" },
+      { nazivPartnera: "A", iznos: 199, oib: "09532532757", adresa: "a", mail: "a@a", telefon: "0911", polaznici: "X", brojNarudzbenice: "007/26" },
+      { nazivPartnera: "B", iznos: 398, oib: "22824951663", adresa: "b", mail: "b@b", telefon: "0922", polaznici: "Y i Z", brojNarudzbenice: "" },
     ]);
     const wb = await ucitajWorkbook(buf);
     const ws = wb.getWorksheet("POPIS ZA RAČUNE 28.9")!;
@@ -119,6 +126,8 @@ describe("generirajExcel", () => {
     expect(ws.getCell("B2").numFmt).toContain("€");
     expect(ws.getCell("C2").value).toBe("09532532757");
     expect(ws.getCell("G3").value).toBe("Y i Z");
+    expect(ws.getCell("H1").value).toBe("BROJ NARUDŽBENICE");
+    expect(ws.getCell("H2").value).toBe("007/26");
     expect(ws.getCell("A4").value).toBe("UKUPNO");
     expect((ws.getCell("B4").value as { formula: string }).formula).toBe("SUM(B2:B3)");
     expect(ws.getCell("A6").value).toBe("Naziv usluge:");
