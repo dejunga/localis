@@ -18,7 +18,7 @@ const seminar = {
   dateLabel: "28. rujna 2026.",
   ponuda: {
     cijena: 199,
-    predavac: "Vikica Duvnjak dipl.iur.",
+    predavac: "Vinkica Duvnjak dipl.iur.",
     mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
     ukljuceno: "",
   },
@@ -104,7 +104,7 @@ describe("redoviZaExport", () => {
 describe("nazivi", () => {
   it("naziv usluge, datoteke i sheeta", () => {
     expect(nazivUsluge(seminar)).toBe(
-      "Sudjelovanje na radionici „Kako izraditi opći akt u JLP(R)S“ (Vikica Duvnjak dipl.iur.), 28. rujna 2026., Hotel Antunović, Zagrebačka avenija 100a",
+      "Sudjelovanje na radionici „Kako izraditi opći akt u JLP(R)S“ (Vinkica Duvnjak dipl.iur.), 28. rujna 2026., Hotel Antunović, Zagrebačka avenija 100a",
     );
     expect(nazivDatoteke(seminar)).toBe("E-RAČUN Popis polaznika radionice 28.9.xlsx");
     expect(nazivSheeta(seminar)).toBe("POPIS ZA RAČUNE 28.9");
