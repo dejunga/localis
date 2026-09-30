@@ -18,6 +18,12 @@ function fmtDatum(d: Date) {
   }).format(d);
 }
 
+// "2026-10-14" -> "14.10.2026"
+function fmtDatumEdukacije(iso: string) {
+  const [y, m, d] = iso.split("-");
+  return `${d}.${m}.${y}`;
+}
+
 export default async function PrijavePage({
   searchParams,
 }: {
@@ -40,7 +46,7 @@ export default async function PrijavePage({
           <option value="">Sve edukacije</option>
           {seminari.map((s) => (
             <option key={s.slug} value={s.slug}>
-              {s.title}
+              {fmtDatumEdukacije(s.date)} – {s.title}
             </option>
           ))}
         </select>
