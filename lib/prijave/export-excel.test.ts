@@ -90,9 +90,16 @@ describe("redoviZaExport", () => {
       adresa: "Braće Radića 87, 31531 Viljevo",
       mail: "procelnik@viljevo.hr",
       telefon: "095 851 29 89",
-      polaznici: "Silvija Profeta i Snježana Mezdić",
+      polaznici: "Silvija Profeta (x) i Snježana Mezdić (y)",
       brojNarudzbenice: "",
     });
+  });
+
+  it("polaznik bez radnog mjesta ide bez zagrada", () => {
+    const [r] = redoviZaExport([
+      prijava({ id: 1, polaznici: [{ id: 1, prijavaId: 1, ime: "Ana Anić", radnoMjesto: "" }] }),
+    ]);
+    expect(r.polaznici).toBe("Ana Anić");
   });
 
   it("prenosi ručno upisan broj narudžbenice", () => {

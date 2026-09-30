@@ -35,7 +35,9 @@ export function redoviZaExport(prijave: PrijavaRed[]): ExportRed[] {
       adresa: p.adresa,
       mail: p.email,
       telefon: p.telefon,
-      polaznici: spojiImena(p.polaznici.map((x) => x.ime)),
+      polaznici: spojiImena(
+        p.polaznici.map((x) => (x.radnoMjesto ? `${x.ime} (${x.radnoMjesto})` : x.ime)),
+      ),
       brojNarudzbenice: p.brojNarudzbenice ?? "",
     }));
 }
