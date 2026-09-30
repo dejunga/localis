@@ -50,9 +50,10 @@ export async function generateMetadata({
   };
 }
 
-// 40 -> "40,00 EUR"
-function formatEur(iznos: number): string {
-  return `${iznos.toLocaleString("hr-HR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} EUR`;
+// "2026-10-14" -> "14.10.2026."
+function datumBrojevima(iso: string): string {
+  const [y, m, d] = iso.split("-");
+  return `${d}.${m}.${y}.`;
 }
 
 function toIsoTime(hrTime: string): string {
@@ -69,8 +70,6 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
   const past = isSeminarPast(seminar);
   const [startRaw, endRaw] = seminar.time.split("-").map((s) => s.trim());
   const cijena = aktualnaCijena(seminar);
-  const usteda =
-    cijena.rana && seminar.ponuda && cijena.cijena ? seminar.ponuda.cijena - cijena.cijena : 0;
   const price = Number(cijena.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
 
   const eventJsonLd = {
@@ -108,11 +107,13 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
         },
   };
 
+  const rana = cijena.rana ? seminar.ranaPrijava : undefined;
   const infoCards: {
     icon: typeof Calendar;
     label: string;
     value: string;
-    oldValue?: string; // precrtana redovna cijena dok traje rana prijava
+    // Dok traje rana prijava kartica kotizacije prikazuje redove umjesto jedne cijene.
+    rows?: { label: string; value: string; strong?: boolean }[];
     sub?: string;
   }[] = [
     { icon: Calendar, label: "Datum", value: seminar.dateLabel },
@@ -125,15 +126,16 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
     },
     {
       icon: Coins,
-      label: cijena.rana ? "Kotizacija - rana prijava" : "Kotizacija",
+      label: "Kotizacija",
       value: cijena.price,
-      oldValue: cijena.rana ? seminar.price : undefined,
-      sub: [
-        cijena.rana && `Popust vrijedi za prijave do ${seminar.ranaPrijava?.doLabel}`,
-        seminar.priceNote,
-      ]
-        .filter(Boolean)
-        .join(" "),
+      rows: rana && [
+        { label: `Rane prijave (do ${datumBrojevima(rana.do)})`, value: rana.price, strong: true },
+        { label: "Redovna cijena", value: seminar.price, strong: true },
+        ...(rana.sidrena
+          ? [{ label: `Cijena na dan ${rana.sidrena.datumLabel}`, value: rana.sidrena.price }]
+          : []),
+      ],
+      sub: seminar.priceNote,
     },
   ];
 
@@ -184,7 +186,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       <div className="max-w-4xl mx-auto px-6">
         {/* Info cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 -mt-10 mb-16">
-          {infoCards.map(({ icon: Icon, label, value, oldValue, sub }) => (
+          {infoCards.map(({ icon: Icon, label, value, rows, sub }) => (
             <div
               key={label}
               className="bg-white rounded-xl border border-gray-100 shadow-md p-6 flex flex-col gap-3"
@@ -196,16 +198,26 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">
                   {label}
                 </div>
-                {oldValue && (
-                  <div className="text-base font-medium text-gray-500 line-through decoration-red-500 decoration-2">
-                    {oldValue}
-                  </div>
-                )}
-                <div className="text-lg font-bold text-[var(--navy)] leading-snug">{value}</div>
-                {oldValue && usteda > 0 && (
-                  <span className="inline-block mt-1.5 px-2 py-0.5 rounded-full bg-[var(--gold)]/15 text-[var(--navy)] text-xs font-semibold">
-                    Uštedite {formatEur(usteda)}
-                  </span>
+                {rows ? (
+                  <dl className="space-y-1.5">
+                    {rows.map((row) =>
+                      row.strong ? (
+                        <div key={row.label}>
+                          <dt className="text-xs text-gray-500">{row.label}</dt>
+                          <dd className="text-base font-bold text-[var(--navy)] leading-snug">
+                            {row.value}
+                          </dd>
+                        </div>
+                      ) : (
+                        <div key={row.label} className="text-xs text-gray-500">
+                          <dt className="inline">{row.label}:</dt>{" "}
+                          <dd className="inline text-gray-600">{row.value}</dd>
+                        </div>
+                      ),
+                    )}
+                  </dl>
+                ) : (
+                  <div className="text-lg font-bold text-[var(--navy)] leading-snug">{value}</div>
                 )}
                 {sub && <div className="text-xs text-gray-400 mt-1">{sub}</div>}
               </div>
@@ -422,15 +434,6 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                     nadolazeće edukacije
                   </Link>
                   .
-                </p>
-              )}
-              {!past && cijena.rana && (
-                <p className="text-gray-300 text-sm">
-                  Prijavite se do{" "}
-                  <strong className="font-bold text-white">{seminar.ranaPrijava?.doLabel}</strong>{" "}
-                  i ostvarite kotizaciju od{" "}
-                  <strong className="font-bold text-[var(--gold)]">{cijena.price}</strong> umjesto{" "}
-                  <span className="line-through">{seminar.price}</span>.
                 </p>
               )}
               {!past && seminar.registrationDeadline && (

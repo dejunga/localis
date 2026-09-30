@@ -33,7 +33,14 @@ export type Seminar = {
   price: string; // redovna cijena
   priceNote?: string;
   // Niža cijena za prijave zaključno s datumom `do` (po zagrebačkom vremenu).
-  ranaPrijava?: { do: string; doLabel: string; price: string; cijena: number };
+  // sidrena = cijena na referentni datum, prikazuje se uz popust; "–" ako edukacija tada nije bila u ponudi.
+  ranaPrijava?: {
+    do: string;
+    doLabel: string;
+    price: string;
+    cijena: number;
+    sidrena?: { datumLabel: string; price: string };
+  };
   // Podaci za automatsku ponudu. Bez ovog bloka prijava ne izdaje ponudu (samo interni mail).
   ponuda?: {
     cijena: number; // EUR po polazniku, bez PDV-a
@@ -468,6 +475,7 @@ const seminars: Seminar[] = [
       doLabel: "13. listopada 2026.",
       price: "199,00 EUR",
       cijena: 199,
+      sidrena: { datumLabel: "10.09.2026.", price: "–" },
     },
     ponuda: { ...opciAktPonuda, cijena: 239, mjesto: "Hotel Park, Hatzeov perivoj 3, Split" },
   },
@@ -483,6 +491,7 @@ const seminars: Seminar[] = [
       doLabel: "7. listopada 2026.",
       price: "199,00 EUR",
       cijena: 199,
+      sidrena: { datumLabel: "10.09.2026.", price: "–" },
     },
     ponuda: { ...digitalizacijaPonuda, mjesto: "Hotel Antunović, Zagrebačka avenija 100a" },
   },
@@ -498,6 +507,7 @@ const seminars: Seminar[] = [
       doLabel: "14. listopada 2026.",
       price: "199,00 EUR",
       cijena: 199,
+      sidrena: { datumLabel: "10.09.2026.", price: "–" },
     },
     ponuda: { ...digitalizacijaPonuda, mjesto: "Hotel Park, Hatzeov perivoj 3, Split" },
   },
