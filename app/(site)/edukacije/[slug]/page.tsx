@@ -131,9 +131,6 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       rows: rana && [
         { label: `Rane prijave (do ${datumBrojevima(rana.do)})`, value: rana.price, strong: true },
         { label: "Redovna cijena", value: seminar.price, strong: true },
-        ...(rana.sidrena
-          ? [{ label: `Cijena na dan ${rana.sidrena.datumLabel}`, value: rana.sidrena.price }]
-          : []),
       ],
       sub: seminar.priceNote,
     },
