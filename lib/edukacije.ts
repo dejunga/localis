@@ -193,7 +193,6 @@ const digitalizacijaProcesa: Omit<
       photo: { url: "/images/edukacije/lusa.jpg", alt: "Zoran Luša, dipl. oec." },
     },
   ],
-  coverImage: { url: "/images/edukacije/lusa.jpg", alt: "Zoran Luša, dipl. oec." },
 };
 
 const digitalizacijaPonuda = {

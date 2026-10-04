@@ -50,17 +50,17 @@ export default function EdukacijeList({
                 className="object-cover object-top"
               />
             ) : lecturerPhotos(seminar).length > 0 ? (
-              // Više predavača: manji portreti na tamnoj podlozi, u stilu sekcije za prijavu
+              // Portreti predavača na tamnoj podlozi, u stilu sekcije za prijavu
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--navy)] to-[var(--navy-light)]">
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-0 right-0 w-40 h-40 bg-[var(--gold)]/15 rounded-full -translate-y-1/2 translate-x-1/3" />
                   <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/3" />
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center gap-4 px-6">
-                  {lecturerPhotos(seminar).map((photo, pi) => (
+                  {lecturerPhotos(seminar).map((photo, pi, photos) => (
                     <div
                       key={photo.url}
-                      className={`relative w-[42%] aspect-[3/4] rounded-xl overflow-hidden ring-2 ring-[var(--gold)]/70 shadow-xl transition-transform duration-500 group-hover:scale-[1.03] ${pi % 2 === 0 ? "-translate-y-3" : "translate-y-3"}`}
+                      className={`relative aspect-[3/4] rounded-xl overflow-hidden ring-2 ring-[var(--gold)]/70 shadow-xl transition-transform duration-500 group-hover:scale-[1.03] ${photos.length === 1 ? "w-[55%]" : `w-[42%] ${pi % 2 === 0 ? "-translate-y-3" : "translate-y-3"}`}`}
                     >
                       <Image
                         src={photo.url}
