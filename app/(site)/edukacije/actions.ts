@@ -150,6 +150,7 @@ export async function sendSeminarRegistration(
     napomena: napomena || null,
     polaznici,
   };
+  const termin = { seminarDatum: seminar.dateLabel, seminarLokacija: seminar.location };
 
   // tx1 - ako baza padne, prijava se ne gubi u potpunosti: interni mail ide kao i prije.
   let prijavaId: number;
@@ -160,6 +161,7 @@ export async function sendSeminarRegistration(
     try {
       await posaljiInterniMail({
         ...nova,
+        ...termin,
         prijavaId: 0,
         ponuda: null,
         greska: "Baza nedostupna - prijava NIJE spremljena, ručno je unesi.",
@@ -177,7 +179,7 @@ export async function sendSeminarRegistration(
   // Besplatna edukacija / bez ponuda bloka: samo interni mail, kao do sada.
   if (!seminar.ponuda) {
     try {
-      await posaljiInterniMail({ ...nova, prijavaId, ponuda: null });
+      await posaljiInterniMail({ ...nova, ...termin, prijavaId, ponuda: null });
     } catch (error) {
       console.error("Prijava na edukaciju: interni mail nije poslan.", error);
     }

@@ -135,9 +135,12 @@ function mailKlijentuInput(
   };
 }
 
-export function interniInput(prijava: PrijavaDetalji): InterniMailInput {
+export async function interniInput(prijava: PrijavaDetalji): Promise<InterniMailInput> {
+  const seminar = await getSeminar(prijava.seminarSlug);
   return {
     seminarTitle: prijava.seminarTitle,
+    seminarDatum: seminar?.dateLabel ?? "-",
+    seminarLokacija: seminar?.location ?? "-",
     kontaktIme: prijava.kontaktIme,
     email: prijava.email,
     telefon: prijava.telefon,
@@ -208,7 +211,7 @@ export async function dovrsiPonudu(ponudaId: number): Promise<DovrsiRezultat> {
 
     // Interni mail ne smije srušiti tok - klijent je već dobio ponudu.
     await interniMailBezRusenja(
-      { ...interniInput(prijava), ponuda: { broj: ponuda.broj, ukupno: ponuda.ukupno } },
+      { ...(await interniInput(prijava)), ponuda: { broj: ponuda.broj, ukupno: ponuda.ukupno } },
       { filename, content: pdf },
     );
     return { ok: true };
@@ -229,13 +232,13 @@ export async function izdajPonudu(prijavaId: number): Promise<DovrsiRezultat & {
     const greska = e instanceof Error ? e.message : String(e);
     console.error(`Prijava ${prijavaId}: kreiranje ponude nije uspjelo.`, e);
     const prijava = await ucitajPrijavu(prijavaId);
-    if (prijava) await interniMailBezRusenja({ ...interniInput(prijava), greska });
+    if (prijava) await interniMailBezRusenja({ ...(await interniInput(prijava)), greska });
     return { ok: false, greska };
   }
   const rezultat = await dovrsiPonudu(ponudaId);
   if (!rezultat.ok) {
     const prijava = await ucitajPrijavu(prijavaId);
-    if (prijava) await interniMailBezRusenja({ ...interniInput(prijava), greska: rezultat.greska });
+    if (prijava) await interniMailBezRusenja({ ...(await interniInput(prijava)), greska: rezultat.greska });
   }
   return { ...rezultat, ponudaId };
 }

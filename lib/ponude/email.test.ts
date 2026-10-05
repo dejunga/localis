@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { tekstMailaKlijentu } from "./email";
+import { tekstInternogMaila, tekstMailaKlijentu } from "./email";
 
 describe("tekstMailaKlijentu", () => {
   it("sadrži broj ponude i potpis, bez roka plaćanja i popisa polaznika", () => {
@@ -18,5 +18,27 @@ describe("tekstMailaKlijentu", () => {
     expect(t).not.toContain("HR00");
     expect(t).not.toContain("Polaznici:");
     expect(t).toContain("Milada Sofka, voditeljica ureda");
+  });
+});
+
+describe("tekstInternogMaila", () => {
+  it("navodi datum i lokaciju edukacije", () => {
+    const t = tekstInternogMaila({
+      seminarTitle: "Manje papira, manje gužve",
+      seminarDatum: "22. listopada 2026.",
+      seminarLokacija: "Hotel Park, Split",
+      kontaktIme: "Ana Anić",
+      email: "ana@example.com",
+      telefon: "",
+      organizacija: "Općina Primjer",
+      adresa: "Ulica 1",
+      oib: "12345678901",
+      napomena: null,
+      polaznici: [{ ime: "Ana Anić", radnoMjesto: "pročelnica" }],
+      prijavaId: 1,
+      ponuda: { broj: "1-112/26", ukupno: 199 },
+    });
+    expect(t).toContain("Datum: 22. listopada 2026.");
+    expect(t).toContain("Lokacija: Hotel Park, Split");
   });
 });

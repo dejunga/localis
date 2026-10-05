@@ -29,6 +29,9 @@ export function tekstMailaKlijentu(i: MailKlijentuInput): string {
 
 export type InterniMailInput = {
   seminarTitle: string;
+  // Ista edukacija se održava u više termina (npr. Zagreb i Split) - bez datuma i lokacije mail je dvosmislen.
+  seminarDatum: string;
+  seminarLokacija: string;
   kontaktIme: string;
   email: string;
   telefon: string;
@@ -50,6 +53,8 @@ export function tekstInternogMaila(i: InterniMailInput): string {
       : ["Edukacija nema definiranu ponudu - ponuda nije izdana."];
   return [
     `Edukacija: ${i.seminarTitle}`,
+    `Datum: ${i.seminarDatum}`,
+    `Lokacija: ${i.seminarLokacija}`,
     ...ponudaLinije,
     "",
     `Ime i prezime: ${i.kontaktIme}`,
@@ -93,7 +98,8 @@ export async function posaljiInterniMail(input: InterniMailInput, privitak?: Pri
     to: mail.internalTo,
     // Objekt umjesto stringa - nodemailer sam escapea ime, pa se kroz njega ne može podmetnuti dodatna adresa.
     replyTo: { name: input.kontaktIme, address: input.email },
-    subject: `Nova prijava na edukaciju - ${input.seminarTitle}`,
+    // Datum i lokacija prvi, da se termin vidi i kad klijent pošte skrati dugi naslov.
+    subject: `Nova prijava (${input.seminarDatum}, ${input.seminarLokacija}) - ${input.seminarTitle}`,
     text: tekstInternogMaila(input),
     attachments: privitak
       ? [{ filename: privitak.filename, content: privitak.content, contentType: "application/pdf" }]
