@@ -482,13 +482,8 @@ const seminars: Seminar[] = [
     dateLabel: "14. listopada 2026.",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Zagrebačka avenija 100A, dvorana Tomislav",
-    ranaPrijava: {
-      do: "2026-10-07",
-      doLabel: "7. listopada 2026.",
-      price: "199,00 EUR",
-      cijena: 199,
-    },
-    ponuda: { ...digitalizacijaPonuda, mjesto: "Hotel Antunović, Zagrebačka avenija 100a" },
+    price: "199,00 EUR",
+    ponuda: { ...digitalizacijaPonuda, cijena: 199, mjesto: "Hotel Antunović, Zagrebačka avenija 100a" },
   },
   {
     ...digitalizacijaProcesa,
