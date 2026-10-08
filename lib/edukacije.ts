@@ -465,6 +465,21 @@ const seminars: Seminar[] = [
     date: "2026-10-21",
     dateLabel: "21. listopada 2026.",
     time: "10.00 - 16.00",
+    // Split počinje sat kasnije nego Zagreb.
+    agenda: opciAkt.agenda.map((item, i) => ({
+      ...item,
+      time: [
+        "10.00 - 10.30",
+        "10.30 - 12.00",
+        "12.00 - 12.30",
+        "12.30 - 14.00",
+        "14.00 - 14.30",
+        "14.30 - 15.15",
+        "15.15 - 15.45",
+        "15.45 - 16.00",
+        "16.00",
+      ][i],
+    })),
     location: "Hotel Park, Split",
     locationDetail: "Hatzeov perivoj 3, dvorane Aquarel & Floramy",
     price: "239,00 EUR",
@@ -492,6 +507,21 @@ const seminars: Seminar[] = [
     date: "2026-10-22",
     dateLabel: "22. listopada 2026.",
     time: "10.00 - 16.00",
+    // Split počinje sat kasnije nego Zagreb.
+    agenda: digitalizacijaProcesa.agenda.map((item, i) => ({
+      ...item,
+      time: [
+        "10.00 - 10.30",
+        "10.30 - 12.00",
+        "12.00 - 12.30",
+        "12.30 - 14.00",
+        "14.00 - 14.30",
+        "14.30 - 15.30",
+        "15.30 - 15.45",
+        "15.45 - 16.00",
+        "16.00",
+      ][i],
+    })),
     location: "Hotel Park, Split",
     locationDetail: "Hatzeov perivoj 3, dvorane Aquarel & Floramy",
     ranaPrijava: {
