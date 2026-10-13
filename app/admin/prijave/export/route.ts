@@ -14,7 +14,7 @@ export async function GET(req: Request) {
   if (!(await jeAdmin())) return new NextResponse("Unauthorized", { status: 401 });
   const slug = new URL(req.url).searchParams.get("edukacija");
   if (!slug) return new NextResponse("Nedostaje edukacija", { status: 400 });
-  const seminar = await getSeminar(slug);
+  const seminar = await getSeminar(slug, { skrivene: true });
   if (!seminar) return new NextResponse("Not found", { status: 404 });
   if (!seminar.ponuda) return new NextResponse("Edukacija nema definiranu ponudu", { status: 400 });
 

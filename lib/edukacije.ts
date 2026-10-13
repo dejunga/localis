@@ -60,7 +60,11 @@ export type Seminar = {
   lecturersNote?: { title?: string; text: string }; // žuti okvir ispod biografija predavača
   // Slika na kartici liste. Ako nije zadana, kartica slaže fotografije predavača.
   coverImage?: { url: string; alt: string };
+  // Skriveno sa stranice (lista, detalj, sitemap, prijava). Admin i ponude i dalje vide edukaciju.
+  skriveno?: boolean;
 };
+
+type Opcije = { skrivene?: boolean };
 
 // Ista radionica u Zagrebu i Splitu - zajednički sadržaj, termini se razlikuju.
 const digitalizacijaProcesa: Omit<
@@ -494,6 +498,7 @@ const seminars: Seminar[] = [
   {
     ...digitalizacijaProcesa,
     slug: "digitalizacija-poslovnih-procesa-zagreb",
+    skriveno: true,
     date: "2026-10-14",
     dateLabel: "14. listopada 2026.",
     location: "Hotel Antunović, Zagreb",
@@ -534,20 +539,25 @@ const seminars: Seminar[] = [
   },
 ];
 
-export async function getSeminars(limit?: number): Promise<Seminar[]> {
+// Bez `skrivene: true` vraćaju se samo edukacije vidljive na stranici.
+function vidljive({ skrivene }: Opcije = {}): Seminar[] {
+  return skrivene ? seminars : seminars.filter((seminar) => !seminar.skriveno);
+}
+
+export async function getSeminars(limit?: number, opcije?: Opcije): Promise<Seminar[]> {
   // Najnovija edukacija prva (datum silazno).
-  const sorted = [...seminars].sort(
+  const sorted = [...vidljive(opcije)].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
   );
   return typeof limit === "number" ? sorted.slice(0, limit) : sorted;
 }
 
-export async function getSeminar(slug: string): Promise<Seminar | null> {
-  return seminars.find((seminar) => seminar.slug === slug) ?? null;
+export async function getSeminar(slug: string, opcije?: Opcije): Promise<Seminar | null> {
+  return vidljive(opcije).find((seminar) => seminar.slug === slug) ?? null;
 }
 
 export async function getSeminarSlugs(): Promise<string[]> {
-  return seminars.map((seminar) => seminar.slug);
+  return vidljive().map((seminar) => seminar.slug);
 }
 
 // Prijave se zatvaraju kad edukacija počne (početak iz `time`, npr. "9.00 - 15.00"),

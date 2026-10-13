@@ -34,7 +34,7 @@ export default async function PrijavePage({
   const statusFilter = STATUSI.find((s) => s === status);
   const [prijave, seminari] = await Promise.all([
     ucitajPrijave({ seminarSlug: edukacija || undefined, status: statusFilter }),
-    getSeminars(),
+    getSeminars(undefined, { skrivene: true }),
   ]);
 
   return (

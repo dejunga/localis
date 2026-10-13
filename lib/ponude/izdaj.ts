@@ -32,7 +32,7 @@ export async function sljedeciRedniBroj(tx: Tx, godina: number): Promise<number>
 }
 
 async function seminarSPonudom(slug: string): Promise<SeminarSPonudom> {
-  const seminar = await getSeminar(slug);
+  const seminar = await getSeminar(slug, { skrivene: true });
   if (!seminar?.ponuda) throw new Error(`Edukacija "${slug}" nema definiran blok ponuda.`);
   return seminar as SeminarSPonudom;
 }
@@ -136,7 +136,7 @@ function mailKlijentuInput(
 }
 
 export async function interniInput(prijava: PrijavaDetalji): Promise<InterniMailInput> {
-  const seminar = await getSeminar(prijava.seminarSlug);
+  const seminar = await getSeminar(prijava.seminarSlug, { skrivene: true });
   return {
     seminarTitle: prijava.seminarTitle,
     seminarDatum: seminar?.dateLabel ?? "-",
