@@ -553,10 +553,16 @@ const seminars: Seminar[] = [
     time: "9.30 - 15.30",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Zagrebačka avenija 100A, dvorana Tomislav",
-    price: "199,00 EUR",
+    price: "219,00 EUR",
     priceNote: "Pružatelj nije u sustavu PDV-a.",
-    ponuda: {
+    ranaPrijava: {
+      do: "2026-10-20",
+      doLabel: "20. listopada 2026.",
+      price: "199,00 EUR",
       cijena: 199,
+    },
+    ponuda: {
+      cijena: 219,
       predavac: "Tihomir Kvakarić, dipl. iur.",
       mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
       ukljuceno: "radni materijali, coffee break, snack, potvrda o sudjelovanju",
@@ -748,10 +754,16 @@ const seminars: Seminar[] = [
     time: "10.00 - 16.00",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Zagrebačka avenija 100A, dvorana Tomislav",
-    price: "199,00 EUR",
+    price: "219,00 EUR",
     priceNote: "Pružatelj nije u sustavu PDV-a.",
-    ponuda: {
+    ranaPrijava: {
+      do: "2026-11-02",
+      doLabel: "2. studenoga 2026.",
+      price: "199,00 EUR",
       cijena: 199,
+    },
+    ponuda: {
+      cijena: 219,
       predavac: "Vera Sokolović, mag. iur.",
       mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
       ukljuceno: "radni materijali, coffee break, finger food, potvrda o sudjelovanju",
