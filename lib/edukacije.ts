@@ -537,6 +537,368 @@ const seminars: Seminar[] = [
     },
     ponuda: { ...digitalizacijaPonuda, mjesto: "Hotel Park, Hatzeov perivoj 3, Split" },
   },
+  {
+    slug: "izvlastenje-prakticna-primjena-u-jls",
+    title:
+      "Izvlaštenje: praktična primjena u JLS-ovima u svrhu realizacije infrastrukturnih projekata",
+    titleLines: [
+      "Izvlaštenje:",
+      "praktična primjena u JLS-ovima u svrhu realizacije infrastrukturnih projekata",
+    ],
+    kicker: "Praktična radionica",
+    excerpt:
+      "Radionica o izvlaštenju korak po korak - pretpostavke i priprema projekta, upravni postupak, određivanje naknade, pravna zaštita i sudska praksa.",
+    date: "2026-10-28",
+    dateLabel: "28. listopada 2026.",
+    time: "9.30 - 15.30",
+    location: "Hotel Antunović, Zagreb",
+    locationDetail: "Zagrebačka avenija 100A, dvorana Tomislav",
+    price: "199,00 EUR",
+    priceNote: "Pružatelj nije u sustavu PDV-a.",
+    ponuda: {
+      cijena: 199,
+      predavac: "Tihomir Kvakarić, dipl. iur.",
+      mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
+      ukljuceno: "radni materijali, coffee break, snack, potvrda o sudjelovanju",
+    },
+    descriptionHighlighted: true,
+    description: [
+      "Infrastrukturni projekti jedinica lokalne samouprave često zapnu na neriješenim imovinsko-pravnim odnosima. Na praktičnoj radionici obradit će se izvlaštenje od pravnog okvira i pripreme projekta, preko upravnog postupka i određivanja naknade, do pravne zaštite i sudske prakse. Polaznici će kroz praktične vježbe provjeriti je li projekt spreman za izvlaštenje i sastaviti prijedlog za izvlaštenje.",
+    ],
+    targetAudience: [
+      "službenicima u jedinicama lokalne i područne (regionalne) samouprave",
+      "službenicima koji rješavaju imovinsko-pravne odnose",
+      "korisnicima izvlaštenja i investitorima infrastrukturnih projekata",
+      "pravnicima i odvjetnicima",
+    ],
+    goals: [
+      "prepoznati pretpostavke za izvlaštenje i provjeriti je li projekt spreman za pokretanje postupka",
+      "pravilno pripremiti i podnijeti prijedlog za izvlaštenje",
+      "voditi pokušaj sporazumnog rješavanja i sklapati nagodbe s vlasnicima nekretnina",
+      "razumjeti određivanje naknade i provedbu rješenja o izvlaštenju",
+      "izbjeći najčešće pogreške koje usporavaju infrastrukturne projekte",
+    ],
+    agenda: [
+      { time: "9.30 - 10.00", topics: [{ title: "Registracija polaznika i uvodna riječ" }] },
+      {
+        time: "10.00 - 11.30",
+        topics: [
+          { label: "Modul 1", title: "Pravni okvir izvlaštenja i priprema postupka" },
+          {
+            title: "Izvlaštenje kao iznimka od jamstva vlasništva",
+            points: [
+              "Ustavna i konvencijska zaštita prava vlasništva",
+              "Povijesni prikaz instituta izvlaštenja",
+              "Zakon o izvlaštenju i određivanju naknade i posebni zakoni",
+              "Zašto i kada upravni postupak izvlaštenja",
+            ],
+          },
+          {
+            title: "Osnovne odredbe o izvlaštenju",
+            points: ["Predmet i korisnik izvlaštenja", "Vrste i svrha izvlaštenja"],
+          },
+          {
+            title: "Pretpostavke za izvlaštenje",
+            points: [
+              {
+                label: "Utvrđen interes Republike Hrvatske",
+                subPoints: [
+                  "kada je propisan posebnim zakonom",
+                  "kada je potrebno zasebno utvrđivanje i kako ga pokrenuti",
+                ],
+              },
+              "Pravomoćna lokacijska dozvola",
+            ],
+          },
+          {
+            title: "Posebni oblici izvlaštenja",
+            points: [
+              "Privremeno uzimanje u posjed susjednog zemljišta",
+              "Izvlaštenje preostalog dijela nekretnine",
+            ],
+          },
+          {
+            title: "Priprema projekta prije pokretanja postupka",
+            points: [
+              "Prostorni plan, akt za građenje i parcelacijski elaborat",
+              "Usklađenost zemljišne knjige i katastra",
+              "Osiguranje sredstava za naknadu",
+            ],
+          },
+          {
+            title: "Pripremne radnje u svrhu izvlaštenja",
+            points: ["Svrha obavljanja pripremnih radnji", "Nadležnost rješavanja i naknada"],
+          },
+          { title: "Praktična vježba", points: ["„Je li naš projekt spreman za izvlaštenje?”"] },
+        ],
+      },
+      { time: "11.30 - 12.00", topics: [{ title: "Pauza za kavu" }] },
+      {
+        time: "12.00 - 13.30",
+        topics: [
+          { label: "Modul 2", title: "Upravni postupak izvlaštenja korak po korak" },
+          {
+            title: "Osiguranje dokaza o stanju i vrijednosti nekretnine",
+            points: ["Nadležno tijelo za rješavanje i postupak", "Procjembeni elaborat"],
+          },
+          {
+            title: "Pokušaj sporazumnog rješavanja",
+            points: [
+              "Ponuda vlasniku – sadržaj, rokovi i dostava",
+              "Sporazum o naknadi i njegovi pravni učinci",
+            ],
+          },
+          {
+            title: "Prijedlog za izvlaštenje",
+            points: [
+              "Obvezni sadržaj i prilozi prijedloga",
+              "Najčešći razlozi vraćanja i odbacivanja prijedloga",
+            ],
+          },
+          {
+            title: "Postupak izvlaštenja",
+            points: [
+              "Odlučivanje o prijedlogu",
+              "Nagodba i njezini pravni učinci",
+              "Privremeno rješenje o izvlaštenju i njegovi pravni učinci",
+            ],
+          },
+          {
+            title: "Posebne situacije u praksi",
+            points: [
+              "Nepoznati i nedostupni vlasnici, ostavinski postupci, suvlasništvo",
+              "Zahtjev za izvlaštenjem preostalog dijela nekretnine",
+            ],
+          },
+          {
+            title: "Rješenje o izvlaštenju i provedba",
+            points: [
+              "Stupanje u posjed izvlaštene nekretnine",
+              "Isplata ili polog naknade",
+              "Upis u zemljišnu knjigu",
+              "Poništenje pravomoćnog rješenja",
+            ],
+          },
+          {
+            title: "Određivanje naknade",
+            points: [
+              "Procjembeni elaborat i tržišna vrijednost nekretnine",
+              "Naknada u novcu ili zamjenskoj nekretnini",
+            ],
+          },
+          {
+            title: "Praktična vježba",
+            points: ["„Sastavimo prijedlog za izvlaštenje” – rad na obrascima"],
+          },
+        ],
+      },
+      { time: "13.30 - 14.00", topics: [{ title: "Pauza za kavu i snack" }] },
+      {
+        time: "14.00 - 14.50",
+        topics: [
+          { label: "Modul 3", title: "Pravna zaštita i sudska praksa" },
+          {
+            title: "Žalba i upravni spor",
+            points: [
+              "Žalba i ovlasti drugostupanjskog tijela",
+              "Upravni spor i ovlasti upravnih sudova",
+            ],
+          },
+          {
+            title: "Sudska praksa",
+            points: [
+              "Praksa upravnih sudova Republike Hrvatske",
+              "Praksa Visokog upravnog suda Republike Hrvatske",
+              "Stajališta Ustavnog suda Republike Hrvatske",
+              "Praksa Europskog suda za ljudska prava – pravična ravnoteža i primjerena naknada",
+              "Najčešće pogreške JLS-ova koje usporavaju infrastrukturne projekte",
+            ],
+          },
+        ],
+      },
+      { time: "14.50 - 15.20", topics: [{ title: "Diskusija i odgovori na pitanja" }] },
+      {
+        time: "15.20 - 15.30",
+        topics: [{ title: "Završna riječ i podjela potvrda o sudjelovanju" }],
+      },
+      { time: "15.30", topics: [{ title: "Završetak radionice" }] },
+    ],
+    lecturers: [
+      {
+        name: "Tihomir Kvakarić, dipl. iur.",
+        role: "stručnjak za rješavanje imovinsko-pravnih odnosa, bivši predstojnik Ureda državne uprave i bivši pročelnik za opću upravu i imovinska prava Koprivničko-križevačke županije",
+        bio: "Tihomir Kvakarić je stručnjak za rješavanje imovinsko-pravnih odnosa. Tijekom svog radnog vijeka preko 25 godina rada proveo je na rješavanju imovinsko-pravnih odnosa, prvenstveno upravnih postupaka izvlaštenja. Nakon što je položio državni stručni ispit za imovinsko-pravnog referenta odnosno ispit za rješavanje postupaka izvlaštenja i denacionalizacije, radeći najprije kao službenik, a zatim i kao dugogodišnji voditelj Odjela za imovinsko-pravne poslove, predstojnik Ureda državne uprave i pročelnik za opću upravu i imovinska prava, rješavao je najsloženije prvostupanjske upravne postupke izvlaštenja. Kao najvažnije projekte koje je proveo u postupku izvlaštenja ističe izgradnju magistralnog plinovoda za potrebe investitora INA d.d., izgradnju brze ceste Križevci – Kloštar Vojakovački investitora Hrvatske ceste d.o.o., rekonstrukciju postojećeg i izgradnju drugog kolosijeka željezničke pruge Križevci – Koprivnica – mađarska granica za investitora HŽ Infrastruktura d.o.o., te niz drugih manjih projekata za potrebe raznih korisnika izvlaštenja. Tijekom svog rada na postupcima izvlaštenja isticao se pregovaračkim sposobnostima te je sklopio nekoliko stotina nagodbi između korisnika izvlaštenja i vlasnika nekretnina.",
+        photo: {
+          url: "/images/edukacije/kvakaric.jpg",
+          alt: "Tihomir Kvakarić, dipl. iur.",
+          position: "center 30%",
+        },
+      },
+    ],
+  },
+  {
+    slug: "sluzbenicki-odnosi-preduvjeti-zakonitog-zaposljavanja",
+    title: "Službenički odnosi u JLP(R)S: preduvjeti zakonitog zapošljavanja",
+    titleLines: ["Službenički odnosi u JLP(R)S:", "preduvjeti zakonitog zapošljavanja"],
+    kicker: "Praktična radionica",
+    excerpt:
+      "Radionica o zakonitom prijmu u službu u JLP(R)S - plan prijma, pravilnik o unutarnjem redu, javni natječaj, oglas i sporazum, zajednički službenik i praksa Visokog upravnog suda.",
+    date: "2026-11-09",
+    dateLabel: "9. studenoga 2026.",
+    time: "10.00 - 16.00",
+    location: "Hotel Antunović, Zagreb",
+    locationDetail: "Zagrebačka avenija 100A, dvorana Tomislav",
+    price: "199,00 EUR",
+    priceNote: "Pružatelj nije u sustavu PDV-a.",
+    ponuda: {
+      cijena: 199,
+      predavac: "Vera Sokolović, mag. iur.",
+      mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
+      ukljuceno: "radni materijali, coffee break, finger food, potvrda o sudjelovanju",
+    },
+    descriptionHighlighted: true,
+    description: [
+      "Zakonit prijam u službu počinje mnogo prije raspisivanja natječaja - u odluci o ustrojstvu, planu prijma i pravilniku o unutarnjem redu. Na praktičnoj radionici obradit će se preduvjeti zakonitog zapošljavanja u JLP(R)S, postupak prijma putem javnog natječaja, oglasa i pisanog sporazuma, pravo prednosti po posebnim propisima te zajednički službenik i zajedničko upravno tijelo kao rješenje u slučaju nedostatka stručnog kadra. Kroz praktične vježbe i odluke Visokog upravnog suda polaznici će naučiti prepoznati pogreške prije nego što ih uoči upravna inspekcija.",
+    ],
+    targetAudience: [
+      "pročelnicima i voditeljima ustrojstvenih jedinica",
+      "službenicima koji rade na poslovima ljudskih potencijala i kadrovskim poslovima",
+      "članovima povjerenstava za provedbu javnog natječaja",
+      "službenicima u jedinicama lokalne i područne (regionalne) samouprave",
+    ],
+    goals: [
+      "uskladiti plan prijma i pravilnik o unutarnjem redu s pozitivnopravnim propisima",
+      "pravilno provesti javni natječaj, oglas i prijam na temelju pisanog sporazuma",
+      "primijeniti pravo prednosti po posebnim propisima",
+      "znati kada i kako organizirati zajedničkog službenika ili zajedničko upravno tijelo",
+      "smanjiti rizik od nezakonitog prijma i nalaza upravne inspekcije",
+    ],
+    agenda: [
+      { time: "10.00 - 10.30", topics: [{ title: "Registracija polaznika i uvodna riječ" }] },
+      {
+        time: "10.30 - 12.00",
+        topics: [
+          {
+            label: "Modul 1",
+            title: "Plan prijma i Pravilnik o unutarnjem redu: temelj zakonitog prijma",
+          },
+          { title: "Načelo zakonitosti", points: ["Pozitivna i negativna vezanost"] },
+          { title: "Odluka o ustrojstvu i djelokrugu upravnih tijela" },
+          {
+            title: "Plan prijma u službu",
+            points: [
+              "Opće odredbe",
+              "Prekršajne odredbe",
+              "Ustavni zakon o pravima nacionalnih manjina",
+            ],
+          },
+          {
+            title: "Pravilnik o unutarnjem redu i Uredba o klasifikaciji radnih mjesta",
+            points: [
+              "Naziv i opis radnog mjesta: osnovni podaci, opis poslova, opis razine standardnih mjerila",
+              "Standardna mjerila: stručno znanje, složenost poslova, samostalnost u radu, suradnja s drugim tijelima i komunikacija sa strankama, odgovornost i utjecaj na donošenje odluka",
+              "Kategorije radnih mjesta (I. – IV.) i klasifikacijski rang",
+            ],
+          },
+          {
+            title: "Pravilnik o unutarnjem redu i posebni propisi",
+            points: [
+              "Zakon o komunalnom gospodarstvu",
+              "Zakon o poljoprivrednom zemljištu",
+              "Pravilnik o uvjetima za obavljanje poslova upravljanja prometom, nadzora i premještanja nepropisno zaustavljenih i parkiranih vozila kada te poslove obavljaju jedinice lokalne samouprave te programu i načinu osposobljavanja službenika",
+            ],
+          },
+          {
+            title: "Praktična vježba",
+            points: ["„Utvrdite je li Plan prijma u skladu s pozitivnopravnim propisima”"],
+          },
+        ],
+      },
+      { time: "12.00 - 12.30", topics: [{ title: "Pauza za kavu / finger food" }] },
+      {
+        time: "12.30 - 14.00",
+        topics: [
+          { label: "Modul 2", title: "Postupak prijma: javni natječaj, oglas i sporazum" },
+          {
+            title:
+              "Zakon o službenicima i namještenicima u lokalnoj i područnoj (regionalnoj) samoupravi",
+            points: ["Posebne odredbe o namještenicima"],
+          },
+          {
+            title: "Javni natječaj",
+            points: ["Izuzetak od primjene", "Opće odredbe", "Prekršajne odredbe"],
+          },
+          {
+            title: "Pravo prednosti po posebnim propisima",
+            points: [
+              "Zakon o hrvatskim braniteljima iz Domovinskog rata i članovima njihovih obitelji",
+              "Zakon o zaštiti vojnih i civilnih invalida rata",
+              "Zakon o civilnim stradalnicima iz Domovinskog rata",
+              "Zakon o obrani",
+            ],
+          },
+          {
+            title:
+              "Povjerenstvo za provedbu javnog natječaja i angažiranje vanjskih stručnjaka",
+          },
+          { title: "Uvjeti i zapreke za prijam u službu" },
+          {
+            title: "Provjera znanja i sposobnosti kandidata",
+            points: [
+              "Specifični uvjeti radnog mjesta",
+              "Psihološka procjena",
+              "Kompetencije Povjerenstva za provedbu natječaja",
+              "Angažiranje vanjskih stručnjaka",
+            ],
+          },
+          { title: "Prijam u službu na određeno vrijeme" },
+          { title: "Prijam u službu na temelju pisanog sporazuma" },
+          {
+            title: "Praktična vježba",
+            points: [
+              "„Provjerite pravilnost javnog natječaja”",
+              "„Provjerite sadržaj pisanog sporazuma”",
+            ],
+          },
+        ],
+      },
+      { time: "14.00 - 14.30", topics: [{ title: "Pauza za kavu" }] },
+      {
+        time: "14.30 - 15.30",
+        topics: [
+          {
+            label: "Modul 3",
+            title:
+              "Zajednički službenik i zajedničko upravno tijelo – zakonito rješenje u slučaju nedostatka stručnog kadra JLP(R)S",
+          },
+          { title: "Praksa Visokog upravnog suda", points: ["Analiza konkretnih odluka"] },
+          {
+            title: "Praktična analiza sadržaja pravilnika JLP(R)S",
+            points: ["„Pronađite pogreške u izvatku iz Pravilnika o unutarnjem redu”"],
+          },
+          { title: "Check-lista prije raspisivanja natječaja i donošenja rješenja" },
+          { title: "Diskusija i odgovori na pitanja" },
+        ],
+      },
+      {
+        time: "15.30 - 16.00",
+        topics: [{ title: "Završna riječ i podjela potvrda o sudjelovanju" }],
+      },
+      { time: "16.00", topics: [{ title: "Završetak radionice" }] },
+    ],
+    lecturers: [
+      {
+        name: "Vera Sokolović, mag. iur.",
+        role: "viša upravna inspektorica Ministarstva pravosuđa, uprave i digitalne transformacije",
+        bio: "",
+        photo: {
+          url: "/images/edukacije/sokolovic.jpg",
+          alt: "Vera Sokolović, mag. iur.",
+          position: "center 25%",
+        },
+      },
+    ],
+  },
 ];
 
 // Bez `skrivene: true` vraćaju se samo edukacije vidljive na stranici.
