@@ -629,7 +629,7 @@ const seminars: Seminar[] = [
             title: "Pripremne radnje u svrhu izvlaštenja",
             points: ["Svrha obavljanja pripremnih radnji", "Nadležnost rješavanja i naknada"],
           },
-          { title: "Praktična vježba", points: ["„Je li naš projekt spreman za izvlaštenje?”"] },
+          { title: "Praktična vježba", points: ["--�Je li naš projekt spreman za izvlaštenje?--�"] },
         ],
       },
       { time: "11.30 - 12.00", topics: [{ title: "Pauza za kavu" }] },
@@ -644,7 +644,7 @@ const seminars: Seminar[] = [
           {
             title: "Pokušaj sporazumnog rješavanja",
             points: [
-              "Ponuda vlasniku – sadržaj, rokovi i dostava",
+              "Ponuda vlasniku --- sadržaj, rokovi i dostava",
               "Sporazum o naknadi i njegovi pravni učinci",
             ],
           },
@@ -688,7 +688,7 @@ const seminars: Seminar[] = [
           },
           {
             title: "Praktična vježba",
-            points: ["„Sastavimo prijedlog za izvlaštenje” – rad na obrascima"],
+            points: ["--�Sastavimo prijedlog za izvlaštenje--� --- rad na obrascima"],
           },
         ],
       },
@@ -710,7 +710,7 @@ const seminars: Seminar[] = [
               "Praksa upravnih sudova Republike Hrvatske",
               "Praksa Visokog upravnog suda Republike Hrvatske",
               "Stajališta Ustavnog suda Republike Hrvatske",
-              "Praksa Europskog suda za ljudska prava – pravična ravnoteža i primjerena naknada",
+              "Praksa Europskog suda za ljudska prava --- pravična ravnoteža i primjerena naknada",
               "Najčešće pogreške JLS-ova koje usporavaju infrastrukturne projekte",
             ],
           },
@@ -727,7 +727,7 @@ const seminars: Seminar[] = [
       {
         name: "Tihomir Kvakarić, dipl. iur.",
         role: "stručnjak za rješavanje imovinsko-pravnih odnosa, bivši predstojnik Ureda državne uprave i bivši pročelnik za opću upravu i imovinska prava Koprivničko-križevačke županije",
-        bio: "Tihomir Kvakarić je stručnjak za rješavanje imovinsko-pravnih odnosa. Tijekom svog radnog vijeka preko 25 godina rada proveo je na rješavanju imovinsko-pravnih odnosa, prvenstveno upravnih postupaka izvlaštenja. Nakon što je položio državni stručni ispit za imovinsko-pravnog referenta odnosno ispit za rješavanje postupaka izvlaštenja i denacionalizacije, radeći najprije kao službenik, a zatim i kao dugogodišnji voditelj Odjela za imovinsko-pravne poslove, predstojnik Ureda državne uprave i pročelnik za opću upravu i imovinska prava, rješavao je najsloženije prvostupanjske upravne postupke izvlaštenja. Kao najvažnije projekte koje je proveo u postupku izvlaštenja ističe izgradnju magistralnog plinovoda za potrebe investitora INA d.d., izgradnju brze ceste Križevci – Kloštar Vojakovački investitora Hrvatske ceste d.o.o., rekonstrukciju postojećeg i izgradnju drugog kolosijeka željezničke pruge Križevci – Koprivnica – mađarska granica za investitora HŽ Infrastruktura d.o.o., te niz drugih manjih projekata za potrebe raznih korisnika izvlaštenja. Tijekom svog rada na postupcima izvlaštenja isticao se pregovaračkim sposobnostima te je sklopio nekoliko stotina nagodbi između korisnika izvlaštenja i vlasnika nekretnina.",
+        bio: "Tihomir Kvakarić je stručnjak za rješavanje imovinsko-pravnih odnosa. Tijekom svog radnog vijeka preko 25 godina rada proveo je na rješavanju imovinsko-pravnih odnosa, prvenstveno upravnih postupaka izvlaštenja. Nakon što je položio državni stručni ispit za imovinsko-pravnog referenta odnosno ispit za rješavanje postupaka izvlaštenja i denacionalizacije, radeći najprije kao službenik, a zatim i kao dugogodišnji voditelj Odjela za imovinsko-pravne poslove, predstojnik Ureda državne uprave i pročelnik za opću upravu i imovinska prava, rješavao je najsloženije prvostupanjske upravne postupke izvlaštenja. Kao najvažnije projekte koje je proveo u postupku izvlaštenja ističe izgradnju magistralnog plinovoda za potrebe investitora INA d.d., izgradnju brze ceste Križevci --- Kloštar Vojakovački investitora Hrvatske ceste d.o.o., rekonstrukciju postojećeg i izgradnju drugog kolosijeka željezničke pruge Križevci --- Koprivnica --- mađarska granica za investitora HŽ Infrastruktura d.o.o., te niz drugih manjih projekata za potrebe raznih korisnika izvlaštenja. Tijekom svog rada na postupcima izvlaštenja isticao se pregovaračkim sposobnostima te je sklopio nekoliko stotina nagodbi između korisnika izvlaštenja i vlasnika nekretnina.",
         photo: {
           url: "/images/edukacije/kvakaric.jpg",
           alt: "Tihomir Kvakarić, dipl. iur.",
@@ -797,7 +797,7 @@ const seminars: Seminar[] = [
             points: [
               "Naziv i opis radnog mjesta: osnovni podaci, opis poslova, opis razine standardnih mjerila",
               "Standardna mjerila: stručno znanje, složenost poslova, samostalnost u radu, suradnja s drugim tijelima i komunikacija sa strankama, odgovornost i utjecaj na donošenje odluka",
-              "Kategorije radnih mjesta (I. – IV.) i klasifikacijski rang",
+              "Kategorije radnih mjesta (I. --- IV.) i klasifikacijski rang",
             ],
           },
           {
@@ -810,7 +810,7 @@ const seminars: Seminar[] = [
           },
           {
             title: "Praktična vježba",
-            points: ["„Utvrdite je li Plan prijma u skladu s pozitivnopravnim propisima”"],
+            points: ["--�Utvrdite je li Plan prijma u skladu s pozitivnopravnim propisima--�"],
           },
         ],
       },
@@ -856,8 +856,8 @@ const seminars: Seminar[] = [
           {
             title: "Praktična vježba",
             points: [
-              "„Provjerite pravilnost javnog natječaja”",
-              "„Provjerite sadržaj pisanog sporazuma”",
+              "--�Provjerite pravilnost javnog natječaja--�",
+              "--�Provjerite sadržaj pisanog sporazuma--�",
             ],
           },
         ],
@@ -869,12 +869,12 @@ const seminars: Seminar[] = [
           {
             label: "Modul 3",
             title:
-              "Zajednički službenik i zajedničko upravno tijelo – zakonito rješenje u slučaju nedostatka stručnog kadra JLP(R)S",
+              "Zajednički službenik i zajedničko upravno tijelo --- zakonito rješenje u slučaju nedostatka stručnog kadra JLP(R)S",
           },
           { title: "Praksa Visokog upravnog suda", points: ["Analiza konkretnih odluka"] },
           {
             title: "Praktična analiza sadržaja pravilnika JLP(R)S",
-            points: ["„Pronađite pogreške u izvatku iz Pravilnika o unutarnjem redu”"],
+            points: ["--�Pronađite pogreške u izvatku iz Pravilnika o unutarnjem redu--�"],
           },
           { title: "Check-lista prije raspisivanja natječaja i donošenja rješenja" },
           { title: "Diskusija i odgovori na pitanja" },
@@ -890,7 +890,7 @@ const seminars: Seminar[] = [
       {
         name: "Vera Sokolović, mag. iur.",
         role: "viša upravna inspektorica Ministarstva pravosuđa, uprave i digitalne transformacije",
-        bio: "",
+        bio: "Vera Sokolović viša je upravna inspektorica Ministarstva pravosuđa, uprave i digitalne transformacije. Njezina se karijera odlikuje iskustvom iz različitih segmenata pravnog sustava --- od privatnog odvjetništva i osjetljivog sustava socijalne skrbi, pa sve do trenutačne pozicije više upravne inspektorice. Višegodišnje radno iskustvo u upravnoj inspekciji daje joj jedinstven uvid u stvarno funkcioniranje jedinica lokalne i područne (regionalne) samouprave iznutra. Specijalizirana je za kontrolu zakonitosti iz područja upravne inspekcije. Usmjerena je na prepoznavanje sustavnih nepravilnosti, zaštitu prava građana i unaprjeđenje učinkovitosti jedinica lokalne i područne (regionalne) samouprave.",
         photo: {
           url: "/images/edukacije/sokolovic.jpg",
           alt: "Vera Sokolović, mag. iur.",
