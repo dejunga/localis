@@ -90,16 +90,18 @@ describe("redoviZaExport", () => {
       adresa: "Braće Radića 87, 31531 Viljevo",
       mail: "procelnik@viljevo.hr",
       telefon: "095 851 29 89",
-      polaznici: "Silvija Profeta (x) i Snježana Mezdić (y)",
+      polaznici: "Silvija Profeta i Snježana Mezdić",
+      radnaMjesta: "x i y",
       brojNarudzbenice: "",
     });
   });
 
-  it("polaznik bez radnog mjesta ide bez zagrada", () => {
+  it("polaznik bez radnog mjesta ostavlja stupac radnog mjesta prazan", () => {
     const [r] = redoviZaExport([
       prijava({ id: 1, polaznici: [{ id: 1, prijavaId: 1, ime: "Ana Anić", radnoMjesto: "" }] }),
     ]);
     expect(r.polaznici).toBe("Ana Anić");
+    expect(r.radnaMjesta).toBe("");
   });
 
   it("prenosi ručno upisan broj narudžbenice", () => {
@@ -121,8 +123,8 @@ describe("nazivi", () => {
 describe("generirajExcel", () => {
   it("piše zaglavlje, redove, SUM formulu i naziv usluge", async () => {
     const buf = await generirajExcel(seminar, [
-      { nazivPartnera: "A", iznos: 199, oib: "09532532757", adresa: "a", mail: "a@a", telefon: "0911", polaznici: "X", brojNarudzbenice: "007/26" },
-      { nazivPartnera: "B", iznos: 398, oib: "22824951663", adresa: "b", mail: "b@b", telefon: "0922", polaznici: "Y i Z", brojNarudzbenice: "" },
+      { nazivPartnera: "A", iznos: 199, oib: "09532532757", adresa: "a", mail: "a@a", telefon: "0911", polaznici: "X", radnaMjesta: "pročelnica", brojNarudzbenice: "007/26" },
+      { nazivPartnera: "B", iznos: 398, oib: "22824951663", adresa: "b", mail: "b@b", telefon: "0922", polaznici: "Y i Z", radnaMjesta: "referent i savjetnica", brojNarudzbenice: "" },
     ]);
     const wb = await ucitajWorkbook(buf);
     const ws = wb.getWorksheet("POPIS ZA RAČUNE 28.9")!;
@@ -133,8 +135,11 @@ describe("generirajExcel", () => {
     expect(ws.getCell("B2").numFmt).toContain("€");
     expect(ws.getCell("C2").value).toBe("09532532757");
     expect(ws.getCell("G3").value).toBe("Y i Z");
-    expect(ws.getCell("H1").value).toBe("BROJ NARUDŽBENICE");
-    expect(ws.getCell("H2").value).toBe("007/26");
+    expect(ws.getCell("H1").value).toBe("RADNO MJESTO");
+    expect(ws.getCell("H2").value).toBe("pročelnica");
+    expect(ws.getCell("H3").value).toBe("referent i savjetnica");
+    expect(ws.getCell("I1").value).toBe("BROJ NARUDŽBENICE");
+    expect(ws.getCell("I2").value).toBe("007/26");
     expect(ws.getCell("A4").value).toBe("UKUPNO");
     expect((ws.getCell("B4").value as { formula: string }).formula).toBe("SUM(B2:B3)");
     expect(ws.getCell("A6").value).toBe("Naziv usluge:");

@@ -13,6 +13,7 @@ export type ExportRed = {
   mail: string;
   telefon: string;
   polaznici: string;
+  radnaMjesta: string;
   brojNarudzbenice: string;
 };
 
@@ -35,9 +36,11 @@ export function redoviZaExport(prijave: PrijavaRed[]): ExportRed[] {
       adresa: p.adresa,
       mail: p.email,
       telefon: p.telefon,
-      polaznici: spojiImena(
-        p.polaznici.map((x) => (x.radnoMjesto ? `${x.ime} (${x.radnoMjesto})` : x.ime)),
-      ),
+      polaznici: spojiImena(p.polaznici.map((x) => x.ime)),
+      // Isti redoslijed kao imena; prazno radno mjesto kao "-" da se parovi ne pomaknu.
+      radnaMjesta: p.polaznici.some((x) => x.radnoMjesto)
+        ? spojiImena(p.polaznici.map((x) => x.radnoMjesto || "-"))
+        : "",
       brojNarudzbenice: p.brojNarudzbenice ?? "",
     }));
 }
@@ -71,6 +74,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     { key: "mail", width: 29 },
     { key: "telefon", width: 20 },
     { key: "polaznici", width: 37 },
+    { key: "radnaMjesta", width: 37 },
     { key: "brojNarudzbenice", width: 22 },
   ];
   const header = ws.addRow([
@@ -81,6 +85,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     "MAIL",
     "TELEFON",
     "IME I PREZIME POLAZNIKA",
+    "RADNO MJESTO",
     "BROJ NARUDŽBENICE",
   ]);
   header.font = { bold: true };
@@ -94,13 +99,14 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
       r.mail,
       r.telefon,
       r.polaznici,
+      r.radnaMjesta,
       r.brojNarudzbenice,
     ]);
     row.getCell(2).numFmt = EUR_FMT;
     // OIB i telefon kao tekst da Excel ne odbaci vodeću nulu.
     row.getCell(3).numFmt = "@";
     row.getCell(6).numFmt = "@";
-    row.getCell(8).numFmt = "@";
+    row.getCell(9).numFmt = "@";
   }
 
   const zadnji = ws.rowCount;
