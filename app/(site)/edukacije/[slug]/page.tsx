@@ -67,7 +67,9 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
   if (!seminar) notFound();
 
-  const past = isSeminarPast(seminar);
+  const odgodeno = Boolean(seminar.odgodeno);
+  // Prijave su zatvorene i za održane i za odgođene edukacije.
+  const past = odgodeno || isSeminarPast(seminar);
   const [startRaw, endRaw] = seminar.time.split("-").map((s) => s.trim());
   const cijena = aktualnaCijena(seminar);
   const price = Number(cijena.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
@@ -80,7 +82,9 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
     startDate: `${seminar.date}T${toIsoTime(startRaw)}+02:00`,
     endDate: endRaw ? `${seminar.date}T${toIsoTime(endRaw)}+02:00` : undefined,
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    eventStatus: "https://schema.org/EventScheduled",
+    eventStatus: odgodeno
+      ? "https://schema.org/EventPostponed"
+      : "https://schema.org/EventScheduled",
     location: {
       "@type": "Place",
       name: seminar.location,
@@ -221,6 +225,16 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             </div>
           ))}
         </div>
+
+        {odgodeno && (
+          <div className="mb-16 bg-red-50 border-l-4 border-red-600 rounded-r-lg p-6">
+            <p className="font-bold text-red-800 mb-1">Edukacija je odgođena</p>
+            <p className="text-red-900/80 text-sm leading-relaxed">
+              Edukacija neće biti održana {seminar.dateLabel.replace(/\.$/, "")}. Novi termin objavit
+              ćemo naknadno, a prijave su do tada zatvorene.
+            </p>
+          </div>
+        )}
 
         {!past && (
           <div className="flex justify-center mb-20">
@@ -422,11 +436,14 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 <div className="h-px w-8 bg-[var(--gold)]" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-playfair)]">
-                {past ? "Edukacija je održana" : "Prijava"}
+                {odgodeno ? "Edukacija je odgođena" : past ? "Edukacija je održana" : "Prijava"}
               </h2>
               {past && (
                 <p className="text-gray-300 text-sm">
-                  Prijave za ovu edukaciju više nisu moguće. Pogledajte{" "}
+                  {odgodeno
+                    ? "Ova edukacija je odgođena, a prijave su trenutno zatvorene. Novi termin objavit ćemo naknadno."
+                    : "Prijave za ovu edukaciju više nisu moguće."}{" "}
+                  Pogledajte{" "}
                   <Link href="/edukacije" className="text-[var(--gold)] underline underline-offset-4">
                     nadolazeće edukacije
                   </Link>

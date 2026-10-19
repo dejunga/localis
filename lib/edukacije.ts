@@ -62,6 +62,8 @@ export type Seminar = {
   coverImage?: { url: string; alt: string };
   // Skriveno sa stranice (lista, detalj, sitemap, prijava). Admin i ponude i dalje vide edukaciju.
   skriveno?: boolean;
+  // Odgođeno: ostaje na stranici s oznakom, ali su prijave zatvorene.
+  odgodeno?: boolean;
 };
 
 type Opcije = { skrivene?: boolean };
@@ -466,6 +468,7 @@ const seminars: Seminar[] = [
   {
     ...opciAkt,
     slug: "kako-izraditi-opci-akt-u-jlprs-split",
+    odgodeno: true,
     date: "2026-10-21",
     dateLabel: "21. listopada 2026.",
     time: "10.00 - 16.00",
@@ -509,6 +512,7 @@ const seminars: Seminar[] = [
   {
     ...digitalizacijaProcesa,
     slug: "digitalizacija-poslovnih-procesa-split",
+    odgodeno: true,
     date: "2026-10-22",
     dateLabel: "22. listopada 2026.",
     time: "10.00 - 16.00",

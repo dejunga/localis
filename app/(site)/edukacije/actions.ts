@@ -47,7 +47,7 @@ export async function sendSeminarRegistration(
 
   const slug = String(formData.get("slug") ?? "").trim();
   const seminar = await getSeminar(slug);
-  if (!seminar || isSeminarPast(seminar)) {
+  if (!seminar || seminar.odgodeno || isSeminarPast(seminar)) {
     return {
       status: "error",
       message: "Prijave za ovu edukaciju više nisu moguće.",

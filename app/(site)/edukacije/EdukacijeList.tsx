@@ -85,7 +85,11 @@ export default function EdukacijeList({
             <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-[var(--gold)]/10 text-[var(--navy)]">
               {seminar.kicker}
             </span>
-            {pastSlugs.includes(seminar.slug) && (
+            {seminar.odgodeno ? (
+              <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-red-50 text-red-700">
+                Odgođeno
+              </span>
+            ) : pastSlugs.includes(seminar.slug) && (
               <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-gray-100 text-gray-500">
                 Održano
               </span>
