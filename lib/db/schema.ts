@@ -32,6 +32,10 @@ export const prijave = pgTable("prijave", {
   napomena: text("napomena"),
   // Admin upisuje ručno kad klijent pošalje narudžbenicu; ide u export za računovodstvo.
   brojNarudzbenice: text("broj_narudzbenice"),
+  // Privola kontakt osobe za obavijesti o budućim edukacijama. NULL = nije dana ili je povučena.
+  privolaObavijestiAt: timestamp("privola_obavijesti_at", { withTimezone: true }),
+  privolaObavijestiVerzija: text("privola_obavijesti_verzija"),
+  privolaPovucenaAt: timestamp("privola_povucena_at", { withTimezone: true }),
   status: prijavaStatus("status").notNull().default("nova"),
 });
 

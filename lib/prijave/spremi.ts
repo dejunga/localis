@@ -15,8 +15,11 @@ export type NovaPrijava = {
   polaznici: { ime: string; radnoMjesto: string }[];
 };
 
+// Verzija teksta privole na koju je kontakt osoba pristala; null = nije označila checkbox.
+export type PrivolaObavijesti = { verzija: string } | null;
+
 // tx1: prijava + polaznici zajedno ili ništa.
-export async function spremiPrijavu(p: NovaPrijava): Promise<number> {
+export async function spremiPrijavu(p: NovaPrijava, privola: PrivolaObavijesti): Promise<number> {
   return db.transaction(async (tx) => {
     const [row] = await tx
       .insert(prijave)
@@ -30,6 +33,8 @@ export async function spremiPrijavu(p: NovaPrijava): Promise<number> {
         adresa: p.adresa,
         oib: p.oib,
         napomena: p.napomena,
+        privolaObavijestiAt: privola ? new Date() : null,
+        privolaObavijestiVerzija: privola?.verzija ?? null,
       })
       .returning({ id: prijave.id });
     await tx
@@ -61,6 +66,14 @@ export async function azurirajPrijavu(id: number, p: IzmjenaPrijave): Promise<vo
       .insert(polaznici)
       .values(p.polaznici.map((pl) => ({ prijavaId: id, ime: pl.ime, radnoMjesto: pl.radnoMjesto })));
   });
+}
+
+// Povlačenje privole za obavijesti (na zahtjev kontakt osobe). Verzija ostaje radi evidencije.
+export async function povuciPrivoluObavijesti(id: number): Promise<void> {
+  await db
+    .update(prijave)
+    .set({ privolaObavijestiAt: null, privolaPovucenaAt: new Date() })
+    .where(eq(prijave.id, id));
 }
 
 // Prazan string briše broj narudžbenice.

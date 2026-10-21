@@ -7,6 +7,7 @@ import StatusBadge from "../../StatusBadge";
 import NarudzbenicaBadge from "../../NarudzbenicaBadge";
 import NarudzbenicaForm from "./NarudzbenicaForm";
 import UrediPrijavuForm from "./UrediPrijavuForm";
+import PovuciPrivoluGumb from "./PovuciPrivoluGumb";
 import { IzdajNovuGumb, PonudaAkcije } from "./PonudaAkcije";
 
 export const dynamic = "force-dynamic";
@@ -86,6 +87,29 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
           prijavaId={prijava.id}
           brojNarudzbenice={prijava.brojNarudzbenice}
         />
+      </section>
+
+      <section className="bg-white border border-gray-200 rounded-xl p-6">
+        <h2 className="font-semibold mb-1">Privola za obavijesti o edukacijama</h2>
+        <p className="text-xs text-gray-500 mb-4">
+          Samo kontakt osoba ({prijava.email}). Bez privole joj ne šalji promotivne mailove.
+        </p>
+        {prijava.privolaObavijestiAt ? (
+          <div className="space-y-3 text-sm">
+            <p>
+              <b className="text-green-700">DA</b> - dana{" "}
+              {prijava.privolaObavijestiAt.toLocaleString("hr-HR", { timeZone: "Europe/Zagreb" })}
+              {prijava.privolaObavijestiVerzija && ` (tekst verzije ${prijava.privolaObavijestiVerzija})`}
+            </p>
+            <PovuciPrivoluGumb prijavaId={prijava.id} />
+          </div>
+        ) : (
+          <p className="text-sm">
+            <b className="text-gray-700">NE</b>
+            {prijava.privolaPovucenaAt &&
+              ` - povučena ${prijava.privolaPovucenaAt.toLocaleString("hr-HR", { timeZone: "Europe/Zagreb" })}`}
+          </p>
+        )}
       </section>
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">

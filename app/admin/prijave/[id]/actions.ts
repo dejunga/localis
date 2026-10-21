@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { zahtijevajAdmina } from "@/lib/admin/session";
-import { azurirajPrijavu, spremiBrojNarudzbenice } from "@/lib/prijave/spremi";
+import { azurirajPrijavu, povuciPrivoluObavijesti, spremiBrojNarudzbenice } from "@/lib/prijave/spremi";
 import { dovrsiPonudu, izdajPonudu, ponovnoPosaljiMail, stornirajPonudu } from "@/lib/ponude/izdaj";
 
 export type AdminAkcijaState = { poruka?: string; greska?: string };
@@ -61,6 +61,13 @@ export async function spremiNarudzbenicu(
   await spremiBrojNarudzbenice(prijavaId, broj || null);
   osvjezi(prijavaId);
   return { poruka: broj ? "Broj narudžbenice spremljen." : "Broj narudžbenice obrisan." };
+}
+
+export async function povuciPrivolu(prijavaId: number): Promise<AdminAkcijaState> {
+  await zahtijevajAdmina();
+  await povuciPrivoluObavijesti(prijavaId);
+  osvjezi(prijavaId);
+  return { poruka: "Privola za obavijesti povučena." };
 }
 
 export async function storniraj(

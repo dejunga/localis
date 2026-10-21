@@ -1,9 +1,11 @@
 "use client";
 
 import { startTransition, useActionState, useRef, useState } from "react";
+import Link from "next/link";
 import { Plus, X } from "lucide-react";
 import SlanjeOverlay, { saMinimalnimTrajanjem } from "@/components/SlanjeOverlay";
 import { MAX_DULJINA, MAX_POLAZNIKA } from "@/lib/prijave/limiti";
+import { PRIVOLA_OBAVIJESTI_TEKST } from "@/lib/prijave/privola";
 import { sendSeminarRegistration, type RegistrationState } from "../actions";
 
 const initialState: RegistrationState = { status: "idle" };
@@ -259,6 +261,44 @@ export default function RegistracijaForm({
           />
         </div>
   
+        <div>
+          <label className="flex items-start gap-3 text-sm text-gray-600 cursor-pointer">
+            <input
+              type="checkbox"
+              name="privola_obrada"
+              value="da"
+              required
+              className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--navy)]"
+            />
+            <span>
+              Upoznat/a sam s obradom osobnih podataka u svrhu prijave, organizacije i provedbe
+              edukacije te izdavanja ponude, računa i potvrde o sudjelovanju, kako je opisano u{" "}
+              <Link
+                href="/politika-privatnosti#edukacije"
+                target="_blank"
+                className="text-[var(--navy)] underline underline-offset-2"
+              >
+                Politici privatnosti
+              </Link>
+              . *
+            </span>
+          </label>
+          {state.errors?.privola && (
+            <p className="text-red-600 text-xs mt-1.5">{state.errors.privola}</p>
+          )}
+        </div>
+
+        {/* Neobavezno i neoznačeno po defaultu - privola mora biti aktivna radnja korisnika. */}
+        <label className="flex items-start gap-3 text-sm text-gray-600 cursor-pointer">
+          <input
+            type="checkbox"
+            name="privola_obavijesti"
+            value="da"
+            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--navy)]"
+          />
+          <span>{PRIVOLA_OBAVIJESTI_TEKST}</span>
+        </label>
+
         <button
           type="submit"
           disabled={pending}
@@ -266,6 +306,11 @@ export default function RegistracijaForm({
         >
           {pending ? "Slanje..." : "Pošalji prijavu"}
         </button>
+
+        <p className="text-xs text-gray-500 leading-relaxed">
+          Na radionici se fotografira. Polaznici privolu za fotografiranje daju osobno na licu
+          mjesta i mogu je uskratiti bez ikakvih posljedica.
+        </p>
       </form>
     </>
   );

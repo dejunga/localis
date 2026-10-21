@@ -4,6 +4,7 @@ import { checkBotId } from "botid/server";
 import { getMailConfig } from "@/lib/email/transport";
 import { getSeminar, isSeminarPast } from "@/lib/edukacije";
 import { MAX_DULJINA, MAX_POLAZNIKA } from "@/lib/prijave/limiti";
+import { PRIVOLA_OBAVIJESTI_VERZIJA } from "@/lib/prijave/privola";
 import { dopustiPokusaj, hashKljuca, hashiraniIp } from "@/lib/rate-limit";
 import { spremiPrijavu } from "@/lib/prijave/spremi";
 import { izdajPonudu } from "@/lib/ponude/izdaj";
@@ -16,7 +17,7 @@ export type RegistrationState = {
   ponudaPoslanaNa?: string;
   errors?: Partial<
     Record<
-      "ime" | "email" | "telefon" | "organizacija" | "adresa" | "oib" | "polaznici",
+      "ime" | "email" | "telefon" | "organizacija" | "adresa" | "oib" | "polaznici" | "privola",
       string
     >
   >;
@@ -99,6 +100,10 @@ export async function sendSeminarRegistration(
     errors.polaznici = `Ime i radno mjesto polaznika mogu imati najviše ${MAX_DULJINA.polaznikIme} znakova.`;
   }
 
+  if (formData.get("privola_obrada") !== "da") {
+    errors.privola = "Za prijavu potvrdite da ste upoznati s obradom osobnih podataka.";
+  }
+
   if (Object.keys(errors).length > 0) {
     return { status: "error", errors };
   }
@@ -150,12 +155,14 @@ export async function sendSeminarRegistration(
     napomena: napomena || null,
     polaznici,
   };
+  // Checkbox je neobavezan i prazan po defaultu - privola se bilježi samo ako ga korisnik sam označi.
+  const privola = formData.get("privola_obavijesti") === "da" ? { verzija: PRIVOLA_OBAVIJESTI_VERZIJA } : null;
   const termin = { seminarDatum: seminar.dateLabel, seminarLokacija: seminar.location };
 
   // tx1 - ako baza padne, prijava se ne gubi u potpunosti: interni mail ide kao i prije.
   let prijavaId: number;
   try {
-    prijavaId = await spremiPrijavu(nova);
+    prijavaId = await spremiPrijavu(nova, privola);
   } catch (error) {
     console.error("Prijava na edukaciju: spremanje u bazu nije uspjelo.", error);
     try {
