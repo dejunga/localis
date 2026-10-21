@@ -915,6 +915,146 @@ const seminars: Seminar[] = [
       },
     ],
   },
+  {
+    slug: "stegovna-odgovornost-u-jlprs-i-drzavnoj-sluzbi",
+    title:
+      "Stegovna odgovornost u JLP(R)S i državnoj službi: od povrede službene dužnosti do izvršenja odluke",
+    titleLines: [
+      "Stegovna odgovornost u JLP(R)S i državnoj službi:",
+      "od povrede službene dužnosti do izvršenja odluke",
+    ],
+    kicker: "Praktična radionica",
+    excerpt:
+      "Praktična radionica o stegovnoj odgovornosti službenika u JLP(R)S i državnoj službi - od povrede službene dužnosti do izvršenja odluke. Predavač: Ivan Poljak, sudac Službeničkog suda. Zagreb, 19. 11. 2026.",
+    date: "2026-11-19",
+    dateLabel: "19. studenoga 2026.",
+    time: "9.30 - 15.00",
+    location: "Hotel Antunović, Zagreb",
+    locationDetail: "Zagrebačka avenija 100A, dvorana Tomislav",
+    price: "219,00 EUR",
+    priceNote: "Pružatelj nije u sustavu PDV-a.",
+    ranaPrijava: {
+      do: "2026-11-11",
+      doLabel: "11. studenoga 2026.",
+      price: "199,00 EUR",
+      cijena: 199,
+    },
+    ponuda: {
+      cijena: 219,
+      predavac: "Ivan Poljak, dipl. iur.",
+      mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
+      ukljuceno: "radni materijali, coffee break, finger food, potvrda o sudjelovanju",
+    },
+    descriptionHighlighted: true,
+    description: [
+      "Prava i dužnosti službenika te stegovne povrede otvaraju u praksi državnih tijela i JLP(R)S niz složenih pravnih dilema - od pravilne kvalifikacije povrede do izvršenja odluke. Na radionici prolazimo cijeli stegovni postupak, uspoređujući uređenje za državne i lokalne službenike, uz odluke službeničkih i upravnih sudova te Ustavnog suda RH. Naglasak je na konkretnim situacijama iz svakodnevnog rada osoba koje pokreću, vode i odlučuju u stegovnim postupcima, uz raspravu i odgovore na vaša pitanja.",
+    ],
+    targetAudience: [
+      "izvršnim čelnicima JLP(R)S, pročelnicima te osobama ovlaštenima u njihovo ime pokretati i/ili voditi stegovne postupke",
+      "čelnicima državnih tijela i osobama koje su odlukom čelnika ovlaštene pokretati i/ili voditi stegovne postupke",
+      "službenicima u JLP(R)S i državnoj upravi",
+      "sucima, članovima vijeća i tajnicima službeničkih sudova ustanovljenih u JLP(R)S",
+      "odvjetnicima",
+    ],
+    goals: [
+      "naučiti prepoznati postupanja (činjenja i propuste) koja u sebi sadrže bit službeničke stegovne povrede",
+      "razumjeti razliku između lakih i teških povreda službene dužnosti te između pojedinih povreda",
+      "prepoznati dobre prakse i najčešće pogreške u pokretanju, zastupanju, vođenju i odlučivanju u stegovnim postupcima",
+      "dobiti stručne i praktično primjenjive smjernice za buduće postupanje",
+    ],
+    agenda: [
+      {
+        time: "9.00 - 9.30",
+        topics: [{ title: "Registracija sudionika, kava i snack" }],
+      },
+      {
+        time: "9.30 - 11.00",
+        topics: [
+          { label: "Modul 1", title: "Uvod i stegovne povrede" },
+          {
+            title: "Normativnopravni okvir",
+            points: [
+              "Zakon o državnim službenicima, Zakon o službenicima i namještenicima u lokalnoj i područnoj (regionalnoj) samoupravi, Zakon o općem upravnom postupku (načela i konkretne odredbe) i drugi relevantni propisi",
+              "vremensko i stvarno važenje zakona (završne i prijelazne odredbe)",
+              "pravna znanost te upravna, sudska i ustavnosudska praksa u stegovnim postupcima",
+            ],
+          },
+          {
+            title: "Lake i teške povrede službene dužnosti državnih i lokalnih službenika",
+            points: [
+              "normativni opis - sadržaj i eventualni nedostaci",
+              "usporedba uređenja stegovnih povreda za državne i lokalne službenike",
+              "prepoznavanje konkretnih postupanja kao stegovnih povreda",
+              "od činjeničnog opisa do pravne kvalifikacije: kako postupanje opisati i podvesti pod propisanu stegovnu povredu",
+              "analiza pozitivnih propisa i važeće sudske prakse",
+              "simulacija slučaja kroz uloge svih sudionika postupka",
+            ],
+          },
+        ],
+      },
+      { time: "11.00 - 11.30", topics: [{ title: "Pauza za kavu" }] },
+      {
+        time: "11.30 - 13.00",
+        topics: [
+          {
+            label: "Modul 2",
+            title: "Stegovni postupak",
+            points: [
+              "sudionici i tijela postupka",
+              "pokretanje postupka: sadržaj zaključka (lake povrede) i zahtjeva (teške povrede)",
+              "zastupanje podnositelja zahtjeva i službenika",
+              "odgovor na zahtjev / zaključak",
+              "dostava",
+              "usmena rasprava i zapisnik",
+              "dokazni postupak",
+              "odluka: izreka o odgovornosti, sankcija i troškovi te obrazloženje",
+              "pravni lijekovi i odluke po pravnim lijekovima",
+              "postupak nakon izvršnosti odluke, po odlukama donesenim po pravnim lijekovima ili u upravnom sporu",
+              "izvršenje odluke (objava javne opomene, naplata novčane kazne, rješenje o prestanku službe, upis i brisanje iz stegovne evidencije)",
+              "prikaz upravne i sudske prakse",
+            ],
+          },
+        ],
+      },
+      { time: "13.00 - 13.30", topics: [{ title: "Pauza za kavu i finger food" }] },
+      {
+        time: "13.30 - 14.15",
+        topics: [
+          {
+            label: "Modul 3",
+            title: "Instituti koji u praksi otvaraju najviše dilema",
+            points: [
+              "prethodno pitanje i prekid postupka",
+              "nagodba i sporazum o sankciji",
+              "zastara (pokretanja i vođenja postupka te izvršenja sankcije)",
+              "troškovi postupka",
+              "udaljenje od obavljanja dužnosti (suspenzija)",
+              "sankcije: vrsta i visina, otegotne i olakotne okolnosti, s posebnim osvrtom na prestanak službe, uvjetni prestanak službe i premještaj na drugo radno mjesto",
+              "prikaz upravne i sudske prakse",
+              "kontrolna lista potrebnih radnji u postupku",
+            ],
+          },
+        ],
+      },
+      {
+        time: "14.15 - 14.45",
+        topics: [{ title: "Rasprava, završna riječ i podjela potvrda o sudjelovanju" }],
+      },
+      { time: "15.00", topics: [{ title: "Završetak radionice" }] },
+    ],
+    lecturers: [
+      {
+        name: "Ivan Poljak, dipl. iur.",
+        role: "sudac Općinskog suda i predsjednik Službeničkog suda na županijskoj razini, sudac Službeničkog suda u Ministarstvu pravosuđa, uprave i digitalne transformacije",
+        bio: "Ivan Poljak diplomirani je pravnik i sudac Općinskog suda u Bjelovaru s tridesetogodišnjim iskustvom u pravosuđu. Dvadeset godina sudac je i deset godina predsjednik Službeničkog suda u Bjelovaru, a osam godina i sudac Službeničkog suda u Ministarstvu pravosuđa, uprave i digitalne transformacije. Kao načelnik Odjela za nadzor sudske i državnoodvjetničke uprave u pravosudnoj inspekciji sudjelovao je u izradi zakona i drugih propisa, a kao član ekspertnog tima i u pregovorima o pristupanju Republike Hrvatske Europskoj uniji (poglavlja 3, 8 i 23). Kao predavač i autor obrazovnih materijala surađuje s Pravosudnom akademijom RH, Europskom pravosudnom akademijom u Trieru i Hrvatskom javnobilježničkom akademijom. Više je godina bio tajnik Komisije za provedbu pravosudnih ispita i vodio niz EU projekata.",
+        photo: {
+          url: "/images/edukacije/poljak.jpg",
+          alt: "Ivan Poljak, dipl. iur.",
+          position: "center 25%",
+        },
+      },
+    ],
+  },
 ];
 
 // Bez `skrivene: true` vraćaju se samo edukacije vidljive na stranici.
