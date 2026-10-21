@@ -13,8 +13,9 @@ import {
   type InterniMailInput,
   type MailKlijentuInput,
 } from "./email";
-import { nazivDatotekePonude, sastaviBrojPonude } from "./format";
+import { formatIznos, nazivDatotekePonude, sastaviBrojPonude } from "./format";
 import { renderPonudaPdf, type PonudaPdfData } from "./pdf";
+import { izracunajPonudu, opisPopusta, popustIzReda } from "./popust";
 
 type SeminarSPonudom = Seminar & { ponuda: NonNullable<Seminar["ponuda"]> };
 
@@ -57,7 +58,9 @@ export async function kreirajPonudu(prijavaId: number): Promise<number> {
   const kolicina = prijava.polaznici.length;
   // Rana prijava gleda datum prijave, ne izdavanja - nova ponuda nakon storna zadržava cijenu.
   const cijena = aktualnaCijena(seminar, prijava.createdAt).cijena ?? seminar.ponuda.cijena;
-  const ukupno = kolicina * cijena;
+  // Popust se uzima s prijave u trenutku izdavanja i ostaje zapisan na ponudi.
+  const popust = popustIzReda(prijava);
+  const { popustIznos, ukupno } = izracunajPonudu(kolicina, cijena, popust);
 
   return db.transaction(async (tx) => {
     const redniBroj = await sljedeciRedniBroj(tx, godina);
@@ -74,6 +77,10 @@ export async function kreirajPonudu(prijavaId: number): Promise<number> {
         kolicina,
         cijena: cijena.toFixed(2),
         ukupno: ukupno.toFixed(2),
+        popustTip: popust?.tip ?? null,
+        popustVrijednost: popust ? popust.vrijednost.toFixed(2) : null,
+        popustIznos: popust ? popustIznos.toFixed(2) : null,
+        popustOpis: popust?.opis ?? null,
         status: "greska",
       })
       .returning({ id: ponude.id });
@@ -89,6 +96,8 @@ function pdfPodaci(
   seminar: SeminarSPonudom,
   potpisnik: string,
 ): PonudaPdfData {
+  const popust = popustIzReda(ponuda);
+  const popustIznos = Number(ponuda.popustIznos ?? 0);
   return {
     broj: ponuda.broj,
     datumIzdavanja: ponuda.datumIzdavanja,
@@ -114,9 +123,16 @@ function pdfPodaci(
     polaznici: prijava.polaznici.map((p) => ({ ime: p.ime, radnoMjesto: p.radnoMjesto })),
     kolicina: ponuda.kolicina,
     cijena: Number(ponuda.cijena),
+    osnovica: Number(ponuda.ukupno) + popustIznos,
+    popust: popust ? { opis: opisPopusta(popust), iznos: popustIznos } : null,
     ukupno: Number(ponuda.ukupno),
     potpisnik,
   };
+}
+
+function popustZaMail(ponuda: Ponuda): string | null {
+  const popust = popustIzReda(ponuda);
+  return popust ? `${opisPopusta(popust)} -${formatIznos(ponuda.popustIznos ?? 0)} EUR` : null;
 }
 
 function mailKlijentuInput(
@@ -211,7 +227,7 @@ export async function dovrsiPonudu(ponudaId: number): Promise<DovrsiRezultat> {
 
     // Interni mail ne smije srušiti tok - klijent je već dobio ponudu.
     await interniMailBezRusenja(
-      { ...(await interniInput(prijava)), ponuda: { broj: ponuda.broj, ukupno: ponuda.ukupno } },
+      { ...(await interniInput(prijava)), ponuda: { broj: ponuda.broj, ukupno: ponuda.ukupno, popust: popustZaMail(ponuda) } },
       { filename, content: pdf },
     );
     return { ok: true };

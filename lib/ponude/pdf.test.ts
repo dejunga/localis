@@ -31,6 +31,8 @@ const cabar: PonudaPdfData = {
   ],
   kolicina: 2,
   cijena: 199,
+  osnovica: 398,
+  popust: null,
   ukupno: 398,
   potpisnik: "Milada Sofka, voditeljica ureda",
 };
@@ -57,5 +59,18 @@ describe("renderPonudaPdf", () => {
     ]) {
       expect(text).toContain(s);
     }
+  }, 30_000);
+
+  it("s popustom ispisuje osnovicu, red popusta i iznos za plaćanje", async () => {
+    const buffer = await renderPonudaPdf({
+      ...cabar,
+      popust: { opis: "Popust (15 %)", iznos: 59.7 },
+      ukupno: 338.3,
+    });
+    const { text } = await pdfParse(buffer);
+    for (const s of ["398,00", "Popust (15 %)", "-59,70", "338,30"]) {
+      expect(text).toContain(s);
+    }
+    expect(text).not.toContain("Rabat");
   }, 30_000);
 });

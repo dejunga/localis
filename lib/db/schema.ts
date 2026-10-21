@@ -15,6 +15,8 @@ import {
 
 export const prijavaStatus = pgEnum("prijava_status", ["nova", "ponuda_poslana", "stornirana"]);
 export const ponudaStatus = pgEnum("ponuda_status", ["poslana", "stornirana", "greska"]);
+export const popustTip = pgEnum("popust_tip", ["postotak", "iznos"]);
+export const prijavaIzvor = pgEnum("prijava_izvor", ["web", "admin"]);
 
 // Jedna prijava = jedan submit forme na /edukacije/[slug].
 export const prijave = pgTable("prijave", {
@@ -37,6 +39,12 @@ export const prijave = pgTable("prijave", {
   privolaObavijestiVerzija: text("privola_obavijesti_verzija"),
   privolaPovucenaAt: timestamp("privola_povucena_at", { withTimezone: true }),
   status: prijavaStatus("status").notNull().default("nova"),
+  // "admin" = Marija je prijavu unijela ručno (telefon, mail) umjesto klijenta preko forme.
+  izvor: prijavaIzvor("izvor").notNull().default("web"),
+  // Popust koji admin želi na sljedećoj ponudi; ponuda ga kopira u snapshot. NULL tip = bez popusta.
+  popustTip: popustTip("popust_tip"),
+  popustVrijednost: numeric("popust_vrijednost", { precision: 10, scale: 2 }), // % ili EUR, ovisno o tipu
+  popustOpis: text("popust_opis"),
 });
 
 export const polaznici = pgTable("polaznici", {
@@ -65,7 +73,12 @@ export const ponude = pgTable(
     rokPlacanja: date("rok_placanja").notNull(),
     kolicina: integer("kolicina").notNull(),
     cijena: numeric("cijena", { precision: 10, scale: 2 }).notNull(),
+    // ukupno je nakon popusta; osnovica = ukupno + popustIznos.
     ukupno: numeric("ukupno", { precision: 10, scale: 2 }).notNull(),
+    popustTip: popustTip("popust_tip"),
+    popustVrijednost: numeric("popust_vrijednost", { precision: 10, scale: 2 }),
+    popustIznos: numeric("popust_iznos", { precision: 10, scale: 2 }),
+    popustOpis: text("popust_opis"),
     pdfUrl: text("pdf_url"),
     // Kreće kao "greska" i prelazi u "poslana" tek kad PDF + Blob + mail prođu.
     status: ponudaStatus("status").notNull().default("greska"),

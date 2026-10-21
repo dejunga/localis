@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { polaznici, prijave } from "@/lib/db/schema";
+import { polaznici, prijave, type Prijava } from "@/lib/db/schema";
+import type { Popust } from "@/lib/ponude/popust";
 
 export type NovaPrijava = {
   seminarSlug: string;
@@ -15,11 +16,18 @@ export type NovaPrijava = {
   polaznici: { ime: string; radnoMjesto: string }[];
 };
 
+// Ručni unos iz admina: oznaka izvora i popust za prvu ponudu.
+export type AdminDodatak = { izvor: Prijava["izvor"]; popust: Popust | null };
+
 // Verzija teksta privole na koju je kontakt osoba pristala; null = nije označila checkbox.
 export type PrivolaObavijesti = { verzija: string } | null;
 
 // tx1: prijava + polaznici zajedno ili ništa.
-export async function spremiPrijavu(p: NovaPrijava, privola: PrivolaObavijesti): Promise<number> {
+export async function spremiPrijavu(
+  p: NovaPrijava,
+  privola: PrivolaObavijesti,
+  dodatak?: AdminDodatak,
+): Promise<number> {
   return db.transaction(async (tx) => {
     const [row] = await tx
       .insert(prijave)
@@ -35,6 +43,7 @@ export async function spremiPrijavu(p: NovaPrijava, privola: PrivolaObavijesti):
         napomena: p.napomena,
         privolaObavijestiAt: privola ? new Date() : null,
         privolaObavijestiVerzija: privola?.verzija ?? null,
+        ...(dodatak && { izvor: dodatak.izvor, ...popustStupci(dodatak.popust) }),
       })
       .returning({ id: prijave.id });
     await tx
@@ -66,6 +75,19 @@ export async function azurirajPrijavu(id: number, p: IzmjenaPrijave): Promise<vo
       .insert(polaznici)
       .values(p.polaznici.map((pl) => ({ prijavaId: id, ime: pl.ime, radnoMjesto: pl.radnoMjesto })));
   });
+}
+
+function popustStupci(popust: Popust | null) {
+  return {
+    popustTip: popust?.tip ?? null,
+    popustVrijednost: popust ? popust.vrijednost.toFixed(2) : null,
+    popustOpis: popust?.opis ?? null,
+  };
+}
+
+// Popust vrijedi za sljedeću izdanu ponudu; već izdane ponude se ne mijenjaju.
+export async function spremiPopust(id: number, popust: Popust | null): Promise<void> {
+  await db.update(prijave).set(popustStupci(popust)).where(eq(prijave.id, id));
 }
 
 // Povlačenje privole za obavijesti (na zahtjev kontakt osobe). Verzija ostaje radi evidencije.

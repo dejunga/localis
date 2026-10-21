@@ -39,7 +39,12 @@ export default async function PrijavePage({
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mb-6">Prijave</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-semibold">Prijave</h1>
+        <Link href="/admin/prijave/nova" className="px-4 py-2 bg-[var(--navy)] text-white rounded-lg text-sm">
+          + Nova prijava
+        </Link>
+      </div>
 
       <form className="flex flex-wrap gap-3 mb-6 text-sm" method="get">
         <select name="edukacija" defaultValue={edukacija ?? ""} className="border rounded-lg px-3 py-2 bg-white">
@@ -101,7 +106,10 @@ export default async function PrijavePage({
             )}
             {prijave.map((p) => (
               <tr key={p.id} className="border-t border-gray-100">
-                <td className="px-3 py-2 whitespace-nowrap">{fmtDatum(p.createdAt)}</td>
+                <td className="px-3 py-2 whitespace-nowrap">
+                  {fmtDatum(p.createdAt)}
+                  {p.izvor === "admin" && <div className="text-gray-500 text-xs">ručni unos</div>}
+                </td>
                 <td className="px-3 py-2 max-w-xs truncate" title={p.seminarTitle}>
                   {p.seminarTitle}
                 </td>

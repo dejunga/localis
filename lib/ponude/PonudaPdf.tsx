@@ -173,17 +173,18 @@ export function PonudaPdf({ data }: { data: PonudaPdfData }) {
           <Text style={[s.cell, s.cJmj]}>kom</Text>
           <Text style={[s.cell, s.cKol]}>{formatIznos(data.kolicina)}</Text>
           <Text style={[s.cell, s.cCijena]}>{formatIznos(data.cijena)}</Text>
-          <Text style={[s.cell, s.cIznos]}>{formatIznos(data.ukupno)}</Text>
+          <Text style={[s.cell, s.cIznos]}>{formatIznos(data.osnovica)}</Text>
         </View>
 
         <View style={s.zbrojBlok}>
           <View style={s.zbrojRow}>
             <Text>Ukupno bez PDV-a</Text>
-            <Text>{formatIznos(data.ukupno)}</Text>
+            <Text>{formatIznos(data.osnovica)}</Text>
           </View>
+          {/* Red "Rabat" s ručne ponude; s popustom nosi njegov opis i iznos. */}
           <View style={s.zbrojRow}>
-            <Text>Rabat</Text>
-            <Text>{formatIznos(0)}</Text>
+            <Text>{data.popust?.opis ?? "Rabat"}</Text>
+            <Text>{data.popust ? `-${formatIznos(data.popust.iznos)}` : formatIznos(0)}</Text>
           </View>
           <View style={s.zbrojRow}>
             <Text>PDV (0 %)</Text>

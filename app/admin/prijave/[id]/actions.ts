@@ -2,14 +2,17 @@
 
 import { revalidatePath } from "next/cache";
 import { zahtijevajAdmina } from "@/lib/admin/session";
-import { azurirajPrijavu, povuciPrivoluObavijesti, spremiBrojNarudzbenice } from "@/lib/prijave/spremi";
+import { procitajPodatkePrijave } from "@/lib/prijave/admin-forma";
+import {
+  azurirajPrijavu,
+  povuciPrivoluObavijesti,
+  spremiBrojNarudzbenice,
+  spremiPopust,
+} from "@/lib/prijave/spremi";
+import { procitajPopust } from "@/lib/ponude/popust";
 import { dovrsiPonudu, izdajPonudu, ponovnoPosaljiMail, stornirajPonudu } from "@/lib/ponude/izdaj";
 
 export type AdminAkcijaState = { poruka?: string; greska?: string };
-
-// Bez zareza, zagrada i navodnika - adresa ide u zaglavlja maila i ne smije se razbiti na više primatelja.
-const EMAIL_RE = /^[^\s@,;<>()"]+@[^\s@,;<>()"]+\.[^\s@,;<>()"]+$/;
-const OIB_RE = /^\d{11}$/;
 
 function osvjezi(prijavaId: number) {
   revalidatePath(`/admin/prijave/${prijavaId}`);
@@ -22,30 +25,9 @@ export async function spremiIzmjene(
   formData: FormData,
 ): Promise<AdminAkcijaState> {
   await zahtijevajAdmina();
-  const imena = formData.getAll("polaznik_ime").map((v) => String(v).trim());
-  const radna = formData.getAll("polaznik_radno_mjesto").map((v) => String(v).trim());
-  const polaznici = imena
-    .map((ime, i) => ({ ime, radnoMjesto: radna[i] ?? "" }))
-    .filter((p) => p.ime || p.radnoMjesto);
-  const p = {
-    kontaktIme: String(formData.get("kontaktIme") ?? "").trim(),
-    email: String(formData.get("email") ?? "").trim(),
-    telefon: String(formData.get("telefon") ?? "").trim(),
-    organizacija: String(formData.get("organizacija") ?? "").trim(),
-    adresa: String(formData.get("adresa") ?? "").trim(),
-    oib: String(formData.get("oib") ?? "").trim(),
-    napomena: String(formData.get("napomena") ?? "").trim() || null,
-    polaznici,
-  };
-  if (!p.kontaktIme || !p.organizacija || !p.adresa || !p.telefon) {
-    return { greska: "Sva polja osim napomene su obavezna." };
-  }
-  if (!EMAIL_RE.test(p.email)) return { greska: "Neispravan email." };
-  if (!OIB_RE.test(p.oib)) return { greska: "OIB mora imati 11 znamenaka." };
-  if (polaznici.length === 0 || polaznici.some((x) => !x.ime || !x.radnoMjesto)) {
-    return { greska: "Svaki polaznik treba ime i radno mjesto." };
-  }
-  await azurirajPrijavu(prijavaId, p);
+  const r = procitajPodatkePrijave(formData);
+  if ("greska" in r) return { greska: r.greska };
+  await azurirajPrijavu(prijavaId, r.podaci);
   osvjezi(prijavaId);
   return { poruka: "Izmjene spremljene. Postojeća ponuda NIJE promijenjena - storniraj je i izdaj novu." };
 }
@@ -61,6 +43,23 @@ export async function spremiNarudzbenicu(
   await spremiBrojNarudzbenice(prijavaId, broj || null);
   osvjezi(prijavaId);
   return { poruka: broj ? "Broj narudžbenice spremljen." : "Broj narudžbenice obrisan." };
+}
+
+export async function spremiPopustAkcija(
+  prijavaId: number,
+  _prev: AdminAkcijaState,
+  formData: FormData,
+): Promise<AdminAkcijaState> {
+  await zahtijevajAdmina();
+  const r = procitajPopust(formData);
+  if ("greska" in r) return { greska: r.greska };
+  await spremiPopust(prijavaId, r.popust);
+  osvjezi(prijavaId);
+  return {
+    poruka: r.popust
+      ? "Popust spremljen. Vrijedi za sljedeću ponudu - postojeću storniraj i izdaj novu."
+      : "Popust uklonjen.",
+  };
 }
 
 export async function povuciPrivolu(prijavaId: number): Promise<AdminAkcijaState> {

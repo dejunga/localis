@@ -41,13 +41,16 @@ export type InterniMailInput = {
   napomena: string | null;
   polaznici: PolaznikZaIspis[];
   prijavaId: number;
-  ponuda: { broj: string; ukupno: string | number } | null;
+  ponuda: { broj: string; ukupno: string | number; popust?: string | null } | null;
   greska?: string | null;
 };
 
 export function tekstInternogMaila(i: InterniMailInput): string {
   const ponudaLinije = i.ponuda
-    ? [`Ponuda: ${i.ponuda.broj}, ukupno ${formatIznos(i.ponuda.ukupno)} EUR (PDF u privitku)`]
+    ? [
+        `Ponuda: ${i.ponuda.broj}, ukupno ${formatIznos(i.ponuda.ukupno)} EUR (PDF u privitku)`,
+        ...(i.ponuda.popust ? [`Popust: ${i.ponuda.popust}`] : []),
+      ]
     : i.greska
       ? [`PONUDA NIJE IZDANA - provjeri /admin/prijave/${i.prijavaId}`, `Greška: ${i.greska}`]
       : ["Edukacija nema definiranu ponudu - ponuda nije izdana."];

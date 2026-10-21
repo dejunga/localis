@@ -28,7 +28,9 @@ export type PonudaPdfData = {
   polaznici: PolaznikZaIspis[];
   kolicina: number;
   cijena: number;
-  ukupno: number;
+  osnovica: number; // kolicina × cijena, prije popusta
+  popust: { opis: string; iznos: number } | null;
+  ukupno: number; // za plaćanje, nakon popusta
   potpisnik: string;
 };
 

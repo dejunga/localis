@@ -3,11 +3,13 @@ import { notFound } from "next/navigation";
 import { zahtijevajAdmina } from "@/lib/admin/session";
 import { ucitajPrijavu } from "@/lib/prijave/ucitaj";
 import { formatDatumHr, formatIznos } from "@/lib/ponude/format";
+import { opisPopusta, popustIzReda } from "@/lib/ponude/popust";
 import StatusBadge from "../../StatusBadge";
 import NarudzbenicaBadge from "../../NarudzbenicaBadge";
 import NarudzbenicaForm from "./NarudzbenicaForm";
 import UrediPrijavuForm from "./UrediPrijavuForm";
 import PovuciPrivoluGumb from "./PovuciPrivoluGumb";
+import PopustForm from "./PopustForm";
 import { IzdajNovuGumb, PonudaAkcije } from "./PonudaAkcije";
 
 export const dynamic = "force-dynamic";
@@ -21,6 +23,7 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
   if (!prijava) notFound();
 
   const imaAktivnu = prijava.ponude.some((p) => p.status === "poslana" || p.status === "greska");
+  const popust = popustIzReda(prijava);
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
@@ -31,7 +34,10 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
         <h1 className="text-2xl font-semibold mt-2 flex items-center gap-3">
           {prijava.organizacija} <StatusBadge status={prijava.status} />
         </h1>
-        <p className="text-gray-600 text-sm">{prijava.seminarTitle}</p>
+        <p className="text-gray-600 text-sm">
+          {prijava.seminarTitle}
+          {prijava.izvor === "admin" && <span className="ml-2 text-xs text-gray-500">(unesena ručno)</span>}
+        </p>
       </div>
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">
@@ -46,7 +52,14 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
                 <span>izdana {formatDatumHr(p.datumIzdavanja)}</span>
                 <span>vrijedi do {formatDatumHr(p.vrijediDo)}</span>
                 <span>
-                  {p.kolicina} × {formatIznos(p.cijena)} = <b>{formatIznos(p.ukupno)} EUR</b>
+                  {p.kolicina} × {formatIznos(p.cijena)}
+                  {p.popustIznos && (
+                    <>
+                      {" "}
+                      − {formatIznos(p.popustIznos)} ({opisPopusta(popustIzReda(p)!)})
+                    </>
+                  )}{" "}
+                  = <b>{formatIznos(p.ukupno)} EUR</b>
                 </span>
                 {p.pdfUrl && (
                   <a
@@ -73,6 +86,19 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
             <IzdajNovuGumb prijavaId={prijava.id} />
           </div>
         )}
+      </section>
+
+      <section className="bg-white border border-gray-200 rounded-xl p-6">
+        <h2 className="font-semibold mb-1">Popust</h2>
+        <p className="text-xs text-gray-500 mb-4">
+          Na cijelu ponudu, u postotku ili iznosu. Vrijedi za sljedeću izdanu ponudu
+          {imaAktivnu && " - za postojeću: spremi popust → storniraj → izdaj novu"}.
+        </p>
+        <PopustForm
+          key={`${popust?.tip}-${popust?.vrijednost}-${popust?.opis}`}
+          prijavaId={prijava.id}
+          popust={popust}
+        />
       </section>
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">
