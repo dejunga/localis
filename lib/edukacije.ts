@@ -1045,7 +1045,7 @@ const seminars: Seminar[] = [
     lecturers: [
       {
         name: "Ivan Poljak, dipl. iur.",
-        role: "sudac Općinskog suda i predsjednik Službeničkog suda na županijskoj razini, sudac Službeničkog suda u Ministarstvu pravosuđa, uprave i digitalne transformacije",
+        role: "sudac Općinskog suda i predsjednik Službeničkog suda u Bjelovaru, sudac Službeničkog suda u Ministarstvu pravosuđa, uprave i digitalne transformacije",
         bio: "Ivan Poljak diplomirani je pravnik i sudac Općinskog suda u Bjelovaru s tridesetogodišnjim iskustvom u pravosuđu. Dvadeset godina sudac je i deset godina predsjednik Službeničkog suda u Bjelovaru, a osam godina i sudac Službeničkog suda u Ministarstvu pravosuđa, uprave i digitalne transformacije. Kao načelnik Odjela za nadzor sudske i državnoodvjetničke uprave u pravosudnoj inspekciji sudjelovao je u izradi zakona i drugih propisa, a kao član ekspertnog tima i u pregovorima o pristupanju Republike Hrvatske Europskoj uniji (poglavlja 3, 8 i 23). Kao predavač i autor obrazovnih materijala surađuje s Pravosudnom akademijom RH, Europskom pravosudnom akademijom u Trieru i Hrvatskom javnobilježničkom akademijom. Više je godina bio tajnik Komisije za provedbu pravosudnih ispita i vodio niz EU projekata.",
         photo: {
           url: "/images/edukacije/poljak.jpg",
