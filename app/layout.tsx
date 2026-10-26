@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getTekstovi, telefonZaPoziv } from "@/lib/tekstovi";
 import "./globals.css";
 
 const inter = Inter({
@@ -47,22 +48,28 @@ export const metadata: Metadata = {
   },
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "LOCALIS",
-  description,
-  url: siteUrl,
-  email: "info@localis.hr",
-  telephone: "+385953135158",
-  areaServed: "HR",
-};
+// E-mail i telefon dolaze iz admina (lib/tekstovi.ts), kao i na samoj stranici.
+function organizationJsonLd(email: string, telefon: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "LOCALIS",
+    description,
+    url: siteUrl,
+    email,
+    telephone: telefonZaPoziv(telefon),
+    areaServed: "HR",
+  };
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const t = await getTekstovi();
+  // "<" escapiran: e-mail dolazi iz admina, a JSON ide unutar <script>.
+  const jsonLd = JSON.stringify(organizationJsonLd(t["kontakt.email"], t["kontakt.telefon"])).replace(/</g, "\\u003c");
   return (
     <html
       lang="hr"
@@ -71,7 +78,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
         />
         {children}
         <Analytics />

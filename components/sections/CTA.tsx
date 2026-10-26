@@ -1,5 +1,5 @@
 import { Mail, Phone } from "lucide-react";
-import { getTekstovi } from "@/lib/tekstovi";
+import { getTekstovi, telefonZaPoziv } from "@/lib/tekstovi";
 
 export default async function CTA() {
   const t = await getTekstovi();
@@ -24,22 +24,22 @@ export default async function CTA() {
             {/* Kontakt odmah ovdje - jedan klik do e-maila ili poziva umjesto još jedne stranice. */}
             <div className="flex flex-col gap-4">
               <a
-                href="mailto:info@localis.hr"
+                href={`mailto:${t["kontakt.email"]}`}
                 className="group inline-flex items-center gap-4 text-white"
               >
                 <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-[var(--gold)] text-[var(--navy)] transition-colors group-hover:bg-[var(--gold-light)]">
                   <Mail size={20} />
                 </span>
                 <span className="text-xl md:text-2xl font-semibold group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
-                  info@localis.hr
+                  {t["kontakt.email"]}
                 </span>
               </a>
-              <a href="tel:+385953135158" className="group inline-flex items-center gap-4 text-white">
+              <a href={`tel:${telefonZaPoziv(t["kontakt.telefon"])}`} className="group inline-flex items-center gap-4 text-white">
                 <span className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-white/30 transition-colors group-hover:bg-white/10">
                   <Phone size={20} />
                 </span>
                 <span className="text-xl md:text-2xl font-semibold tabular-nums group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
-                  095/313-5158
+                  {t["kontakt.telefon"]}
                 </span>
               </a>
             </div>

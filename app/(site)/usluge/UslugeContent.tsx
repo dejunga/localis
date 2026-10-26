@@ -6,40 +6,40 @@ import { getTekstovi, stavke } from "@/lib/tekstovi";
 export type UslugaEdukacija = { slug: string; naslov: string; datum: string; mjesto: string };
 
 // id-jevi su sidra na koja vode linkovi s početne i iz podnožja (/usluge#obrazovanje...).
-// opis i ukljucuje = ključevi tekstova iz lib/tekstovi.ts (uređuju se u adminu).
+// naziv, opis i ukljucuje = ključevi tekstova iz lib/tekstovi.ts (uređuju se u adminu).
 const services = [
   {
     id: "obrazovanje",
     icon: GraduationCap,
-    title: "Edukacija i praktične radionice",
+    naziv: "usluge.obrazovanje.naziv",
     opis: "usluge.obrazovanje.opis",
     ukljucuje: "usluge.obrazovanje.ukljucuje",
   },
   {
     id: "seminari",
     icon: CalendarDays,
-    title: "Organizacija seminara i poslovnih događaja",
+    naziv: "usluge.seminari.naziv",
     opis: "usluge.seminari.opis",
     ukljucuje: "usluge.seminari.ukljucuje",
   },
   {
     id: "savjetovanje",
     icon: Briefcase,
-    title: "Poslovno savjetovanje",
+    naziv: "usluge.savjetovanje.naziv",
     opis: "usluge.savjetovanje.opis",
     ukljucuje: "usluge.savjetovanje.ukljucuje",
   },
   {
     id: "administracija",
     icon: ClipboardList,
-    title: "Uredske i administrativne djelatnosti",
+    naziv: "usluge.administracija.naziv",
     opis: "usluge.administracija.opis",
     ukljucuje: "usluge.administracija.ukljucuje",
   },
   {
     id: "digitalne",
     icon: Code2,
-    title: "Digitalne i podatkovne usluge",
+    naziv: "usluge.digitalne.naziv",
     opis: "usluge.digitalne.opis",
     ukljucuje: "usluge.digitalne.ukljucuje",
   },
@@ -54,7 +54,7 @@ export default async function UslugeContent({ nadolazece }: { nadolazece: Usluga
       <section className="bg-[var(--navy)] pt-32 pb-16">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-4xl md:text-5xl font-bold text-white font-[family-name:var(--font-playfair)]">
-            Usluge
+            {t["usluge.naslov"]}
           </h1>
           <p className="text-gray-300 mt-4 max-w-2xl text-lg leading-relaxed text-pretty">
             {t["usluge.uvod"]}
@@ -62,13 +62,13 @@ export default async function UslugeContent({ nadolazece }: { nadolazece: Usluga
 
           <nav aria-label="Usluge na ovoj stranici" className="mt-10">
             <ul className="flex flex-wrap gap-2.5">
-              {services.map(({ id, title }) => (
+              {services.map(({ id, naziv }) => (
                 <li key={id}>
                   <a
                     href={`#${id}`}
                     className="inline-flex rounded-full border border-white/20 px-4 py-2 text-sm text-gray-200 transition-colors hover:border-[var(--gold)] hover:text-white"
                   >
-                    {title}
+                    {t[naziv]}
                   </a>
                 </li>
               ))}
@@ -79,7 +79,7 @@ export default async function UslugeContent({ nadolazece }: { nadolazece: Usluga
 
       <section className="py-8 md:py-12 bg-white">
         <div className="max-w-6xl mx-auto px-6 divide-y divide-gray-200">
-          {services.map(({ id, icon: Icon, title, opis, ukljucuje }) => (
+          {services.map(({ id, icon: Icon, naziv, opis, ukljucuje }) => (
             <article
               key={id}
               id={id}
@@ -90,7 +90,7 @@ export default async function UslugeContent({ nadolazece }: { nadolazece: Usluga
                   <Icon size={22} className="text-[var(--gold)]" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight text-balance font-[family-name:var(--font-playfair)]">
-                  {title}
+                  {t[naziv]}
                 </h2>
                 <p className="mt-5 text-gray-600 text-lg leading-relaxed text-pretty">{t[opis]}</p>
 
@@ -98,7 +98,7 @@ export default async function UslugeContent({ nadolazece }: { nadolazece: Usluga
                   <div className="mt-8">
                     {nadolazece.length > 0 && (
                       <>
-                        <p className="text-sm font-semibold text-[var(--navy)] mb-3">Nadolazeće edukacije</p>
+                        <p className="text-sm font-semibold text-[var(--navy)] mb-3">{t["usluge.nadolazece.oznaka"]}</p>
                         <ul className="mb-6 divide-y divide-gray-200 border-y border-gray-200">
                           {nadolazece.map((e) => (
                             <li key={e.slug}>
@@ -119,7 +119,7 @@ export default async function UslugeContent({ nadolazece }: { nadolazece: Usluga
                       href="/edukacije"
                       className="inline-flex items-center gap-2 rounded-lg bg-[var(--navy)] px-6 py-3 font-semibold text-white transition-colors hover:bg-[var(--navy-light)]"
                     >
-                      Sve edukacije
+                      {t["usluge.nadolazece.gumb"]}
                       <ArrowRight size={16} />
                     </Link>
                   </div>
@@ -128,14 +128,14 @@ export default async function UslugeContent({ nadolazece }: { nadolazece: Usluga
                     href="/kontakt"
                     className="mt-8 inline-flex items-center gap-1.5 font-semibold text-[var(--navy)] underline decoration-[var(--gold)] decoration-2 underline-offset-4 hover:text-[var(--navy-light)]"
                   >
-                    Zatražite ponudu
+                    {t["usluge.ponuda.gumb"]}
                     <ArrowRight size={16} className="text-[var(--gold)]" />
                   </Link>
                 )}
               </div>
 
               <div className="lg:pt-[4.5rem]">
-                <p className="text-sm font-semibold text-[var(--navy)] mb-3">Što uključuje</p>
+                <p className="text-sm font-semibold text-[var(--navy)] mb-3">{t["usluge.ukljucuje.oznaka"]}</p>
                 <ul className="divide-y divide-gray-200 border-y border-gray-200">
                   {stavke(t[ukljucuje]).map((f) => (
                     <li key={f} className="flex items-start gap-3 py-3.5 text-gray-700 leading-snug">

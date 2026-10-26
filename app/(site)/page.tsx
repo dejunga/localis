@@ -5,7 +5,7 @@ import About from "@/components/sections/About";
 import CTA from "@/components/sections/CTA";
 import { getPredavaci, getSeminars, isSeminarPast } from "@/lib/edukacije";
 import { JLS } from "@/lib/karta-jls";
-import { getTekstovi } from "@/lib/tekstovi";
+import { KLJUCEVI_HERO, getTekstovi, odaberi } from "@/lib/tekstovi";
 
 // Vijesti privremeno skrivene s naslovnice. Za povratak: odkomentiraj
 // import i <NewsPreview />, te link u Navbar.tsx i Footer.tsx.
@@ -40,11 +40,7 @@ export default async function Home() {
   return (
     <>
       <Hero
-        tekst={{
-          nadnaslov: t["pocetna.hero.nadnaslov"],
-          naslov: t["pocetna.hero.naslov"],
-          uvod: t["pocetna.hero.uvod"],
-        }}
+        t={odaberi(t, KLJUCEVI_HERO)}
         istaknuti={istaknuti}
         sljedeca={
           sljedeca && {

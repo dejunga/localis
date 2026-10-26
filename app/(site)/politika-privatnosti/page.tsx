@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTekstovi, telefonZaPoziv } from "@/lib/tekstovi";
 
 export const metadata: Metadata = {
   title: "Politika privatnosti - LOCALIS",
@@ -23,7 +24,12 @@ function Section({ id, title, children }: { id?: string; title: string; children
   );
 }
 
-export default function PolitikaPrivatnostiPage() {
+// Pravni tekst je u kodu; iz admina dolaze samo kontakt i službeni podaci.
+export const revalidate = 300;
+
+export default async function PolitikaPrivatnostiPage() {
+  const t = await getTekstovi();
+  const email = t["kontakt.email"];
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-6">
@@ -42,17 +48,17 @@ export default function PolitikaPrivatnostiPage() {
 
         <Section title="1. Voditelj obrade">
           <p>
-            LOCALIS
+            {t["firma.naziv"]}
             <br />
-            OIB: 07277793412
+            OIB: {t["firma.oib"]}
             <br />
             E-mail:{" "}
-            <a href="mailto:info@localis.hr" className={linkClass}>
-              info@localis.hr
+            <a href={`mailto:${email}`} className={linkClass}>
+              {email}
             </a>
             , telefon:{" "}
-            <a href="tel:+385953135158" className={linkClass}>
-              095/313-5158
+            <a href={`tel:${telefonZaPoziv(t["kontakt.telefon"])}`} className={linkClass}>
+              {t["kontakt.telefon"]}
             </a>
           </p>
         </Section>
@@ -100,8 +106,8 @@ export default function PolitikaPrivatnostiPage() {
             budućim radionicama, edukacijama i stručnim sadržajima u našoj organizaciji. Pravna
             osnova je vaša privola (čl. 6. st. 1. t. (a) GDPR-a). Davanje privole je dobrovoljno i
             ne utječe na prijavu. Privolu možete povući u bilo kojem trenutku porukom na{" "}
-            <a href="mailto:info@localis.hr" className={linkClass}>
-              info@localis.hr
+            <a href={`mailto:${email}`} className={linkClass}>
+              {email}
             </a>
             .
           </p>
@@ -183,8 +189,8 @@ export default function PolitikaPrivatnostiPage() {
             brisanje, ograničenje obrade i prijenos podataka te podnijeti prigovor na obradu.
             Ako se obrada temelji na privoli, možete je povući bez utjecaja na zakonitost
             obrade prije povlačenja. Zahtjev pošaljite na{" "}
-            <a href="mailto:info@localis.hr" className={linkClass}>
-              info@localis.hr
+            <a href={`mailto:${email}`} className={linkClass}>
+              {email}
             </a>
             .
           </p>

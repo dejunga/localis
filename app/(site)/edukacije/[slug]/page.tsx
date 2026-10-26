@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin, CheckCircle2, Users, HelpCircle } from "lucide-react";
 import { aktualnaCijena, getSeminar, getSeminarSlugs, isSeminarPast } from "@/lib/edukacije";
 import { getPostavke } from "@/lib/postavke";
+import { getTekstovi } from "@/lib/tekstovi";
 import { MAX_POLAZNIKA, mjestaZaPrikaz } from "@/lib/prijave/limiti";
 import { zauzetaMjesta } from "@/lib/prijave/mjesta";
 import RegistracijaForm from "./RegistracijaForm";
@@ -86,6 +87,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
   const past = odgodeno || isSeminarPast(seminar);
   const slobodno = past ? null : await slobodnaMjesta(seminar.slug);
   const popunjeno = slobodno === 0;
+  const { "kontakt.email": email } = await getTekstovi();
   const [startRaw, endRaw] = seminar.time.split("-").map((s) => s.trim());
   const cijena = aktualnaCijena(seminar);
   const price = Number(cijena.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
@@ -411,8 +413,8 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
               {popunjeno && (
                 <p className="text-gray-300 text-sm">
                   Sva mjesta na ovoj edukaciji su popunjena. Javite nam se na{" "}
-                  <a href="mailto:info@localis.hr" className="text-[var(--gold)] underline underline-offset-4">
-                    info@localis.hr
+                  <a href={`mailto:${email}`} className="text-[var(--gold)] underline underline-offset-4">
+                    {email}
                   </a>{" "}
                   ili pogledajte{" "}
                   <Link href="/edukacije" className="text-[var(--gold)] underline underline-offset-4">

@@ -12,7 +12,11 @@ const UPUTA: Record<VrstaTeksta, string | null> = {
   tekst: null,
   odlomci: "Prazan red između dva dijela počinje novi odlomak.",
   popis: "Svaki redak je jedna stavka.",
+  telefon: null,
+  email: null,
 };
+
+const TIP_POLJA: Partial<Record<VrstaTeksta, string>> = { redak: "text", telefon: "tel", email: "email" };
 
 export type PoljeForme = { kljuc: string; oznaka: string; vrsta: VrstaTeksta; vrijednost: string };
 
@@ -29,8 +33,14 @@ export default function TekstoviForm({ polja, maxDuljina }: { polja: PoljeForme[
         <label key={p.kljuc} className="block text-sm">
           <span className="block font-medium mb-1">{p.oznaka}</span>
           {UPUTA[p.vrsta] && <span className="block text-xs text-gray-500 mb-1.5">{UPUTA[p.vrsta]}</span>}
-          {p.vrsta === "redak" ? (
-            <input name={p.kljuc} defaultValue={p.vrijednost} maxLength={maxDuljina} className={input} />
+          {TIP_POLJA[p.vrsta] ? (
+            <input
+              name={p.kljuc}
+              type={TIP_POLJA[p.vrsta]}
+              defaultValue={p.vrijednost}
+              maxLength={maxDuljina}
+              className={input}
+            />
           ) : (
             <textarea
               name={p.kljuc}

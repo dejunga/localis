@@ -5,6 +5,10 @@ import Link from "next/link";
 import { startTransition, useActionState, useState } from "react";
 import SlanjeOverlay, { saMinimalnimTrajanjem } from "@/components/SlanjeOverlay";
 import { sendContactMessage, type ContactState } from "./actions";
+// Samo tipovi - lib/tekstovi povlači bazu i ne smije u klijentski bundle.
+import type { KLJUCEVI_KONTAKT, Tekstovi } from "@/lib/tekstovi";
+
+export type KontaktTekstovi = Pick<Tekstovi, (typeof KLJUCEVI_KONTAKT)[number]>;
 
 const initialState: ContactState = { status: "idle" };
 
@@ -12,13 +16,15 @@ const KORACI = ["Provjera poruke", "Slanje poruke"];
 
 const posaljiPoruku = saMinimalnimTrajanjem(sendContactMessage);
 
-const SLUZBENI_PODACI = [
-  { label: "Naziv subjekta", value: "LOCALIS" },
-  { label: "Voditeljica ureda", value: "Milada Sofka" },
-  { label: "OIB", value: "07277793412", kopiraj: true },
-  { label: "MB", value: "99344858", kopiraj: true },
-  { label: "IBAN", value: "HR2124020061140660868", kopiraj: true },
-];
+function sluzbeniPodaci(t: KontaktTekstovi) {
+  return [
+    { label: "Naziv subjekta", value: t["firma.naziv"] },
+    { label: t["tim.uloga"], value: t["tim.ime"] },
+    { label: "OIB", value: t["firma.oib"], kopiraj: true },
+    { label: "MB", value: t["firma.mb"], kopiraj: true },
+    { label: "IBAN", value: t["firma.iban"], kopiraj: true },
+  ];
+}
 
 const POLJE =
   "w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-[var(--navy)]/20 focus:border-[var(--navy)] transition-[border-color,box-shadow]";
@@ -46,7 +52,7 @@ function KopirajGumb({ vrijednost, naziv }: { vrijednost: string; naziv: string 
   );
 }
 
-export default function KontaktContent({ uvod, uvodObrasca }: { uvod: string; uvodObrasca: string }) {
+export default function KontaktContent({ t, telefonZaPoziv }: { t: KontaktTekstovi; telefonZaPoziv: string }) {
   const [state, formAction, pending] = useActionState(posaljiPoruku, initialState);
 
   // Submitamo ručno umjesto preko <form action> jer React inače resetira
@@ -64,42 +70,42 @@ export default function KontaktContent({ uvod, uvodObrasca }: { uvod: string; uv
       <section className="bg-[var(--navy)] pt-32 pb-28">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-4xl md:text-5xl font-bold text-white font-[family-name:var(--font-playfair)]">
-            Kontakt
+            {t["kontakt.naslov"]}
           </h1>
           <p className="text-gray-300 mt-4 max-w-2xl text-lg leading-relaxed text-pretty">
-            {uvod}
+            {t["kontakt.uvod"]}
           </p>
 
           {/* Izravni kontakt u zaglavlju: na mobitelu dva gumba iznad obrasca, na desktopu
               veliki linkovi lijevo od kartice obrasca (koja prelazi preko donjeg ruba). */}
           <div className="mt-8 grid grid-cols-2 gap-3 lg:flex lg:flex-wrap lg:gap-x-14 lg:gap-y-5">
             <a
-              href="tel:+385953135158"
+              href={`tel:${telefonZaPoziv}`}
               className="group inline-flex items-center justify-center gap-2 rounded-lg border border-white/30 px-4 py-3 font-semibold text-white transition-colors hover:bg-white/10 lg:justify-start lg:gap-4 lg:border-0 lg:p-0 lg:hover:bg-transparent"
             >
               <span className="flex shrink-0 items-center justify-center lg:size-12 lg:rounded-lg lg:bg-white/10 lg:transition-colors lg:group-hover:bg-white/20">
                 <Phone size={18} />
               </span>
-              <span className="lg:hidden">Nazovi</span>
+              <span className="lg:hidden">{t["kontakt.gumb.nazovi"]}</span>
               <span className="hidden lg:block">
-                <span className="block text-sm font-normal text-gray-400">Telefon</span>
+                <span className="block text-sm font-normal text-gray-400">{t["kontakt.oznaka.telefon"]}</span>
                 <span className="block text-2xl tabular-nums group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
-                  095/313-5158
+                  {t["kontakt.telefon"]}
                 </span>
               </span>
             </a>
             <a
-              href="mailto:info@localis.hr"
+              href={`mailto:${t["kontakt.email"]}`}
               className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--gold)] px-4 py-3 font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--gold-light)] lg:justify-start lg:gap-4 lg:bg-transparent lg:p-0 lg:text-white lg:hover:bg-transparent"
             >
               <span className="flex shrink-0 items-center justify-center lg:size-12 lg:rounded-lg lg:bg-[var(--gold)] lg:text-[var(--navy)] lg:transition-colors lg:group-hover:bg-[var(--gold-light)]">
                 <Mail size={18} />
               </span>
-              <span className="lg:hidden">Pošalji e-mail</span>
+              <span className="lg:hidden">{t["kontakt.gumb.email"]}</span>
               <span className="hidden lg:block">
-                <span className="block text-sm font-normal text-gray-400">E-mail</span>
+                <span className="block text-sm font-normal text-gray-400">{t["kontakt.oznaka.email"]}</span>
                 <span className="block text-2xl group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
-                  info@localis.hr
+                  {t["kontakt.email"]}
                 </span>
               </span>
             </a>
@@ -117,10 +123,8 @@ export default function KontaktContent({ uvod, uvodObrasca }: { uvod: string; uv
               className="group flex items-center justify-between gap-4 rounded-xl border border-gray-200 px-5 py-4 transition-colors hover:border-[var(--navy)]"
             >
               <span>
-                <span className="block font-semibold text-[var(--navy)]">Želite se prijaviti na edukaciju?</span>
-                <span className="block text-sm text-gray-500">
-                  Prijava je na stranici svake edukacije, uz automatsku ponudu na e-mail.
-                </span>
+                <span className="block font-semibold text-[var(--navy)]">{t["kontakt.edukacije.naslov"]}</span>
+                <span className="block text-sm text-gray-500">{t["kontakt.edukacije.tekst"]}</span>
               </span>
               <ArrowRight
                 size={18}
@@ -130,10 +134,10 @@ export default function KontaktContent({ uvod, uvodObrasca }: { uvod: string; uv
 
             <div className="mt-12">
               <h2 className="text-lg font-bold text-[var(--navy)] mb-4 font-[family-name:var(--font-playfair)]">
-                Službeni podaci
+                {t["kontakt.sluzbeni.naslov"]}
               </h2>
               <dl className="divide-y divide-gray-100 border-y border-gray-100">
-                {SLUZBENI_PODACI.map(({ label, value, kopiraj }) => (
+                {sluzbeniPodaci(t).map(({ label, value, kopiraj }) => (
                   <div key={label} className="flex items-center gap-3 py-2.5 text-sm">
                     <dt className="w-36 shrink-0 text-gray-500">{label}</dt>
                     <dd className="min-w-0 flex-1 text-gray-800 tabular-nums break-all">{value}</dd>
@@ -147,17 +151,17 @@ export default function KontaktContent({ uvod, uvodObrasca }: { uvod: string; uv
           {/* Obrazac - kartica koja prelazi preko ruba zaglavlja */}
           <div className="order-1 lg:order-2 rounded-2xl bg-white border border-gray-100 shadow-xl p-6 sm:p-8 md:p-10">
             <h2 className="text-2xl md:text-3xl font-bold text-[var(--navy)] mb-2 font-[family-name:var(--font-playfair)]">
-              Pošaljite poruku
+              {t["kontakt.obrazac.naslov"]}
             </h2>
-            <p className="text-gray-600 mb-8">{uvodObrasca}</p>
+            <p className="text-gray-600 mb-8">{t["kontakt.obrazac.uvod"]}</p>
 
             {state.status === "sent" ? (
               <div className="rounded-xl bg-green-50 border border-green-200 p-8 text-center animate-in fade-in zoom-in-95 duration-500 motion-reduce:animate-none">
                 <span className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-green-600 text-white">
                   <Check size={24} />
                 </span>
-                <h3 className="text-lg font-semibold text-green-800 mb-1">Poruka je poslana</h3>
-                <p className="text-green-700 text-sm">Javit ćemo vam se u roku od 24 sata.</p>
+                <h3 className="text-lg font-semibold text-green-800 mb-1">{t["kontakt.poslano.naslov"]}</h3>
+                <p className="text-green-700 text-sm">{t["kontakt.poslano.tekst"]}</p>
               </div>
             ) : (
               // inert: dok traje slanje, polja se ne mogu dohvatiti ni tipkovnicom

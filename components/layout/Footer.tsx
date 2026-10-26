@@ -1,13 +1,15 @@
 import Link from "next/link";
 import { Phone, Mail } from "lucide-react";
+import { getTekstovi, telefonZaPoziv } from "@/lib/tekstovi";
 
+// Nazivi usluga dolaze iz lib/tekstovi.ts (uređuju se u adminu).
 const services = [
-  "Edukacija i praktične radionice",
-  "Organizacija seminara",
-  "Poslovno savjetovanje",
-  "Uredske i administrativne djelatnosti",
-  "Digitalne i podatkovne usluge",
-];
+  "usluge.obrazovanje.naziv",
+  "usluge.seminari.naziv",
+  "usluge.savjetovanje.naziv",
+  "usluge.administracija.naziv",
+  "usluge.digitalne.naziv",
+] as const;
 
 const navLinks = [
   { href: "/", label: "Početna" },
@@ -18,7 +20,8 @@ const navLinks = [
   { href: "/kontakt", label: "Kontakt" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const t = await getTekstovi();
   return (
     <footer className="bg-[var(--navy)] text-white">
       <div className="max-w-6xl mx-auto px-6 py-16">
@@ -34,7 +37,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Edukacija i savjetovanje za bolji poslovni razvoj.
+              {t["podnozje.opis"]}
             </p>
           </div>
 
@@ -65,7 +68,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {services.map((service) => (
                 <li key={service} className="text-gray-400 text-sm">
-                  {service}
+                  {t[service]}
                 </li>
               ))}
             </ul>
@@ -79,14 +82,14 @@ export default function Footer() {
             <ul className="space-y-3">
 <li className="flex items-center gap-2 text-gray-400 text-sm">
                 <Mail size={15} className="shrink-0 text-[var(--gold)]" />
-                <a href="mailto:info@localis.hr" className="hover:text-white transition-colors">
-                  info@localis.hr
+                <a href={`mailto:${t["kontakt.email"]}`} className="hover:text-white transition-colors">
+                  {t["kontakt.email"]}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-gray-400 text-sm">
                 <Phone size={15} className="shrink-0 text-[var(--gold)]" />
-                <a href="tel:+385953135158" className="hover:text-white transition-colors">
-                  095/313-5158
+                <a href={`tel:${telefonZaPoziv(t["kontakt.telefon"])}`} className="hover:text-white transition-colors">
+                  {t["kontakt.telefon"]}
                 </a>
               </li>
             </ul>
@@ -104,7 +107,7 @@ export default function Footer() {
             >
               Politika privatnosti
             </Link>
-            <p className="text-gray-600">OIB: 07277793412</p>
+            <p className="text-gray-600">OIB: {t["firma.oib"]}</p>
           </div>
         </div>
       </div>

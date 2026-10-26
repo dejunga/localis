@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import HeroPozadina from "./HeroPozadina";
 import KartaHrvatske from "./KartaHrvatske";
+// Samo tipovi - lib/tekstovi povlači bazu i ne smije u klijentski bundle.
+import type { KLJUCEVI_HERO, Tekstovi } from "@/lib/tekstovi";
 
 export type SljedecaEdukacija = {
   naslov: string;
@@ -13,14 +15,12 @@ export type SljedecaEdukacija = {
   slug: string;
 };
 
-export type HeroTekst = { nadnaslov: string; naslov: string; uvod: string };
-
 export default function Hero({
-  tekst,
+  t,
   sljedeca,
   istaknuti,
 }: {
-  tekst: HeroTekst;
+  t: Pick<Tekstovi, (typeof KLJUCEVI_HERO)[number]>;
   sljedeca?: SljedecaEdukacija;
   // Nazivi iz lib/karta-jls.ts ("Grad Zagreb") - mjesta edukacija označena na karti.
   istaknuti: string[];
@@ -44,7 +44,7 @@ export default function Hero({
             transition={{ duration: 0.6, delay: 0.05 }}
             className="text-[var(--gold)] text-lg md:text-xl font-medium mb-5 font-[family-name:var(--font-playfair)]"
           >
-            {tekst.nadnaslov}
+            {t["pocetna.hero.nadnaslov"]}
           </motion.p>
 
           <motion.h1
@@ -53,7 +53,7 @@ export default function Hero({
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-white text-5xl md:text-6xl font-bold leading-[1.08] text-balance mb-6 font-[family-name:var(--font-playfair)]"
           >
-            {tekst.naslov}
+            {t["pocetna.hero.naslov"]}
           </motion.h1>
 
           <motion.p
@@ -62,7 +62,7 @@ export default function Hero({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-gray-300 text-lg leading-relaxed mb-9 max-w-xl text-pretty"
           >
-            {tekst.uvod}
+            {t["pocetna.hero.uvod"]}
           </motion.p>
 
           {sljedeca && (
@@ -76,7 +76,7 @@ export default function Hero({
                 href={`/edukacije/${sljedeca.slug}`}
                 className="group block rounded-xl border border-white/15 bg-white/[0.06] backdrop-blur-sm px-5 py-4 transition-colors duration-200 hover:border-[var(--gold)]/60 hover:bg-white/[0.09]"
               >
-                <p className="text-sm text-gray-400 mb-1">Sljedeća edukacija</p>
+                <p className="text-sm text-gray-400 mb-1">{t["pocetna.hero.sljedeca"]}</p>
                 <p className="text-white text-lg font-semibold leading-snug text-pretty font-[family-name:var(--font-playfair)]">
                   {sljedeca.naslov}
                 </p>
@@ -84,7 +84,7 @@ export default function Hero({
                   {sljedeca.datum}, {sljedeca.mjesto}
                 </p>
                 <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--gold)]">
-                  Program i prijava
+                  {t["pocetna.hero.sljedeca.gumb"]}
                   <ArrowRight
                     size={15}
                     className="transition-transform duration-200 group-hover:translate-x-0.5"

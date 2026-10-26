@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { zahtijevajAdmina } from "@/lib/admin/session";
-import { MAX_DULJINA_TEKSTA, jeKljucTeksta, spremiTekstove } from "@/lib/tekstovi";
+import { greskaUnosa, jeKljucTeksta, spremiTekstove } from "@/lib/tekstovi";
 
 export type TekstoviState = { poruka?: string; greska?: string };
 
@@ -12,9 +12,8 @@ export async function spremiTekstoveAkcija(_prev: TekstoviState, formData: FormD
   const unosi = new Map<string, string>();
   for (const [kljuc, vrijednost] of formData) {
     if (typeof vrijednost !== "string" || !jeKljucTeksta(kljuc)) continue;
-    if (vrijednost.length > MAX_DULJINA_TEKSTA) {
-      return { greska: `Tekst je predug (najviše ${MAX_DULJINA_TEKSTA} znakova po polju).` };
-    }
+    const greska = greskaUnosa(kljuc, vrijednost);
+    if (greska) return { greska: `${greska} Ništa nije spremljeno.` };
     unosi.set(kljuc, vrijednost);
   }
   if (unosi.size === 0) return { greska: "Nema polja za spremanje." };

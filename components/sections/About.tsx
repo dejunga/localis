@@ -40,7 +40,7 @@ export default async function About({ predavaci }: { predavaci: Predavac[] }) {
               href="/o-nama"
               className="inline-flex items-center px-6 py-3 bg-[var(--navy)] text-white font-medium rounded transition-colors hover:bg-[var(--navy-light)]"
             >
-              Više o nama
+              {t["pocetna.onama.gumb"]}
             </Link>
           </div>
 
@@ -52,13 +52,15 @@ export default async function About({ predavaci }: { predavaci: Predavac[] }) {
 
             <div className="relative">
               <div className="w-16 h-16 bg-[var(--gold)] rounded-xl flex items-center justify-center mb-6">
-                <span className="text-[var(--navy)] text-3xl font-bold font-[family-name:var(--font-playfair)]">M</span>
+                <span className="text-[var(--navy)] text-3xl font-bold font-[family-name:var(--font-playfair)]">
+                  {t["tim.ime"].charAt(0)}
+                </span>
               </div>
 
               <h3 className="text-2xl font-bold mb-1 font-[family-name:var(--font-playfair)]">
-                Milada Sofka
+                {t["tim.ime"]}
               </h3>
-              <p className="text-[var(--gold)] text-sm font-medium mb-4">Voditeljica ureda</p>
+              <p className="text-[var(--gold)] text-sm font-medium mb-4">{t["tim.uloga"]}</p>
               <p className="text-gray-300 leading-relaxed text-pretty">
                 &ldquo;{t["tim.citat"]}&rdquo;
               </p>
@@ -69,7 +71,7 @@ export default async function About({ predavaci }: { predavaci: Predavac[] }) {
         {predavaci.length > 0 && (
           <div className="mt-20">
             <h3 className="text-2xl md:text-3xl font-bold text-[var(--navy)] mb-2 font-[family-name:var(--font-playfair)]">
-              Predavači na našim edukacijama
+              {t["pocetna.predavaci.naslov"]}
             </h3>
             <p className="text-gray-600 mb-8 max-w-2xl text-pretty">
               {t["pocetna.predavaci.uvod"]}

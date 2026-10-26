@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getTekstovi } from "@/lib/tekstovi";
 
 export type NadolazecaEdukacija = {
   slug: string;
@@ -11,21 +12,22 @@ export type NadolazecaEdukacija = {
 const MJESECI = ["sij", "velj", "ožu", "tra", "svi", "lip", "srp", "kol", "ruj", "lis", "stu", "pro"];
 
 // Raspored nadolazećih edukacija: datum lijevo, tema u sredini, link na program desno.
-export default function NadolazeceEdukacije({ edukacije }: { edukacije: NadolazecaEdukacija[] }) {
+export default async function NadolazeceEdukacije({ edukacije }: { edukacije: NadolazecaEdukacija[] }) {
   if (edukacije.length === 0) return null;
+  const t = await getTekstovi();
 
   return (
     <section className="py-24 bg-white">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
-            Nadolazeće edukacije
+            {t["pocetna.nadolazece.naslov"]}
           </h2>
           <Link
             href="/edukacije"
             className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--navy)] hover:text-[var(--gold)] transition-colors"
           >
-            Sve edukacije
+            {t["pocetna.nadolazece.sve"]}
             <ArrowRight size={15} />
           </Link>
         </div>
@@ -57,7 +59,7 @@ export default function NadolazeceEdukacije({ edukacije }: { edukacije: Nadolaze
 
                   <div className="col-start-2 md:col-start-auto flex items-center gap-5 md:justify-end">
                     <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--gold)] whitespace-nowrap">
-                      Pogledajte program
+                      {t["pocetna.nadolazece.gumb"]}
                       <ArrowRight
                         size={15}
                         className="transition-transform duration-200 group-hover:translate-x-0.5"
