@@ -63,27 +63,6 @@ export default function Hero({
             prilagođeno vašim potrebama.
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4"
-          >
-            <Link
-              href="/usluge"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[var(--gold)] text-[var(--navy)] font-semibold rounded transition-all duration-200 hover:bg-[var(--gold-light)] hover:shadow-lg hover:shadow-[var(--gold)]/20"
-            >
-              Naše usluge
-              <ArrowRight size={18} />
-            </Link>
-            <Link
-              href="/kontakt"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/30 text-white font-medium rounded transition-all duration-200 hover:bg-white/10 hover:border-white/60"
-            >
-              Kontaktirajte nas
-            </Link>
-          </motion.div>
-
           {sljedeca && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
