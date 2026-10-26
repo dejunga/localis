@@ -730,6 +730,12 @@ export const getTekstovi = cache(async (): Promise<Tekstovi> => {
   return t;
 });
 
+// Za admin: polja koja su u bazi, tj. razlikuju se od izvornog teksta u kodu.
+export async function getIzmijenjeniKljucevi(): Promise<Set<string>> {
+  const rows = await db.select({ kljuc: tekstovi.kljuc }).from(tekstovi);
+  return new Set(rows.map((r) => r.kljuc));
+}
+
 // Unos iz forme: \r\n -> \n, bez razmaka na krajevima redaka i bez praznih redova viška.
 export function normalizirajTekst(unos: string): string {
   return unos
