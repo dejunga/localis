@@ -94,7 +94,9 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
       <section className="bg-white border border-gray-200 rounded-xl p-6">
         <h2 className="font-semibold mb-1">Popust</h2>
         <p className="text-xs text-gray-500 mb-4">
-          Na cijelu ponudu, u postotku ili iznosu. Vrijedi za sljedeću izdanu ponudu
+          Na cijelu ponudu, u postotku ili iznosu. Bez ručnog popusta ponuda za 2+ polaznika
+          dobiva grupni popust (2. polaznik −10 %, 3. i dalje −20 %); ručni popust ga zamjenjuje.
+          Vrijedi za sljedeću izdanu ponudu
           {imaAktivnu && " - za postojeću: spremi popust → storniraj → izdaj novu"}.
         </p>
         <PopustForm

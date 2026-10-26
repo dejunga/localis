@@ -133,6 +133,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
     value: string;
     // Dok traje rana prijava kartica kotizacije prikazuje redove umjesto jedne cijene.
     rows?: { label: string; value: string; strong?: boolean }[];
+    popust?: string;
     sub?: string;
   }[] = [
     { icon: Calendar, label: "Datum", value: seminar.dateLabel },
@@ -151,6 +152,8 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
         { label: `Rane prijave (do ${datumBrojevima(rana.do)})`, value: rana.price, strong: true },
         { label: "Redovna cijena", value: seminar.price, strong: true },
       ],
+      // Grupni popust računa samo automatska ponuda (lib/ponude/popust.ts).
+      popust: seminar.ponuda && "Grupni popust: 2. polaznik −10 %, 3. i svaki sljedeći −20 %",
       sub: seminar.priceNote,
     },
   ];
@@ -202,7 +205,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       <div className="max-w-4xl mx-auto px-6">
         {/* Info cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 -mt-10 mb-16">
-          {infoCards.map(({ icon: Icon, label, value, rows, sub }) => (
+          {infoCards.map(({ icon: Icon, label, value, rows, popust, sub }) => (
             <div
               key={label}
               className="bg-white rounded-xl border border-gray-100 shadow-md p-6 flex flex-col gap-3"
@@ -235,6 +238,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 ) : (
                   <div className="text-lg font-bold text-[var(--navy)] leading-snug">{value}</div>
                 )}
+                {popust && <div className="text-xs font-medium text-green-700 mt-1.5">{popust}</div>}
                 {sub && <div className="text-xs text-gray-400 mt-1">{sub}</div>}
               </div>
             </div>
@@ -500,6 +504,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                   seminarSlug={seminar.slug}
                   seminarTitle={seminar.title}
                   imaPonudu={Boolean(seminar.ponuda)}
+                  cijena={seminar.ponuda && (cijena.cijena ?? seminar.ponuda.cijena)}
                   maxPolaznika={Math.min(MAX_POLAZNIKA, slobodno ?? MAX_POLAZNIKA)}
                 />
               </div>

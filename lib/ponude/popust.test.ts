@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { izracunajPonudu, opisPopusta, popustIzReda, procitajPopust } from "./popust";
+import {
+  cijenePoPolazniku,
+  GRUPNI_POPUST_OPIS,
+  grupniPopust,
+  izracunajPonudu,
+  opisPopusta,
+  popustIzReda,
+  procitajPopust,
+} from "./popust";
 
 function forma(polja: Record<string, string>): FormData {
   const fd = new FormData();
@@ -32,6 +40,27 @@ describe("izracunajPonudu", () => {
   it("odbija popust jednak ili veći od osnovice", () => {
     expect(() => izracunajPonudu(1, 100, { tip: "iznos", vrijednost: 100, opis: null })).toThrow();
     expect(() => izracunajPonudu(1, 100, { tip: "iznos", vrijednost: 150, opis: null })).toThrow();
+  });
+});
+
+describe("grupni popust", () => {
+  it("2. polaznik -10 %, 3. i svaki sljedeći -20 %", () => {
+    expect(cijenePoPolazniku(4, 200)).toEqual([200, 180, 160, 160]);
+  });
+
+  it("jedan polaznik nema popust", () => {
+    expect(grupniPopust(1, 200)).toBeNull();
+  });
+
+  it("ponuda dobiva zbroj popusta kao fiksni iznos", () => {
+    const popust = grupniPopust(3, 200);
+    expect(popust).toEqual({ tip: "iznos", vrijednost: 60, opis: GRUPNI_POPUST_OPIS });
+    expect(izracunajPonudu(3, 200, popust).ukupno).toBe(540);
+  });
+
+  it("zaokružuje svakog polaznika na cente kao forma", () => {
+    expect(cijenePoPolazniku(3, 199.99)).toEqual([199.99, 179.99, 159.99]);
+    expect(izracunajPonudu(3, 199.99, grupniPopust(3, 199.99)).ukupno).toBe(539.97);
   });
 });
 

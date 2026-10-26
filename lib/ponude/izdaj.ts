@@ -15,7 +15,7 @@ import {
 } from "./email";
 import { formatIznos, nazivDatotekePonude, sastaviBrojPonude } from "./format";
 import { renderPonudaPdf, type PonudaPdfData } from "./pdf";
-import { izracunajPonudu, opisPopusta, popustIzReda } from "./popust";
+import { grupniPopust, izracunajPonudu, opisPopusta, popustIzReda } from "./popust";
 
 type SeminarSPonudom = Seminar & { ponuda: NonNullable<Seminar["ponuda"]> };
 
@@ -59,7 +59,8 @@ export async function kreirajPonudu(prijavaId: number): Promise<number> {
   // Rana prijava gleda datum prijave, ne izdavanja - nova ponuda nakon storna zadržava cijenu.
   const cijena = aktualnaCijena(seminar, prijava.createdAt).cijena ?? seminar.ponuda.cijena;
   // Popust se uzima s prijave u trenutku izdavanja i ostaje zapisan na ponudi.
-  const popust = popustIzReda(prijava);
+  // Ručni popust iz admina zamjenjuje grupni - nikad se ne zbrajaju.
+  const popust = popustIzReda(prijava) ?? grupniPopust(kolicina, cijena);
   const { popustIznos, ukupno } = izracunajPonudu(kolicina, cijena, popust);
 
   return db.transaction(async (tx) => {

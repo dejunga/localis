@@ -6,6 +6,8 @@ import { Plus, X } from "lucide-react";
 import SlanjeOverlay, { saMinimalnimTrajanjem } from "@/components/SlanjeOverlay";
 import { MAX_DULJINA, MAX_POLAZNIKA } from "@/lib/prijave/limiti";
 import { PRIVOLA_OBAVIJESTI_TEKST } from "@/lib/prijave/privola";
+import { formatIznos } from "@/lib/ponude/format";
+import { cijenePoPolazniku, postotakGrupnogPopusta } from "@/lib/ponude/popust";
 import { sendSeminarRegistration, type RegistrationState } from "../actions";
 
 const initialState: RegistrationState = { status: "idle" };
@@ -19,11 +21,14 @@ export default function RegistracijaForm({
   seminarSlug,
   seminarTitle,
   imaPonudu,
+  cijena,
   maxPolaznika = MAX_POLAZNIKA,
 }: {
   seminarSlug: string;
   seminarTitle: string;
   imaPonudu: boolean;
+  // Cijena po polazniku za izračun ispod forme; bez nje (edukacija bez ponude) izračuna nema.
+  cijena?: number;
   // Manje od MAX_POLAZNIKA kad je na edukaciji ostalo malo slobodnih mjesta.
   maxPolaznika?: number;
 }) {
@@ -302,6 +307,8 @@ export default function RegistracijaForm({
           <span>{PRIVOLA_OBAVIJESTI_TEKST}</span>
         </label>
 
+        {cijena != null && <IzracunKotizacije brojPolaznika={participantRows.length} cijena={cijena} />}
+
         <button
           type="submit"
           disabled={pending}
@@ -316,5 +323,45 @@ export default function RegistracijaForm({
         </p>
       </form>
     </>
+  );
+}
+
+// Isti izračun kao automatska ponuda (lib/ponude/izdaj.ts), pa iznos odgovara ponudi na e-mailu.
+function IzracunKotizacije({ brojPolaznika, cijena }: { brojPolaznika: number; cijena: number }) {
+  const cijene = cijenePoPolazniku(brojPolaznika, cijena);
+  const ukupno = cijene.reduce((s, c) => s + Math.round(c * 100), 0) / 100;
+  const usteda = Math.round(brojPolaznika * cijena * 100 - ukupno * 100) / 100;
+
+  return (
+    <div aria-live="polite" className="rounded-lg border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm">
+      <p className="font-medium text-gray-800 mb-2">Izračun kotizacije</p>
+      <ul className="space-y-1 text-gray-600">
+        {cijene.map((c, i) => {
+          const postotak = postotakGrupnogPopusta(i + 1);
+          return (
+            <li key={i} className="flex justify-between gap-4">
+              <span>
+                {i + 1}. polaznik
+                {postotak > 0 && <span className="ml-1.5 text-green-700">−{postotak} %</span>}
+              </span>
+              <span className="tabular-nums">{formatIznos(c)} €</span>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="mt-2 pt-2 border-t border-gray-200 flex justify-between gap-4 font-semibold text-gray-900">
+        <span>Ukupno</span>
+        <span className="tabular-nums">{formatIznos(ukupno)} €</span>
+      </div>
+      {usteda > 0 && (
+        <p className="mt-1 text-xs text-green-700">Ušteda za grupnu prijavu: {formatIznos(usteda)} €</p>
+      )}
+      <p className="mt-2 text-xs text-gray-500 leading-relaxed">
+        {brojPolaznika === 1
+          ? "Prijavite više polaznika: drugi ima 10 % popusta, treći i svaki sljedeći 20 %. "
+          : ""}
+        Ponudu s ovim iznosom šaljemo na vaš e-mail.
+      </p>
+    </div>
   );
 }
