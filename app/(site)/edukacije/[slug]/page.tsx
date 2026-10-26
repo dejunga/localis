@@ -136,6 +136,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
     rows?: { label: string; value: string; strong?: boolean }[];
     popust?: { label: string; value: string }[];
     sub?: string;
+    istaknuto?: boolean;
   }[] = [
     { icon: Calendar, label: "Datum", value: seminar.dateLabel },
     { icon: Clock, label: "Vrijeme", value: seminar.time },
@@ -156,9 +157,10 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
       // Grupni popust računa samo automatska ponuda (lib/ponude/popust.ts).
       popust: seminar.ponuda && [
         { label: "2. polaznik", value: "−10 %" },
-        { label: "3. i svaki sljedeći", value: "−20 %" },
+        { label: "od 3. polaznika", value: "−20 %" },
       ],
       sub: seminar.priceNote,
+      istaknuto: true,
     },
   ];
 
@@ -208,56 +210,79 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
 
       <div className="max-w-4xl mx-auto px-6">
         {/* Info cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 -mt-10 mb-16">
-          {infoCards.map(({ icon: Icon, label, value, rows, popust, sub }) => (
+        {/* Na desktopu šire od stupca teksta; kotizacija ima najviše sadržaja pa dobiva najširi stupac. */}
+        <div className="grid grid-cols-2 lg:grid-cols-[1fr_0.85fr_1.15fr_1.45fr] lg:-mx-16 gap-5 -mt-10 mb-16">
+          {infoCards.map(({ icon: Icon, label, value, rows, popust, sub, istaknuto }, i) => (
+            // Omotač nosi ulaznu animaciju, a kartica hover - oboje bi inače dijelili duration.
             <div
               key={label}
-              className="bg-white rounded-xl border border-gray-100 shadow-md p-6 flex flex-col gap-3"
+              className="animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out [animation-fill-mode:both] motion-reduce:animate-none"
+              style={{ animationDelay: `${i * 80}ms` }}
             >
-              <div className="w-12 h-12 bg-[var(--navy)]/8 rounded-lg flex items-center justify-center">
-                <Icon size={22} className="text-[var(--navy)]" />
-              </div>
-              <div>
-                <div className="text-xs text-gray-400 font-medium uppercase tracking-wider mb-1">
-                  {label}
-                </div>
-                {rows ? (
-                  <dl className="space-y-1.5">
-                    {rows.map((row) =>
-                      row.strong ? (
-                        <div key={row.label}>
-                          <dt className="text-xs text-gray-500">{row.label}</dt>
-                          <dd className="text-base font-bold text-[var(--navy)] leading-snug">
-                            {row.value}
-                          </dd>
-                        </div>
-                      ) : (
-                        <div key={row.label} className="text-xs text-gray-500">
-                          <dt className="inline">{row.label}:</dt>{" "}
-                          <dd className="inline text-gray-600">{row.value}</dd>
-                        </div>
-                      ),
-                    )}
-                  </dl>
-                ) : (
-                  <div className="text-lg font-bold text-[var(--navy)] leading-snug">{value}</div>
-                )}
-                {popust && (
-                  <div className="mt-3 rounded-lg bg-green-50 border border-green-100 px-3 py-2">
-                    <div className="text-[11px] font-semibold uppercase tracking-wider text-green-800 mb-1">
-                      Grupni popust
-                    </div>
-                    <dl className="space-y-0.5">
-                      {popust.map((row) => (
-                        <div key={row.label} className="flex items-baseline justify-between gap-3 text-xs">
-                          <dt className="text-gray-600">{row.label}</dt>
-                          <dd className="font-bold text-green-700 tabular-nums whitespace-nowrap">{row.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
+              <div
+                className={`group relative h-full overflow-hidden bg-white rounded-xl border shadow-md p-6 flex flex-col gap-4 transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-xl motion-reduce:hover:translate-y-0 ${
+                  istaknuto ? "border-[var(--gold)]/40" : "border-gray-100"
+                }`}
+              >
+                <div
+                  aria-hidden="true"
+                  className={`absolute inset-x-0 top-0 h-1 bg-[var(--gold)] origin-left transition-transform duration-300 ease-out ${
+                    istaknuto ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  }`}
+                />
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 shrink-0 bg-[var(--navy)]/8 rounded-lg flex items-center justify-center transition-colors duration-200 group-hover:bg-[var(--navy)]/12">
+                    <Icon size={20} className="text-[var(--navy)]" />
                   </div>
-                )}
-                {sub && <div className="text-xs text-gray-400 mt-1">{sub}</div>}
+                  <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
+                    {label}
+                  </div>
+                </div>
+                <div>
+                  {rows ? (
+                    <dl className="space-y-1.5">
+                      {rows.map((row) =>
+                        row.strong ? (
+                          <div key={row.label}>
+                            <dt className="text-xs text-gray-500">{row.label}</dt>
+                            <dd className="text-base font-bold text-[var(--navy)] leading-snug">
+                              {row.value}
+                            </dd>
+                          </div>
+                        ) : (
+                          <div key={row.label} className="text-xs text-gray-500">
+                            <dt className="inline">{row.label}:</dt>{" "}
+                            <dd className="inline text-gray-600">{row.value}</dd>
+                          </div>
+                        ),
+                      )}
+                    </dl>
+                  ) : (
+                    <div
+                      className={`font-bold text-[var(--navy)] leading-snug text-balance ${
+                        istaknuto ? "text-xl tabular-nums" : "text-lg"
+                      }`}
+                    >
+                      {value}
+                    </div>
+                  )}
+                  {popust && (
+                    <div className="mt-3 rounded-lg bg-green-50 border border-green-100 px-3 py-2">
+                      <div className="text-[11px] font-semibold uppercase tracking-wider text-green-800 mb-1">
+                        Grupni popust
+                      </div>
+                      <dl className="space-y-0.5">
+                        {popust.map((row) => (
+                          <div key={row.label} className="flex items-baseline justify-between gap-3 text-xs">
+                            <dt className="text-gray-600 whitespace-nowrap">{row.label}</dt>
+                            <dd className="font-bold text-green-700 tabular-nums whitespace-nowrap">{row.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                  )}
+                  {sub && <div className="text-xs text-gray-400 mt-1.5 text-pretty">{sub}</div>}
+                </div>
               </div>
             </div>
           ))}
