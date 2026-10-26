@@ -69,42 +69,52 @@ export default function KontaktContent() {
           <p className="text-gray-300 mt-4 max-w-2xl text-lg leading-relaxed text-pretty">
             Pišite nam ili nazovite. Na poruke odgovaramo u roku od 24 sata.
           </p>
+
+          {/* Izravni kontakt u zaglavlju: na mobitelu dva gumba iznad obrasca, na desktopu
+              veliki linkovi lijevo od kartice obrasca (koja prelazi preko donjeg ruba). */}
+          <div className="mt-8 grid grid-cols-2 gap-3 lg:flex lg:flex-wrap lg:gap-x-14 lg:gap-y-5">
+            <a
+              href="tel:+385953135158"
+              className="group inline-flex items-center justify-center gap-2 rounded-lg border border-white/30 px-4 py-3 font-semibold text-white transition-colors hover:bg-white/10 lg:justify-start lg:gap-4 lg:border-0 lg:p-0 lg:hover:bg-transparent"
+            >
+              <span className="flex shrink-0 items-center justify-center lg:size-12 lg:rounded-lg lg:bg-white/10 lg:transition-colors lg:group-hover:bg-white/20">
+                <Phone size={18} />
+              </span>
+              <span className="lg:hidden">Nazovi</span>
+              <span className="hidden lg:block">
+                <span className="block text-sm font-normal text-gray-400">Telefon</span>
+                <span className="block text-2xl tabular-nums group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
+                  095/313-5158
+                </span>
+              </span>
+            </a>
+            <a
+              href="mailto:info@localis.hr"
+              className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--gold)] px-4 py-3 font-semibold text-[var(--navy)] transition-colors hover:bg-[var(--gold-light)] lg:justify-start lg:gap-4 lg:bg-transparent lg:p-0 lg:text-white lg:hover:bg-transparent"
+            >
+              <span className="flex shrink-0 items-center justify-center lg:size-12 lg:rounded-lg lg:bg-[var(--gold)] lg:text-[var(--navy)] lg:transition-colors lg:group-hover:bg-[var(--gold-light)]">
+                <Mail size={18} />
+              </span>
+              <span className="lg:hidden">Pošalji e-mail</span>
+              <span className="hidden lg:block">
+                <span className="block text-sm font-normal text-gray-400">E-mail</span>
+                <span className="block text-2xl group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
+                  info@localis.hr
+                </span>
+              </span>
+            </a>
+          </div>
         </div>
       </section>
 
       {/* flow-root: negativna margina kartice ide preko zaglavlja umjesto da povuče cijelu sekciju */}
       <section className="flow-root pb-20 bg-white">
         <div className="max-w-6xl mx-auto px-6 -mt-16 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-10 lg:gap-14 items-start">
-          {/* Izravni kontakt i službeni podaci */}
+          {/* Prečac za edukacije i službeni podaci */}
           <div className="lg:pt-24 order-2 lg:order-1">
-            <div className="space-y-5">
-              <a href="mailto:info@localis.hr" className="group flex items-center gap-4">
-                <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-[var(--gold)] text-[var(--navy)] transition-colors group-hover:bg-[var(--gold-light)]">
-                  <Mail size={20} />
-                </span>
-                <span>
-                  <span className="block text-sm text-gray-500">E-mail</span>
-                  <span className="block text-xl md:text-2xl font-semibold text-[var(--navy)] group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
-                    info@localis.hr
-                  </span>
-                </span>
-              </a>
-              <a href="tel:+385953135158" className="group flex items-center gap-4">
-                <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-[var(--navy)] text-white transition-colors group-hover:bg-[var(--navy-light)]">
-                  <Phone size={20} />
-                </span>
-                <span>
-                  <span className="block text-sm text-gray-500">Telefon</span>
-                  <span className="block text-xl md:text-2xl font-semibold text-[var(--navy)] tabular-nums group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
-                    095/313-5158
-                  </span>
-                </span>
-              </a>
-            </div>
-
             <Link
               href="/edukacije"
-              className="group mt-10 flex items-center justify-between gap-4 rounded-xl border border-gray-200 px-5 py-4 transition-colors hover:border-[var(--navy)]"
+              className="group flex items-center justify-between gap-4 rounded-xl border border-gray-200 px-5 py-4 transition-colors hover:border-[var(--navy)]"
             >
               <span>
                 <span className="block font-semibold text-[var(--navy)]">Želite se prijaviti na edukaciju?</span>
