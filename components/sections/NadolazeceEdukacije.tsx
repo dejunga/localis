@@ -6,12 +6,11 @@ export type NadolazecaEdukacija = {
   naslov: string;
   datum: string; // ISO "2026-11-19"
   mjesto: string;
-  cijena: string;
 };
 
 const MJESECI = ["sij", "velj", "ožu", "tra", "svi", "lip", "srp", "kol", "ruj", "lis", "stu", "pro"];
 
-// Raspored nadolazećih edukacija: datum lijevo, tema u sredini, cijena i prijava desno.
+// Raspored nadolazećih edukacija: datum lijevo, tema u sredini, link na program desno.
 export default function NadolazeceEdukacije({ edukacije }: { edukacije: NadolazecaEdukacija[] }) {
   if (edukacije.length === 0) return null;
 
@@ -57,11 +56,8 @@ export default function NadolazeceEdukacije({ edukacije }: { edukacije: Nadolaze
                   </div>
 
                   <div className="col-start-2 md:col-start-auto flex items-center gap-5 md:justify-end">
-                    <span className="text-base font-semibold text-[var(--navy)] tabular-nums whitespace-nowrap">
-                      {e.cijena}
-                    </span>
                     <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--gold)] whitespace-nowrap">
-                      Prijava
+                      Pogledajte program
                       <ArrowRight
                         size={15}
                         className="transition-transform duration-200 group-hover:translate-x-0.5"

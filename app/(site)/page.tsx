@@ -3,7 +3,7 @@ import NadolazeceEdukacije from "@/components/sections/NadolazeceEdukacije";
 import Services from "@/components/sections/Services";
 import About from "@/components/sections/About";
 import CTA from "@/components/sections/CTA";
-import { aktualnaCijena, getPredavaci, getSeminars, isSeminarPast } from "@/lib/edukacije";
+import { getPredavaci, getSeminars, isSeminarPast } from "@/lib/edukacije";
 import { JLS } from "@/lib/karta-jls";
 
 // Vijesti privremeno skrivene s naslovnice. Za povratak: odkomentiraj
@@ -54,7 +54,6 @@ export default async function Home() {
           naslov: s.title,
           datum: s.date,
           mjesto: s.location,
-          cijena: aktualnaCijena(s).price,
         }))}
       />
       <Services />
