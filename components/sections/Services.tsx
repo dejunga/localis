@@ -1,10 +1,8 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
-import { GraduationCap, CalendarDays, Briefcase, ClipboardList, Code2, ArrowRight } from "lucide-react";
+import { GraduationCap, CalendarDays, ArrowRight } from "lucide-react";
 
-const services = [
+// Edukacije i seminari su glavni posao pa dobivaju veće blokove; ostalo ide u listu ispod.
+const glavne = [
   {
     icon: GraduationCap,
     title: "Edukacija i praktične radionice",
@@ -19,22 +17,22 @@ const services = [
       "Profesionalna organizacija stručnih skupova i poslovnih događaja, od ideje do zadnjeg detalja na dan događaja.",
     href: "/usluge#seminari",
   },
+];
+
+const ostale = [
   {
-    icon: Briefcase,
     title: "Poslovno savjetovanje",
     description:
       "Stručno savjetovanje u svim fazama poslovanja - od pokretanja obrta do EU fondova i strateškog planiranja.",
     href: "/usluge#savjetovanje",
   },
   {
-    icon: ClipboardList,
     title: "Uredske i administrativne djelatnosti",
     description:
       "Priprema dokumenata, digitalizacija i administrativna podrška koja vam oslobađa vrijeme za ono što radite najbolje.",
     href: "/usluge#administracija",
   },
   {
-    icon: Code2,
     title: "Digitalne i podatkovne usluge",
     description:
       "Razvoj web stranica, aplikacija i baza podataka te analiza i vizualizacija podataka prilagođena vašim potrebama.",
@@ -42,84 +40,57 @@ const services = [
   },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12 },
-  },
-};
-
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
-
 export default function Services() {
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-[oklch(0.97_0.01_85)]">
       <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="h-px w-10 bg-[var(--gold)]" />
-            <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-              Što nudimo
-            </span>
-            <div className="h-px w-10 bg-[var(--gold)]" />
-          </div>
+        <div className="max-w-2xl mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
             Naše usluge
           </h2>
-          <p className="text-gray-500 mt-4 max-w-xl mx-auto text-lg">
-            Nudimo sveobuhvatna rješenja za edukaciju i razvoj vašeg poslovanja.
+          <p className="text-gray-600 mt-4 text-lg leading-relaxed text-pretty">
+            Edukacije i stručni seminari su ono čime se najviše bavimo. Uz njih nudimo
+            savjetovanje, administrativnu podršku i digitalne usluge.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Cards */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          {services.map((service) => {
-            const Icon = service.icon;
-            return (
-              <motion.div
-                key={service.title}
-                variants={cardVariants}
-                className="group p-8 border border-gray-100 rounded-xl hover:border-[var(--navy)]/20 hover:shadow-lg transition-all duration-300 bg-white"
-              >
-                <div className="w-12 h-12 bg-[var(--navy)]/8 rounded-lg flex items-center justify-center mb-5 group-hover:bg-[var(--navy)] transition-colors duration-300">
-                  <Icon
-                    size={22}
-                    className="text-[var(--navy)] group-hover:text-white transition-colors duration-300"
-                  />
-                </div>
-                <h3 className="text-xl font-bold text-[var(--navy)] mb-3 font-[family-name:var(--font-playfair)]">
-                  {service.title}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {glavne.map(({ icon: Icon, title, description, href }) => (
+            <Link
+              key={title}
+              href={href}
+              className="group flex flex-col rounded-2xl bg-[var(--navy)] p-8 md:p-10 text-white transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-xl hover:shadow-[var(--navy)]/20 motion-reduce:hover:translate-y-0"
+            >
+              <div className="w-12 h-12 rounded-lg bg-[var(--gold)] flex items-center justify-center mb-8">
+                <Icon size={22} className="text-[var(--navy)]" />
+              </div>
+              <h3 className="text-2xl md:text-[1.75rem] font-bold leading-tight mb-3 text-balance font-[family-name:var(--font-playfair)]">
+                {title}
+              </h3>
+              <p className="text-gray-300 leading-relaxed mb-8 text-pretty">{description}</p>
+              <span className="mt-auto inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--gold)]">
+                Saznajte više
+                <ArrowRight
+                  size={15}
+                  className="transition-transform duration-200 group-hover:translate-x-0.5"
+                />
+              </span>
+            </Link>
+          ))}
+        </div>
+
+        <ul className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-x-8 border-t border-gray-300/70">
+          {ostale.map(({ title, description, href }) => (
+            <li key={title} className="pt-7">
+              <Link href={href} className="group block">
+                <h3 className="font-bold text-[var(--navy)] text-lg mb-2 font-[family-name:var(--font-playfair)] group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
+                  {title}
                 </h3>
-                <p className="text-gray-500 leading-relaxed mb-5">
-                  {service.description}
-                </p>
-                <Link
-                  href={service.href}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--gold)] hover:gap-3 transition-all duration-200"
-                >
-                  Saznajte više
-                  <ArrowRight size={15} />
-                </Link>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                <p className="text-gray-600 text-sm leading-relaxed text-pretty">{description}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

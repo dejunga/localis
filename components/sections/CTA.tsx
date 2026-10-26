@@ -1,61 +1,51 @@
-"use client";
-
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { ArrowRight, Mail } from "lucide-react";
+import { Mail, Phone } from "lucide-react";
 
 export default function CTA() {
   return (
     <section className="py-24 bg-[oklch(0.97_0.01_85)]">
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="relative bg-[var(--navy)] rounded-2xl overflow-hidden"
-        >
+        <div className="relative bg-[var(--navy)] rounded-2xl overflow-hidden">
           {/* Background decoration */}
           <div className="absolute inset-0">
             <div className="absolute top-0 right-0 w-80 h-80 bg-[var(--gold)]/10 rounded-full -translate-y-1/2 translate-x-1/4" />
             <div className="absolute bottom-0 left-0 w-60 h-60 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
           </div>
 
-          <div className="relative px-8 md:px-16 py-16 flex flex-col md:flex-row items-center justify-between gap-10">
+          <div className="relative px-8 md:px-16 py-16 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] items-center gap-10">
             <div className="text-white max-w-xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="h-px w-8 bg-[var(--gold)]" />
-                <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-                  Kontakt
-                </span>
-              </div>
               <h2 className="text-3xl md:text-4xl font-bold mb-4 font-[family-name:var(--font-playfair)] leading-tight">
                 Javite nam se
               </h2>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-gray-300 leading-relaxed text-pretty">
                 Ako u svom radu prepoznajete pitanja koja godinama čekaju
                 odgovor, LOCALIS je tu da ih zajedno raspravimo i riješimo.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-              <Link
-                href="/kontakt"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[var(--gold)] text-[var(--navy)] font-semibold rounded transition-all hover:bg-[var(--gold-light)] hover:shadow-lg hover:shadow-[var(--gold)]/20"
+            {/* Kontakt odmah ovdje - jedan klik do e-maila ili poziva umjesto još jedne stranice. */}
+            <div className="flex flex-col gap-4">
+              <a
+                href="mailto:info@localis.hr"
+                className="group inline-flex items-center gap-4 text-white"
               >
-                <Mail size={18} />
-                Pišite nam
-              </Link>
-              <Link
-                href="/usluge"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/30 text-white font-medium rounded transition-all hover:bg-white/10"
-              >
-                Naše usluge
-                <ArrowRight size={16} />
-              </Link>
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-lg bg-[var(--gold)] text-[var(--navy)] transition-colors group-hover:bg-[var(--gold-light)]">
+                  <Mail size={20} />
+                </span>
+                <span className="text-xl md:text-2xl font-semibold group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
+                  info@localis.hr
+                </span>
+              </a>
+              <a href="tel:+385953135158" className="group inline-flex items-center gap-4 text-white">
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-lg border border-white/30 transition-colors group-hover:bg-white/10">
+                  <Phone size={20} />
+                </span>
+                <span className="text-xl md:text-2xl font-semibold tabular-nums group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
+                  095/313-5158
+                </span>
+              </a>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
