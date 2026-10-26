@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { checkBotId } from "botid/server";
 import { getMailConfig } from "@/lib/email/transport";
 import { getSeminar, isSeminarPast } from "@/lib/edukacije";
-import { MAX_DULJINA, MAX_POLAZNIKA } from "@/lib/prijave/limiti";
+import { MAX_DULJINA, MAX_POLAZNIKA, mjestaZaPrikaz } from "@/lib/prijave/limiti";
 import { PRIVOLA_OBAVIJESTI_VERZIJA } from "@/lib/prijave/privola";
 import { dopustiPokusaj, hashKljuca, hashiraniIp } from "@/lib/rate-limit";
 import { spremiPrijavu } from "@/lib/prijave/spremi";
@@ -174,7 +174,11 @@ export async function sendSeminarRegistration(
         ? {
             status: "error",
             errors: {
-              polaznici: `Slobodnih mjesta je još ${error.slobodno}. Smanjite broj polaznika ili nam se javite na info@localis.hr.`,
+              // Broj se otkriva samo ispod praga, kao i na stranici edukacije.
+              polaznici:
+                mjestaZaPrikaz(error.slobodno) !== null
+                  ? `Slobodnih mjesta je još ${error.slobodno}. Smanjite broj polaznika ili nam se javite na info@localis.hr.`
+                  : "Za ovoliko polaznika više nema slobodnih mjesta. Smanjite broj polaznika ili nam se javite na info@localis.hr.",
             },
           }
         : {

@@ -9,10 +9,12 @@ export default function PlutajucaPrijava({
   naslov,
   datum,
   cijena,
+  mjesta,
 }: {
   naslov: string;
   datum: string;
   cijena: string;
+  mjesta?: number | null; // vidi mjestaZaPrikaz - samo kad ih je ostalo 5 ili manje
 }) {
   const [gumbVidljiv, setGumbVidljiv] = useState(true);
   const [formaVidljiva, setFormaVidljiva] = useState(false);
@@ -51,6 +53,12 @@ export default function PlutajucaPrijava({
           </p>
           <p className="text-sm text-gray-300 truncate">
             {datum} · <span className="text-[var(--gold)] font-semibold">{cijena}</span>
+            {mjesta != null && mjesta > 0 && (
+              <span className="text-red-300">
+                {" "}
+                · {mjesta === 1 ? "još 1 slobodno mjesto" : `još ${mjesta} slobodnih mjesta`}
+              </span>
+            )}
           </p>
         </div>
         <a

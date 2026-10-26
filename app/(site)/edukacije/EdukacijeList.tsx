@@ -15,7 +15,7 @@ export type EdukacijaPrikaz = {
   rana?: { doLabel: string; redovna: string };
   // Grupni popust računa samo automatska ponuda (lib/ponude/popust.ts).
   grupniPopust: boolean;
-  // null = nepoznato (baza nedostupna) ili dovoljno mjesta da nije vrijedno spominjati
+  // null = nepoznato (baza nedostupna) ili više od 5 slobodnih mjesta (vidi mjestaZaPrikaz)
   slobodno: number | null;
   predavaci: { ime: string; uloga?: string; foto?: { url: string; alt: string; position?: string } }[];
 };
@@ -41,7 +41,7 @@ function Mjesta({ slobodno }: { slobodno: number | null }) {
 function Portret({ foto, velicina }: { foto?: EdukacijaPrikaz["predavaci"][number]["foto"]; velicina: number }) {
   return (
     <div
-      className="relative shrink-0 overflow-hidden rounded-full bg-[var(--navy)]/8 outline outline-1 -outline-offset-1 outline-black/10"
+      className="relative shrink-0 overflow-hidden rounded-full bg-[var(--navy)]/8 outline -outline-offset-1 outline-black/10"
       style={{ width: velicina, height: velicina }}
     >
       {foto && (

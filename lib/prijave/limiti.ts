@@ -12,3 +12,12 @@ export const MAX_DULJINA = {
 } as const;
 
 export const MAX_POLAZNIKA = 50;
+
+// Broj slobodnih mjesta prikazuje se javno tek kad ih ostane ovoliko ili manje - da potakne prijavu,
+// a da se kod poluprazne edukacije ne vidi koliko je ljudi prijavljeno.
+export const PRAG_PRIKAZA_MJESTA = 5;
+
+// Slobodna mjesta za javni prikaz: broj do praga uključivo (0 = popunjeno), inače null (ne prikazuje se).
+export function mjestaZaPrikaz(slobodno: number | null): number | null {
+  return slobodno !== null && slobodno <= PRAG_PRIKAZA_MJESTA ? slobodno : null;
+}

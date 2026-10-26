@@ -2,23 +2,16 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  MapPin,
-  Coins,
-  CheckCircle2,
-  Users,
-  HelpCircle,
-} from "lucide-react";
+import { ArrowLeft, MapPin, CheckCircle2, Users, HelpCircle } from "lucide-react";
 import { aktualnaCijena, getSeminar, getSeminarSlugs, isSeminarPast } from "@/lib/edukacije";
 import { getPostavke } from "@/lib/postavke";
-import { MAX_POLAZNIKA } from "@/lib/prijave/limiti";
+import { MAX_POLAZNIKA, mjestaZaPrikaz } from "@/lib/prijave/limiti";
 import { zauzetaMjesta } from "@/lib/prijave/mjesta";
 import RegistracijaForm from "./RegistracijaForm";
 import PrijaviSeButton from "./PrijaviSeButton";
 import PlutajucaPrijava from "./PlutajucaPrijava";
+import ProgramRadionice from "./ProgramRadionice";
+import RasklopivTekst from "./RasklopivTekst";
 
 // Stranica je statična; regenerira se svakih 5 minuta da edukacije koje su počele
 // izgube gumb i formu za prijavu bez novog builda.
@@ -58,6 +51,13 @@ export async function generateMetadata({
 function datumBrojevima(iso: string): string {
   const [y, m, d] = iso.split("-");
   return `${d}.${m}.${y}.`;
+}
+
+const DANI = ["Nedjelja", "Ponedjeljak", "Utorak", "Srijeda", "Četvrtak", "Petak", "Subota"];
+
+// "2026-10-28" -> "Srijeda" (podne UTC da vremenska zona ne pomakne dan)
+function danUTjednu(iso: string): string {
+  return DANI[new Date(`${iso}T12:00:00Z`).getUTCDay()];
 }
 
 // null = baza nedostupna (npr. build bez DATABASE_URL); server akcija svejedno provjerava limit.
@@ -128,41 +128,8 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
   };
 
   const rana = cijena.rana ? seminar.ranaPrijava : undefined;
-  const infoCards: {
-    icon: typeof Calendar;
-    label: string;
-    value: string;
-    // Dok traje rana prijava kartica kotizacije prikazuje redove umjesto jedne cijene.
-    rows?: { label: string; value: string; strong?: boolean }[];
-    popust?: { label: string; value: string }[];
-    sub?: string;
-    istaknuto?: boolean;
-  }[] = [
-    { icon: Calendar, label: "Datum", value: seminar.dateLabel },
-    { icon: Clock, label: "Vrijeme", value: seminar.time },
-    {
-      icon: MapPin,
-      label: "Lokacija",
-      value: seminar.location,
-      sub: seminar.locationDetail,
-    },
-    {
-      icon: Coins,
-      label: "Kotizacija",
-      value: cijena.price,
-      rows: rana && [
-        { label: `Rane prijave (do ${datumBrojevima(rana.do)})`, value: rana.price, strong: true },
-        { label: "Redovna cijena", value: seminar.price, strong: true },
-      ],
-      // Grupni popust računa samo automatska ponuda (lib/ponude/popust.ts).
-      popust: seminar.ponuda && [
-        { label: "2. polaznik", value: "−10 %" },
-        { label: "od 3. polaznika", value: "−20 %" },
-      ],
-      sub: seminar.priceNote,
-      istaknuto: true,
-    },
-  ];
+  // vidi mjestaZaPrikaz - broj samo kad ih je ostalo 5 ili manje
+  const mjesta = popunjeno ? null : mjestaZaPrikaz(slobodno);
 
   return (
     <>
@@ -181,14 +148,9 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             Nazad na edukacije
           </Link>
 
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-px w-10 bg-[var(--gold)]" />
-            <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-              {seminar.kicker}
-            </span>
-          </div>
+          <p className="text-[var(--gold)] font-medium mb-3">{seminar.kicker}</p>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-white font-[family-name:var(--font-playfair)] leading-tight mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-white font-[family-name:var(--font-playfair)] leading-tight mb-6">
             {(seminar.titleLines ?? [seminar.title]).map((line, i, lines) => (
               <span key={line} className={i > 0 ? "text-[0.85em]" : undefined}>
                 {line}
@@ -197,95 +159,85 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             ))}
           </h1>
 
-          <div className="space-y-1">
+          {/* Samo lice i ime - funkcija i biografija su u sekciji predavača niže. */}
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
             {seminar.lecturers.map((lecturer) => (
-              <p key={lecturer.name} className="text-gray-300">
-                <span className="text-white font-medium">{lecturer.name}</span>
-                {lecturer.role && `, ${lecturer.role}`}
-              </p>
+              <span key={lecturer.name} className="inline-flex items-center gap-3 text-white font-medium">
+                <span className="relative size-10 shrink-0 overflow-hidden rounded-full bg-white/10 ring-2 ring-[var(--gold)]/60">
+                  {lecturer.photo && (
+                    <Image
+                      src={lecturer.photo.url}
+                      alt=""
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                      style={{ objectPosition: lecturer.photo.position ?? "center top" }}
+                    />
+                  )}
+                </span>
+                {lecturer.name}
+              </span>
             ))}
           </div>
         </div>
       </section>
 
       <div className="max-w-4xl mx-auto px-6">
-        {/* Info cards */}
-        {/* Na desktopu šire od stupca teksta; kotizacija ima najviše sadržaja pa dobiva najširi stupac. */}
-        <div className="grid grid-cols-2 lg:grid-cols-[1fr_0.85fr_1.15fr_1.45fr] lg:-mx-16 gap-5 -mt-10 mb-16">
-          {infoCards.map(({ icon: Icon, label, value, rows, popust, sub, istaknuto }, i) => (
-            // Omotač nosi ulaznu animaciju, a kartica hover - oboje bi inače dijelili duration.
-            <div
-              key={label}
-              className="animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out [animation-fill-mode:both] motion-reduce:animate-none"
-              style={{ animationDelay: `${i * 80}ms` }}
+        {/* Info ploča: kada, gdje, kotizacija. Na desktopu šira od stupca teksta. */}
+        <div className="relative -mt-10 mb-16 lg:-mx-16 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-md grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)] divide-y md:divide-y-0 md:divide-x divide-gray-100">
+          <div className="p-6 md:p-8">
+            <p className="text-sm text-gray-500 mb-2">Kada</p>
+            <p className="text-lg font-bold text-[var(--navy)] leading-snug">
+              {danUTjednu(seminar.date)}, {seminar.dateLabel}
+            </p>
+            <p className="mt-1 text-gray-700 tabular-nums">{seminar.time.replace(/\s*-\s*/, " – ")}</p>
+          </div>
+
+          <div className="p-6 md:p-8">
+            <p className="text-sm text-gray-500 mb-2">Gdje</p>
+            <p className="text-lg font-bold text-[var(--navy)] leading-snug">{seminar.location}</p>
+            {seminar.locationDetail && (
+              <p className="mt-1 text-sm text-gray-600 text-pretty">{seminar.locationDetail}</p>
+            )}
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(seminar.location)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--navy)] underline decoration-[var(--gold)] decoration-2 underline-offset-4 hover:text-[var(--navy-light)]"
             >
-              <div
-                className={`group relative h-full overflow-hidden bg-white rounded-xl border shadow-md p-6 flex flex-col gap-4 transition-[transform,box-shadow] duration-200 ease-out hover:-translate-y-1 hover:shadow-xl motion-reduce:hover:translate-y-0 ${
-                  istaknuto ? "border-[var(--gold)]/40" : "border-gray-100"
-                }`}
-              >
-                <div
-                  aria-hidden="true"
-                  className={`absolute inset-x-0 top-0 h-1 bg-[var(--gold)] origin-left transition-transform duration-300 ease-out ${
-                    istaknuto ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                  }`}
-                />
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 shrink-0 bg-[var(--navy)]/8 rounded-lg flex items-center justify-center transition-colors duration-200 group-hover:bg-[var(--navy)]/12">
-                    <Icon size={20} className="text-[var(--navy)]" />
-                  </div>
-                  <div className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    {label}
-                  </div>
+              <MapPin size={15} className="text-[var(--gold)]" />
+              Otvori u Google kartama
+            </a>
+          </div>
+
+          <div className="p-6 md:p-8 bg-[oklch(0.97_0.01_85)]">
+            <p className="text-sm text-gray-500 mb-2">Kotizacija po polazniku</p>
+            <p className="text-3xl font-bold text-[var(--navy)] tabular-nums leading-none">{cijena.price}</p>
+            {rana && (
+              <p className="mt-2 text-sm text-gray-600 text-pretty">
+                Cijena za rane prijave do {datumBrojevima(rana.do)}, zatim {seminar.price}.
+              </p>
+            )}
+            {/* Grupni popust računa samo automatska ponuda (lib/ponude/popust.ts). */}
+            {seminar.ponuda && (
+              <dl className="mt-4 space-y-1 text-sm">
+                <div className="flex justify-between gap-4">
+                  <dt className="text-gray-600">2. polaznik</dt>
+                  <dd className="font-semibold text-green-700 tabular-nums">−10 %</dd>
                 </div>
-                <div>
-                  {rows ? (
-                    <dl className="space-y-1.5">
-                      {rows.map((row) =>
-                        row.strong ? (
-                          <div key={row.label}>
-                            <dt className="text-xs text-gray-500">{row.label}</dt>
-                            <dd className="text-base font-bold text-[var(--navy)] leading-snug">
-                              {row.value}
-                            </dd>
-                          </div>
-                        ) : (
-                          <div key={row.label} className="text-xs text-gray-500">
-                            <dt className="inline">{row.label}:</dt>{" "}
-                            <dd className="inline text-gray-600">{row.value}</dd>
-                          </div>
-                        ),
-                      )}
-                    </dl>
-                  ) : (
-                    <div
-                      className={`font-bold text-[var(--navy)] leading-snug text-balance ${
-                        istaknuto ? "text-xl tabular-nums" : "text-lg"
-                      }`}
-                    >
-                      {value}
-                    </div>
-                  )}
-                  {popust && (
-                    <div className="mt-3 rounded-lg bg-green-50 border border-green-100 px-3 py-2">
-                      <div className="text-[11px] font-semibold uppercase tracking-wider text-green-800 mb-1">
-                        Grupni popust
-                      </div>
-                      <dl className="space-y-0.5">
-                        {popust.map((row) => (
-                          <div key={row.label} className="flex items-baseline justify-between gap-3 text-xs">
-                            <dt className="text-gray-600 whitespace-nowrap">{row.label}</dt>
-                            <dd className="font-bold text-green-700 tabular-nums whitespace-nowrap">{row.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
-                    </div>
-                  )}
-                  {sub && <div className="text-xs text-gray-400 mt-1.5 text-pretty">{sub}</div>}
+                <div className="flex justify-between gap-4">
+                  <dt className="text-gray-600">od 3. polaznika</dt>
+                  <dd className="font-semibold text-green-700 tabular-nums">−20 %</dd>
                 </div>
-              </div>
-            </div>
-          ))}
+              </dl>
+            )}
+            {mjesta != null && mjesta > 0 && (
+              <p className="mt-4 inline-flex rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700">
+                {mjesta === 1 ? "Još 1 slobodno mjesto" : `Još ${mjesta} slobodnih mjesta`}
+              </p>
+            )}
+            {seminar.priceNote && <p className="mt-3 text-xs text-gray-500 text-pretty">{seminar.priceNote}</p>}
+          </div>
         </div>
 
         {odgodeno && (
@@ -304,7 +256,12 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
           </div>
         )}
         {!past && !popunjeno && (
-          <PlutajucaPrijava naslov={seminar.title} datum={seminar.dateLabel} cijena={cijena.price} />
+          <PlutajucaPrijava
+            naslov={seminar.title}
+            datum={seminar.dateLabel}
+            cijena={cijena.price}
+            mjesta={mjestaZaPrikaz(slobodno)}
+          />
         )}
 
         {/* Description */}
@@ -329,6 +286,53 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 </h2>
               )}
               <p className="text-gray-700 leading-relaxed">{seminar.helpText}</p>
+            </div>
+          )}
+        </section>
+
+        {/* Lecturers - odmah nakon opisa: za ovu publiku predavač je glavni razlog za prijavu */}
+        <section className="mb-20 space-y-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
+            {seminar.lecturers.length > 1 ? "Predavači" : "Predavač"}
+          </h2>
+          {seminar.lecturers.map((lecturer) => (
+            <div key={lecturer.name} className="flex flex-col sm:flex-row gap-8 items-start">
+              <div className="relative w-36 h-44 rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
+                {lecturer.photo ? (
+                  <Image
+                    src={lecturer.photo.url}
+                    alt={lecturer.photo.alt}
+                    fill
+                    sizes="144px"
+                    className="object-cover"
+                    style={{ objectPosition: lecturer.photo.position ?? "center top" }}
+                  />
+                ) : (
+                  <span className="text-[var(--navy)]/20 text-5xl font-bold font-[family-name:var(--font-playfair)]">
+                    {lecturer.name.split(" ").find((word) => !word.endsWith("."))?.[0]}
+                  </span>
+                )}
+              </div>
+              <div>
+                <div className={`font-bold text-[var(--navy)] text-lg ${lecturer.role ? "mb-1" : "mb-4"}`}>
+                  {lecturer.name}
+                </div>
+                {lecturer.role && (
+                  <div className="text-[var(--gold)] text-sm font-medium mb-4">{lecturer.role}</div>
+                )}
+                <RasklopivTekst tekst={lecturer.bio} redaka={5} />
+              </div>
+            </div>
+          ))}
+
+          {seminar.lecturersNote && (
+            <div className="bg-[var(--gold)]/6 border-l-4 border-[var(--gold)] rounded-r-lg p-6">
+              {seminar.lecturersNote.title && (
+                <h2 className="text-lg font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)] mb-2">
+                  {seminar.lecturersNote.title}
+                </h2>
+              )}
+              <p className="text-gray-700 leading-relaxed">{seminar.lecturersNote.text}</p>
             </div>
           )}
         </section>
@@ -375,114 +379,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
           </section>
         </div>
 
-        {/* Agenda */}
-        <section className="mb-20">
-          <h2 className="text-2xl font-bold text-[var(--navy)] mb-8 font-[family-name:var(--font-playfair)]">
-            Program radionice
-          </h2>
-          <div className="space-y-4">
-            {seminar.agenda.map((item, i) => (
-              <div
-                key={i}
-                className="rounded-xl border border-gray-100 bg-white shadow-sm p-6 sm:p-7"
-              >
-                <span className="inline-flex items-center justify-center px-3.5 py-1.5 rounded-full bg-[var(--navy)] text-white text-sm font-semibold w-fit mb-4">
-                  {item.time}
-                </span>
-                <div className="space-y-6">
-                  {item.topics.map((topic, ti) => (
-                    <div key={ti}>
-                      <div className="font-bold text-[var(--navy)] text-lg font-[family-name:var(--font-playfair)] mb-2">
-                        {topic.label && (
-                          <span className="inline-block align-middle mr-2.5 px-2.5 py-0.5 rounded-full bg-[var(--gold)]/12 text-[var(--gold)] text-xs font-sans font-semibold uppercase tracking-wider">
-                            {topic.label}
-                          </span>
-                        )}
-                        {topic.title}
-                      </div>
-                      {topic.points && (
-                        <ul className="space-y-1.5">
-                          {topic.points.map((point, pi) =>
-                            typeof point === "string" ? (
-                              <li
-                                key={pi}
-                                className="text-sm text-gray-600 flex items-start gap-2"
-                              >
-                                <span className="text-[var(--gold)] mt-0.5">→</span>
-                                {point}
-                              </li>
-                            ) : (
-                              <li key={pi}>
-                                <div className="text-sm text-gray-600 flex items-start gap-2">
-                                  <span className="text-[var(--gold)] mt-0.5">→</span>
-                                  {point.label}
-                                </div>
-                                <ul className="pl-6 mt-1.5 space-y-1">
-                                  {point.subPoints.map((sub) => (
-                                    <li
-                                      key={sub}
-                                      className="text-sm text-gray-500 flex items-start gap-2"
-                                    >
-                                      <span className="text-gray-300 mt-0.5">-</span>
-                                      {sub}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </li>
-                            ),
-                          )}
-                        </ul>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Lecturers */}
-        <section className="mb-20 space-y-12">
-          {seminar.lecturers.map((lecturer) => (
-            <div key={lecturer.name} className="flex flex-col sm:flex-row gap-8 items-start">
-              <div className="relative w-44 h-56 rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 overflow-hidden shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
-                {lecturer.photo ? (
-                  <Image
-                    src={lecturer.photo.url}
-                    alt={lecturer.photo.alt}
-                    fill
-                    sizes="176px"
-                    className="object-cover"
-                  />
-                ) : (
-                  <span className="text-[var(--navy)]/20 text-5xl font-bold font-[family-name:var(--font-playfair)]">
-                    {lecturer.name.split(" ").find((word) => !word.endsWith("."))?.[0]}
-                  </span>
-                )}
-              </div>
-              <div>
-                <div className={`font-bold text-[var(--navy)] text-lg ${lecturer.role ? "mb-1" : "mb-4"}`}>
-                  {lecturer.name}
-                </div>
-                {lecturer.role && (
-                  <div className="text-[var(--gold)] text-sm font-medium mb-4">{lecturer.role}</div>
-                )}
-                <p className="text-gray-600 text-sm leading-relaxed">{lecturer.bio}</p>
-              </div>
-            </div>
-          ))}
-
-          {seminar.lecturersNote && (
-            <div className="bg-[var(--gold)]/6 border-l-4 border-[var(--gold)] rounded-r-lg p-6">
-              {seminar.lecturersNote.title && (
-                <h2 className="text-lg font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)] mb-2">
-                  {seminar.lecturersNote.title}
-                </h2>
-              )}
-              <p className="text-gray-700 leading-relaxed">{seminar.lecturersNote.text}</p>
-            </div>
-          )}
-        </section>
+        <ProgramRadionice agenda={seminar.agenda} />
 
         {/* Registration */}
         {/* Na desktopu izlazi iz max-w-4xl stupca da forma s izračunom ima mjesta za dva stupca. */}

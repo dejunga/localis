@@ -93,7 +93,7 @@ export default function About({ predavaci }: { predavaci: Predavac[] }) {
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
               {predavaci.map((p) => (
                 <li key={p.ime} className="flex items-start gap-4">
-                  <div className="relative size-16 shrink-0 overflow-hidden rounded-full bg-[var(--navy)]/8 outline outline-1 -outline-offset-1 outline-black/10">
+                  <div className="relative size-16 shrink-0 overflow-hidden rounded-full bg-[var(--navy)]/8 outline -outline-offset-1 outline-black/10">
                     <Image
                       src={p.foto.url}
                       alt={p.foto.alt}

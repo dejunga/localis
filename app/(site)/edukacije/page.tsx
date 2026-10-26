@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { aktualnaCijena, getSeminars, isSeminarPast, type Seminar } from "@/lib/edukacije";
 import { getPostavke } from "@/lib/postavke";
+import { mjestaZaPrikaz } from "@/lib/prijave/limiti";
 import { zauzetaMjestaPoEdukaciji } from "@/lib/prijave/mjesta";
 import EdukacijeHero from "./EdukacijeHero";
 import {
@@ -19,9 +20,6 @@ export const metadata: Metadata = {
 
 // Regenerira se svakih 5 minuta da edukacije koje su počele prijeđu među održane.
 export const revalidate = 300;
-
-// Broj slobodnih mjesta prikazuje se tek kad ih ostane ovoliko ili manje.
-const PRAG_MJESTA = 10;
 
 // null = baza nedostupna (npr. build bez DATABASE_URL) - tada se mjesta ne prikazuju.
 async function slobodnaMjesta(): Promise<((slug: string) => number) | null> {
@@ -47,7 +45,7 @@ function prikaz(s: Seminar, slobodno: ((slug: string) => number) | null): Edukac
     cijena: cijena.price,
     rana: cijena.rana && s.ranaPrijava ? { doLabel: s.ranaPrijava.doLabel, redovna: s.price } : undefined,
     grupniPopust: Boolean(s.ponuda),
-    slobodno: mjesta !== null && mjesta <= PRAG_MJESTA ? mjesta : null,
+    slobodno: mjestaZaPrikaz(mjesta),
     predavaci: s.lecturers.map((l) => ({ ime: l.name, uloga: l.role, foto: l.photo })),
   };
 }
