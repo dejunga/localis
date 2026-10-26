@@ -43,6 +43,13 @@
       "when": 1792620490774,
       "tag": "0005_popust_i_izvor",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792991155432,
+      "tag": "0006_placeno",
+      "breakpoints": true
     }
   ]
 }

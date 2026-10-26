@@ -1,0 +1,1 @@
+ALTER TABLE "prijave" ADD COLUMN "placeno" boolean DEFAULT false NOT NULL;

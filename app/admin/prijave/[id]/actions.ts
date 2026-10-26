@@ -7,6 +7,7 @@ import {
   azurirajPrijavu,
   povuciPrivoluObavijesti,
   spremiBrojNarudzbenice,
+  spremiPlaceno,
   spremiPopust,
 } from "@/lib/prijave/spremi";
 import { procitajPopust } from "@/lib/ponude/popust";
@@ -60,6 +61,13 @@ export async function spremiPopustAkcija(
       ? "Popust spremljen. Vrijedi za sljedeću ponudu - postojeću storniraj i izdaj novu."
       : "Popust uklonjen.",
   };
+}
+
+export async function oznaciPlaceno(prijavaId: number, placeno: boolean): Promise<AdminAkcijaState> {
+  await zahtijevajAdmina();
+  await spremiPlaceno(prijavaId, placeno);
+  osvjezi(prijavaId);
+  return {};
 }
 
 export async function povuciPrivolu(prijavaId: number): Promise<AdminAkcijaState> {

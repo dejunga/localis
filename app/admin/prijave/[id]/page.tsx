@@ -10,6 +10,7 @@ import NarudzbenicaForm from "./NarudzbenicaForm";
 import UrediPrijavuForm from "./UrediPrijavuForm";
 import PovuciPrivoluGumb from "./PovuciPrivoluGumb";
 import PopustForm from "./PopustForm";
+import PlacenoKvacica from "../PlacenoKvacica";
 import { IzdajNovuGumb, PonudaAkcije } from "./PonudaAkcije";
 
 export const dynamic = "force-dynamic";
@@ -113,6 +114,12 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
           prijavaId={prijava.id}
           brojNarudzbenice={prijava.brojNarudzbenice}
         />
+      </section>
+
+      <section className="bg-white border border-gray-200 rounded-xl p-6">
+        <h2 className="font-semibold mb-1">Plaćanje</h2>
+        <p className="text-xs text-gray-500 mb-4">Označi kad klijent plati. Ide u export za računovodstvo.</p>
+        <PlacenoKvacica prijavaId={prijava.id} placeno={prijava.placeno} oznaka="Plaćeno" />
       </section>
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">

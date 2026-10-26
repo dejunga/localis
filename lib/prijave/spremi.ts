@@ -98,6 +98,10 @@ export async function povuciPrivoluObavijesti(id: number): Promise<void> {
     .where(eq(prijave.id, id));
 }
 
+export async function spremiPlaceno(id: number, placeno: boolean): Promise<void> {
+  await db.update(prijave).set({ placeno }).where(eq(prijave.id, id));
+}
+
 // Prazan string briše broj narudžbenice.
 export async function spremiBrojNarudzbenice(id: number, broj: string | null): Promise<void> {
   await db.update(prijave).set({ brojNarudzbenice: broj }).where(eq(prijave.id, id));

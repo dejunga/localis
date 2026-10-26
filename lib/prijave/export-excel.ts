@@ -15,6 +15,7 @@ export type ExportRed = {
   polaznici: string;
   radnaMjesta: string;
   brojNarudzbenice: string;
+  placeno: boolean;
 };
 
 const EUR_FMT = '#,##0.00 "€"';
@@ -42,6 +43,7 @@ export function redoviZaExport(prijave: PrijavaRed[]): ExportRed[] {
         ? spojiImena(p.polaznici.map((x) => x.radnoMjesto || "-"))
         : "",
       brojNarudzbenice: p.brojNarudzbenice ?? "",
+      placeno: p.placeno,
     }));
 }
 
@@ -76,6 +78,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     { key: "polaznici", width: 37 },
     { key: "radnaMjesta", width: 37 },
     { key: "brojNarudzbenice", width: 22 },
+    { key: "placeno", width: 10 },
   ];
   const header = ws.addRow([
     "NAZIV PARTNERA",
@@ -87,6 +90,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     "IME I PREZIME POLAZNIKA",
     "RADNO MJESTO",
     "BROJ NARUDŽBENICE",
+    "PLAĆENO",
   ]);
   header.font = { bold: true };
 
@@ -101,6 +105,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
       r.polaznici,
       r.radnaMjesta,
       r.brojNarudzbenice,
+      r.placeno ? "DA" : "NE",
     ]);
     row.getCell(2).numFmt = EUR_FMT;
     // OIB i telefon kao tekst da Excel ne odbaci vodeću nulu.

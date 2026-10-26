@@ -4,6 +4,7 @@ import { getSeminars } from "@/lib/edukacije";
 import { ucitajPrijave } from "@/lib/prijave/ucitaj";
 import type { Prijava } from "@/lib/db/schema";
 import NarudzbenicaBadge from "../NarudzbenicaBadge";
+import PlacenoKvacica from "./PlacenoKvacica";
 import StatusBadge from "../StatusBadge";
 
 export const dynamic = "force-dynamic";
@@ -92,6 +93,7 @@ export default async function PrijavePage({
               <th className="px-3 py-2 text-center">Polaznici</th>
               <th className="px-3 py-2">Ponuda</th>
               <th className="px-3 py-2">Narudžbenica</th>
+              <th className="px-3 py-2 text-center">Plaćeno</th>
               <th className="px-3 py-2">Status</th>
               <th className="px-3 py-2"></th>
             </tr>
@@ -99,7 +101,7 @@ export default async function PrijavePage({
           <tbody>
             {prijave.length === 0 && (
               <tr>
-                <td colSpan={9} className="px-3 py-8 text-center text-gray-500">
+                <td colSpan={10} className="px-3 py-8 text-center text-gray-500">
                   Nema prijava.
                 </td>
               </tr>
@@ -130,6 +132,9 @@ export default async function PrijavePage({
                 </td>
                 <td className="px-3 py-2 whitespace-nowrap">
                   <NarudzbenicaBadge broj={p.brojNarudzbenice} />
+                </td>
+                <td className="px-3 py-2 text-center">
+                  <PlacenoKvacica prijavaId={p.id} placeno={p.placeno} />
                 </td>
                 <td className="px-3 py-2">
                   <StatusBadge status={p.status} />

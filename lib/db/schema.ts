@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   char,
   date,
   index,
@@ -34,6 +35,8 @@ export const prijave = pgTable("prijave", {
   napomena: text("napomena"),
   // Admin upisuje ručno kad klijent pošalje narudžbenicu; ide u export za računovodstvo.
   brojNarudzbenice: text("broj_narudzbenice"),
+  // Admin ručno označava kad klijent plati; ide u export za računovodstvo.
+  placeno: boolean("placeno").notNull().default(false),
   // Privola kontakt osobe za obavijesti o budućim edukacijama. NULL = nije dana ili je povučena.
   privolaObavijestiAt: timestamp("privola_obavijesti_at", { withTimezone: true }),
   privolaObavijestiVerzija: text("privola_obavijesti_verzija"),
