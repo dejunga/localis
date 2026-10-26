@@ -1,30 +1,16 @@
-"use client";
-
-import { motion } from "framer-motion";
-
-export default function EdukacijeHero() {
+// Uz naslov jedna konkretna rečenica: koliko je nadolazećih i kad je sljedeća.
+export default function EdukacijeHero({ sazetak }: { sazetak: string }) {
   return (
-    <section className="bg-[var(--navy)] pt-32 pb-20">
+    <section className="bg-[var(--navy)] pt-32 pb-16">
       <div className="max-w-6xl mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="h-px w-10 bg-[var(--gold)]" />
-            <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-              Znanje koje pokreće
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-white font-[family-name:var(--font-playfair)]">
-            Edukacije
-          </h1>
-          <p className="text-gray-300 mt-4 max-w-xl text-lg">
-            Radionice, seminari i predavanja za službenike lokalne samouprave i sve koji se u
-            svom radu susreću s tim temama.
-          </p>
-        </motion.div>
+        <h1 className="text-4xl md:text-5xl font-bold text-white font-[family-name:var(--font-playfair)]">
+          Edukacije
+        </h1>
+        <p className="text-gray-300 mt-4 max-w-2xl text-lg leading-relaxed text-pretty">
+          Radionice, seminari i predavanja za službenike lokalne samouprave i sve koji se u
+          svom radu susreću s tim temama.
+        </p>
+        <p className="mt-6 text-[var(--gold)] font-medium">{sazetak}</p>
       </div>
     </section>
   );
