@@ -5,6 +5,7 @@ import About from "@/components/sections/About";
 import CTA from "@/components/sections/CTA";
 import { getPredavaci, getSeminars, isSeminarPast } from "@/lib/edukacije";
 import { JLS } from "@/lib/karta-jls";
+import { getTekstovi } from "@/lib/tekstovi";
 
 // Vijesti privremeno skrivene s naslovnice. Za povratak: odkomentiraj
 // import i <NewsPreview />, te link u Navbar.tsx i Footer.tsx.
@@ -34,10 +35,16 @@ export default async function Home() {
   ].filter((naziv) => JLS.some(([n]) => n === naziv));
 
   const predavaci = await getPredavaci();
+  const t = await getTekstovi();
 
   return (
     <>
       <Hero
+        tekst={{
+          nadnaslov: t["pocetna.hero.nadnaslov"],
+          naslov: t["pocetna.hero.naslov"],
+          uvod: t["pocetna.hero.uvod"],
+        }}
         istaknuti={istaknuti}
         sljedeca={
           sljedeca && {

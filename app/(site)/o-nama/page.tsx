@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/o-nama" },
 };
 
+// Tekstovi iz admina osvježavaju se odmah po spremanju; ovo je rezerva ako je build bio bez baze.
+export const revalidate = 300;
+
 export default async function ONamaPage() {
   return <ONamaContent predavaci={await getPredavaci()} />;
 }

@@ -13,10 +13,14 @@ export type SljedecaEdukacija = {
   slug: string;
 };
 
+export type HeroTekst = { nadnaslov: string; naslov: string; uvod: string };
+
 export default function Hero({
+  tekst,
   sljedeca,
   istaknuti,
 }: {
+  tekst: HeroTekst;
   sljedeca?: SljedecaEdukacija;
   // Nazivi iz lib/karta-jls.ts ("Grad Zagreb") - mjesta edukacija označena na karti.
   istaknuti: string[];
@@ -40,7 +44,7 @@ export default function Hero({
             transition={{ duration: 0.6, delay: 0.05 }}
             className="text-[var(--gold)] text-lg md:text-xl font-medium mb-5 font-[family-name:var(--font-playfair)]"
           >
-            Savjetovanje i edukacija za lokalnu samoupravu
+            {tekst.nadnaslov}
           </motion.p>
 
           <motion.h1
@@ -49,7 +53,7 @@ export default function Hero({
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-white text-5xl md:text-6xl font-bold leading-[1.08] text-balance mb-6 font-[family-name:var(--font-playfair)]"
           >
-            Pitanja koja muče struku, konačno na dnevnom redu.
+            {tekst.naslov}
           </motion.h1>
 
           <motion.p
@@ -58,9 +62,7 @@ export default function Hero({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-gray-300 text-lg leading-relaxed mb-9 max-w-xl text-pretty"
           >
-            Osnažujemo one koji svakodnevno vode gradove i općine - uz
-            edukaciju, organizaciju seminara i poslovno savjetovanje
-            prilagođeno vašim potrebama.
+            {tekst.uvod}
           </motion.p>
 
           {sljedeca && (

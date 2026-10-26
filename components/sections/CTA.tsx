@@ -1,6 +1,8 @@
 import { Mail, Phone } from "lucide-react";
+import { getTekstovi } from "@/lib/tekstovi";
 
-export default function CTA() {
+export default async function CTA() {
+  const t = await getTekstovi();
   return (
     <section className="py-24 bg-[oklch(0.97_0.01_85)]">
       <div className="max-w-6xl mx-auto px-6">
@@ -14,12 +16,9 @@ export default function CTA() {
           <div className="relative px-8 md:px-16 py-16 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] items-center gap-10">
             <div className="text-white max-w-xl">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 font-[family-name:var(--font-playfair)] leading-tight">
-                Javite nam se
+                {t["cta.naslov"]}
               </h2>
-              <p className="text-gray-300 leading-relaxed text-pretty">
-                Ako u svom radu prepoznajete pitanja koja godinama čekaju
-                odgovor, LOCALIS je tu da ih zajedno raspravimo i riješimo.
-              </p>
+              <p className="text-gray-300 leading-relaxed text-pretty">{t["cta.tekst"]}</p>
             </div>
 
             {/* Kontakt odmah ovdje - jedan klik do e-maila ili poziva umjesto još jedne stranice. */}

@@ -1,16 +1,12 @@
 import Link from "next/link";
 import { CheckCircle2 } from "lucide-react";
 import type { Predavac } from "@/lib/edukacije";
+import { getTekstovi, odlomci, stavke } from "@/lib/tekstovi";
 import PopisPredavaca from "./PopisPredavaca";
 
-const highlights = [
-  "Teme biramo prema stvarnim potrebama struke, ne prema trendovima",
-  "Predavači koji podjednako dobro poznaju teoriju i praksu",
-  "Praktične smjernice koje polaznici odmah primjenjuju u radu",
-  "Ukorijenjeni u lokalnoj zajednici i posvećeni njenom razvoju",
-];
-
-export default function About({ predavaci }: { predavaci: Predavac[] }) {
+export default async function About({ predavaci }: { predavaci: Predavac[] }) {
+  const t = await getTekstovi();
+  const tekst = odlomci(t["pocetna.onama.tekst"]);
   return (
     <section className="py-24 bg-white">
       <div className="max-w-6xl mx-auto px-6">
@@ -18,26 +14,21 @@ export default function About({ predavaci }: { predavaci: Predavac[] }) {
           {/* Text */}
           <div>
             <h2 className="text-4xl md:text-5xl font-bold text-[var(--navy)] leading-tight mb-6 text-balance font-[family-name:var(--font-playfair)]">
-              Stručno, ali prije svega praktično
+              {t["pocetna.onama.naslov"]}
             </h2>
 
-            <p className="text-gray-600 leading-relaxed mb-5 text-lg text-pretty">
-              LOCALIS je osnovan s ciljem da pomogne u rješavanju
-              svakodnevnih izazova s kojima se suočavaju službenici jedinica
-              lokalne samouprave - ali i svi koji se u svom radu susreću s
-              temama iz sustava lokalne samouprave: pravnici, zaposlenici u
-              kadrovskim odjelima, poduzetnici i obrtnici.
-            </p>
-
-            <p className="text-gray-600 leading-relaxed mb-8 text-pretty">
-              Teme koje obrađujemo napokon dolaze na dnevni red - svaku
-              obrađujemo stručno, ali prije svega praktično, tako da
-              polaznici odlaze s konkretnim smjernicama koje mogu odmah
-              primijeniti u svom radu.
-            </p>
+            {/* Prvi odlomak je veći uvod, ostali obični. */}
+            {tekst.map((o, i) => (
+              <p
+                key={i}
+                className={`text-gray-600 leading-relaxed text-pretty ${i === 0 ? "text-lg" : ""} ${i === tekst.length - 1 ? "mb-8" : "mb-5"}`}
+              >
+                {o}
+              </p>
+            ))}
 
             <ul className="space-y-3 mb-10">
-              {highlights.map((item) => (
+              {stavke(t["pocetna.onama.istaknuto"]).map((item) => (
                 <li key={item} className="flex items-center gap-3 text-gray-700">
                   <CheckCircle2 size={18} className="text-[var(--gold)] shrink-0" />
                   <span>{item}</span>
@@ -69,8 +60,7 @@ export default function About({ predavaci }: { predavaci: Predavac[] }) {
               </h3>
               <p className="text-[var(--gold)] text-sm font-medium mb-4">Voditeljica ureda</p>
               <p className="text-gray-300 leading-relaxed text-pretty">
-                &ldquo;Vjerujem da svaka osoba i svaka organizacija ima potencijal
-                za rast. Moja je uloga pomoći im da ga prepoznaju i razviju.&rdquo;
+                &ldquo;{t["tim.citat"]}&rdquo;
               </p>
             </div>
           </div>
@@ -82,8 +72,7 @@ export default function About({ predavaci }: { predavaci: Predavac[] }) {
               Predavači na našim edukacijama
             </h3>
             <p className="text-gray-600 mb-8 max-w-2xl text-pretty">
-              Stručnjaci iz pravosuđa, državne uprave, sveučilišta i prakse koji o temama
-              govore iz prve ruke.
+              {t["pocetna.predavaci.uvod"]}
             </p>
             <PopisPredavaca predavaci={predavaci} />
           </div>

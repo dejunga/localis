@@ -1,92 +1,54 @@
 import Link from "next/link";
 import { GraduationCap, CalendarDays, Briefcase, ClipboardList, Code2, ArrowRight } from "lucide-react";
 import CTA from "@/components/sections/CTA";
+import { getTekstovi, stavke } from "@/lib/tekstovi";
 
 export type UslugaEdukacija = { slug: string; naslov: string; datum: string; mjesto: string };
 
 // id-jevi su sidra na koja vode linkovi s početne i iz podnožja (/usluge#obrazovanje...).
+// opis i ukljucuje = ključevi tekstova iz lib/tekstovi.ts (uređuju se u adminu).
 const services = [
   {
     id: "obrazovanje",
     icon: GraduationCap,
     title: "Edukacija i praktične radionice",
-    description:
-      "Nudimo prilagođene edukacije za službenike u jedinicama lokalne samouprave i zaposlenike pravnih osoba koje su osnovane za obavljanje poslova od značaja za lokalnu samoupravu. Naše edukacije pružaju akademski profesori i stručnjaci praktičari koji pokrivaju širok spektar tema - od mekih vještina do specifičnih stručnih znanja.",
-    features: [
-      "Prilagođene edukacije oblikovane prema stvarnim potrebama i specifičnostima svake jedinice",
-      "Radionice i interaktivna predavanja o aktualnim temama i zakonodavnim novinama",
-      "Analiza postojećeg stanja u praksi i konkretna, praktična rješenja",
-      "Edukativni materijali, priručnici i radni listovi za polaznike",
-      "Online tečajevi i e-learning moduli",
-      "Stručni skupovi, konferencije i okrugli stolovi uz vanjske predavače",
-      "Individualno mentorstvo za novoizabrane pročelnike i rukovoditelje",
-      "Provjera znanja i potvrde o sudjelovanju",
-    ],
+    opis: "usluge.obrazovanje.opis",
+    ukljucuje: "usluge.obrazovanje.ukljucuje",
   },
   {
     id: "seminari",
     icon: CalendarDays,
     title: "Organizacija seminara i poslovnih događaja",
-    description:
-      "Brinemo o kompletnoj organizaciji vaših poslovnih događaja. Od ideje do realizacije - logistika, program, predavači, materijali - sve na jednom mjestu.",
-    features: [
-      "Planiranje i koordinacija",
-      "Odabir lokacije i tehničke opreme",
-      "Organizacija predavača i panela",
-      "Marketinška podrška događaju",
-      "Post-event izvještaj i analiza",
-    ],
+    opis: "usluge.seminari.opis",
+    ukljucuje: "usluge.seminari.ukljucuje",
   },
   {
     id: "savjetovanje",
     icon: Briefcase,
     title: "Poslovno savjetovanje",
-    description:
-      "Stručno savjetovanje u svim fazama poslovanja - od pokretanja obrta ili tvrtke do optimizacije postojećih procesa i dugoročnog strateškog planiranja.",
-    features: [
-      "Analiza poslovanja i preporuke",
-      "Izrada poslovnih planova",
-      "Podrška pri aplikacijama za EU fondove",
-      "Upravljanje projektima",
-      "Podrška pri pokretanju djelatnosti",
-    ],
+    opis: "usluge.savjetovanje.opis",
+    ukljucuje: "usluge.savjetovanje.ukljucuje",
   },
   {
     id: "administracija",
     icon: ClipboardList,
     title: "Uredske i administrativne djelatnosti",
-    description:
-      "Administrativna podrška koja vam oslobađa vrijeme za ono što radite najbolje. Uredna dokumentacija bez stresa.",
-    features: [
-      "Priprema i uređivanje poslovnih dokumenata prema vašim smjernicama",
-      "Prijepis dokumenata iz papirnatog u digitalni oblik",
-      "Pisanje pisama, dopisa i sažetaka za internu ili vanjsku komunikaciju",
-      "Izrada nacrta ugovora, odluka i drugih poslovnih dokumenata",
-      "Digitalizacija postojeće dokumentacije radi lakšeg pretraživanja i pohrane",
-      "Formatiranje i priprema e-knjiga i drugih digitalnih publikacija",
-    ],
+    opis: "usluge.administracija.opis",
+    ukljucuje: "usluge.administracija.ukljucuje",
   },
   {
     id: "digitalne",
     icon: Code2,
     title: "Digitalne i podatkovne usluge",
-    description:
-      "Uz edukacije i savjetovanje za lokalnu samoupravu, LOCALIS nudi i razvoj digitalnih rješenja za treće strane - od jednostavnih web stranica i baza podataka do analize i vizualizacije podataka prilagođene potrebama klijenata.",
-    features: [
-      "Izrada i razvoj web stranica prilagođenih potrebama klijenta",
-      "Razvoj web aplikacija po mjeri",
-      "Izrada prijavnih sustava, baza klijenata i internih alata",
-      "Optimizacija postojećih baza podataka",
-      "Prilagodba, nadogradnja i održavanje postojećih softverskih rješenja",
-      "Analiza podataka, izrada izvještaja i interaktivnih dashboarda",
-      "Automatizacija ponavljajućih administrativnih procesa",
-    ],
+    opis: "usluge.digitalne.opis",
+    ukljucuje: "usluge.digitalne.ukljucuje",
   },
-];
+] as const;
 
 // Svaka usluga: opis lijevo, popis onoga što uključuje desno. Kod edukacija ispod opisa
 // stoje stvarne nadolazeće edukacije umjesto ilustracije.
-export default function UslugeContent({ nadolazece }: { nadolazece: UslugaEdukacija[] }) {
+export default async function UslugeContent({ nadolazece }: { nadolazece: UslugaEdukacija[] }) {
+  const t = await getTekstovi();
   return (
     <>
       <section className="bg-[var(--navy)] pt-32 pb-16">
@@ -95,8 +57,7 @@ export default function UslugeContent({ nadolazece }: { nadolazece: UslugaEdukac
             Usluge
           </h1>
           <p className="text-gray-300 mt-4 max-w-2xl text-lg leading-relaxed text-pretty">
-            Edukacije i stručni seminari za lokalnu samoupravu su ono čime se najviše bavimo. Uz
-            njih nudimo savjetovanje, administrativnu podršku i digitalna rješenja.
+            {t["usluge.uvod"]}
           </p>
 
           <nav aria-label="Usluge na ovoj stranici" className="mt-10">
@@ -118,7 +79,7 @@ export default function UslugeContent({ nadolazece }: { nadolazece: UslugaEdukac
 
       <section className="py-8 md:py-12 bg-white">
         <div className="max-w-6xl mx-auto px-6 divide-y divide-gray-200">
-          {services.map(({ id, icon: Icon, title, description, features }) => (
+          {services.map(({ id, icon: Icon, title, opis, ukljucuje }) => (
             <article
               key={id}
               id={id}
@@ -131,7 +92,7 @@ export default function UslugeContent({ nadolazece }: { nadolazece: UslugaEdukac
                 <h2 className="text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight text-balance font-[family-name:var(--font-playfair)]">
                   {title}
                 </h2>
-                <p className="mt-5 text-gray-600 text-lg leading-relaxed text-pretty">{description}</p>
+                <p className="mt-5 text-gray-600 text-lg leading-relaxed text-pretty">{t[opis]}</p>
 
                 {id === "obrazovanje" ? (
                   <div className="mt-8">
@@ -176,7 +137,7 @@ export default function UslugeContent({ nadolazece }: { nadolazece: UslugaEdukac
               <div className="lg:pt-[4.5rem]">
                 <p className="text-sm font-semibold text-[var(--navy)] mb-3">Što uključuje</p>
                 <ul className="divide-y divide-gray-200 border-y border-gray-200">
-                  {features.map((f) => (
+                  {stavke(t[ukljucuje]).map((f) => (
                     <li key={f} className="flex items-start gap-3 py-3.5 text-gray-700 leading-snug">
                       <span aria-hidden="true" className="mt-2 size-1.5 shrink-0 rounded-full bg-[var(--gold)]" />
                       {f}

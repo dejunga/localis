@@ -46,7 +46,7 @@ function KopirajGumb({ vrijednost, naziv }: { vrijednost: string; naziv: string 
   );
 }
 
-export default function KontaktContent() {
+export default function KontaktContent({ uvod, uvodObrasca }: { uvod: string; uvodObrasca: string }) {
   const [state, formAction, pending] = useActionState(posaljiPoruku, initialState);
 
   // Submitamo ručno umjesto preko <form action> jer React inače resetira
@@ -67,7 +67,7 @@ export default function KontaktContent() {
             Kontakt
           </h1>
           <p className="text-gray-300 mt-4 max-w-2xl text-lg leading-relaxed text-pretty">
-            Pišite nam ili nazovite. Na poruke odgovaramo u roku od 24 sata.
+            {uvod}
           </p>
 
           {/* Izravni kontakt u zaglavlju: na mobitelu dva gumba iznad obrasca, na desktopu
@@ -149,7 +149,7 @@ export default function KontaktContent() {
             <h2 className="text-2xl md:text-3xl font-bold text-[var(--navy)] mb-2 font-[family-name:var(--font-playfair)]">
               Pošaljite poruku
             </h2>
-            <p className="text-gray-600 mb-8">Napišite nam pitanje ili što trebate, javit ćemo vam se.</p>
+            <p className="text-gray-600 mb-8">{uvodObrasca}</p>
 
             {state.status === "sent" ? (
               <div className="rounded-xl bg-green-50 border border-green-200 p-8 text-center animate-in fade-in zoom-in-95 duration-500 motion-reduce:animate-none">

@@ -57,6 +57,13 @@
       "when": 1792992438267,
       "tag": "0007_datum_placanja",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1793040178949,
+      "tag": "0008_tekstovi",
+      "breakpoints": true
     }
   ]
 }

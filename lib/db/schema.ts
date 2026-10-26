@@ -104,7 +104,15 @@ export const postavke = pgTable("postavke", {
   vrijednost: text("vrijednost").notNull(),
 });
 
-export const brojacPonuda = pgTable("brojac_ponuda", {
+// Izmjene tekstova na stranicama iz /admin/tekstovi. Izvorni tekst je u lib/tekstovi.ts;
+// ovdje su samo polja koja se od njega razlikuju.
+export const tekstovi = pgTable("tekstovi", {
+  kljuc: text("kljuc").primaryKey(),
+  vrijednost: text("vrijednost").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const brojacPonuda =pgTable("brojac_ponuda", {
   godina: integer("godina").primaryKey(),
   zadnjiBroj: integer("zadnji_broj").notNull().default(0),
 });
