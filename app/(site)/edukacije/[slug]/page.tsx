@@ -18,6 +18,7 @@ import { MAX_POLAZNIKA } from "@/lib/prijave/limiti";
 import { zauzetaMjesta } from "@/lib/prijave/mjesta";
 import RegistracijaForm from "./RegistracijaForm";
 import PrijaviSeButton from "./PrijaviSeButton";
+import PlutajucaPrijava from "./PlutajucaPrijava";
 
 // Stranica je statična; regenerira se svakih 5 minuta da edukacije koje su počele
 // izgube gumb i formu za prijavu bez novog builda.
@@ -273,9 +274,12 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
         )}
 
         {!past && (
-          <div className="flex justify-center mb-20">
+          <div id="prijavi-se-gumb" className="flex justify-center mb-20">
             <PrijaviSeButton />
           </div>
+        )}
+        {!past && !popunjeno && (
+          <PlutajucaPrijava naslov={seminar.title} datum={seminar.dateLabel} cijena={cijena.price} />
         )}
 
         {/* Description */}
@@ -456,9 +460,11 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
         </section>
 
         {/* Registration */}
-        <section id="prijava" className="mb-20 scroll-mt-24">
-          <div className="relative bg-[var(--navy)] rounded-2xl overflow-hidden px-3 py-10 sm:px-12 sm:py-14">
-            <div className="absolute inset-0 pointer-events-none">
+        {/* Na desktopu izlazi iz max-w-4xl stupca da forma s izračunom ima mjesta za dva stupca. */}
+        <section id="prijava" className="mb-20 scroll-mt-24 lg:-mx-16">
+          {/* Krugove reže njihov sloj, ne kartica - overflow-hidden ovdje bi pokvario sticky izračun u formi. */}
+          <div className="relative bg-[var(--navy)] rounded-2xl px-3 py-10 sm:px-12 sm:py-14 lg:px-10">
+            <div className="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none">
               <div className="absolute top-0 right-0 w-72 h-72 bg-[var(--gold)]/10 rounded-full -translate-y-1/2 translate-x-1/4" />
               <div className="absolute bottom-0 left-0 w-56 h-56 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
             </div>
@@ -516,7 +522,11 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
             </div>
 
             {!past && !popunjeno && (
-              <div className="relative max-w-xl mx-auto bg-white rounded-xl p-4 sm:p-8 shadow-xl text-left">
+              <div
+                className={`relative max-w-xl mx-auto bg-white rounded-xl p-4 sm:p-8 shadow-xl text-left ${
+                  seminar.ponuda ? "lg:max-w-none" : ""
+                }`}
+              >
                 <RegistracijaForm
                   seminarSlug={seminar.slug}
                   seminarTitle={seminar.title}
