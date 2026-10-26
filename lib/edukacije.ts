@@ -363,6 +363,169 @@ const opciAktPonuda = {
   ukljuceno: "radni materijali, coffee break, potvrda o sudjelovanju",
 };
 
+// Ista radionica u Zagrebu i Rijeci - zajednički sadržaj, termini se razlikuju.
+const sluzbenickiOdnosi: Omit<
+  Seminar,
+  "slug" | "date" | "dateLabel" | "location" | "locationDetail" | "ranaPrijava" | "ponuda"
+> = {
+  title: "Službenički odnosi u JLP(R)S: preduvjeti zakonitog zapošljavanja",
+  titleLines: ["Službenički odnosi u JLP(R)S:", "preduvjeti zakonitog zapošljavanja"],
+  kicker: "Praktična radionica",
+  excerpt:
+    "Radionica o zakonitom prijmu u službu u JLP(R)S - plan prijma, pravilnik o unutarnjem redu, javni natječaj, oglas i sporazum, zajednički službenik i praksa Visokog upravnog suda.",
+  time: "10.00 - 16.00",
+  price: "219,00 EUR",
+  priceNote: "Pružatelj nije u sustavu PDV-a.",
+  descriptionHighlighted: true,
+  description: [
+    "Zakonit prijam u službu počinje mnogo prije raspisivanja natječaja - u odluci o ustrojstvu, planu prijma i pravilniku o unutarnjem redu. Na praktičnoj radionici obradit će se preduvjeti zakonitog zapošljavanja u JLP(R)S, postupak prijma putem javnog natječaja, oglasa i pisanog sporazuma, pravo prednosti po posebnim propisima te zajednički službenik i zajedničko upravno tijelo kao rješenje u slučaju nedostatka stručnog kadra. Kroz praktične vježbe i odluke Visokog upravnog suda polaznici će naučiti prepoznati pogreške prije nego što ih uoči upravna inspekcija.",
+  ],
+  targetAudience: [
+    "pročelnicima i voditeljima ustrojstvenih jedinica",
+    "službenicima koji rade na poslovima ljudskih potencijala i kadrovskim poslovima",
+    "članovima povjerenstava za provedbu javnog natječaja",
+    "službenicima u jedinicama lokalne i područne (regionalne) samouprave",
+  ],
+  goals: [
+    "uskladiti plan prijma i pravilnik o unutarnjem redu s pozitivnopravnim propisima",
+    "pravilno provesti javni natječaj, oglas i prijam na temelju pisanog sporazuma",
+    "primijeniti pravo prednosti po posebnim propisima",
+    "znati kada i kako organizirati zajedničkog službenika ili zajedničko upravno tijelo",
+    "smanjiti rizik od nezakonitog prijma i nalaza upravne inspekcije",
+  ],
+  agenda: [
+    { time: "10.00 - 10.30", topics: [{ title: "Registracija polaznika i uvodna riječ" }] },
+    {
+      time: "10.30 - 12.00",
+      topics: [
+        {
+          label: "Modul 1",
+          title: "Plan prijma i Pravilnik o unutarnjem redu: temelj zakonitog prijma",
+        },
+        { title: "Načelo zakonitosti", points: ["Pozitivna i negativna vezanost"] },
+        { title: "Odluka o ustrojstvu i djelokrugu upravnih tijela" },
+        {
+          title: "Plan prijma u službu",
+          points: [
+            "Opće odredbe",
+            "Prekršajne odredbe",
+            "Ustavni zakon o pravima nacionalnih manjina",
+          ],
+        },
+        {
+          title: "Pravilnik o unutarnjem redu i Uredba o klasifikaciji radnih mjesta",
+          points: [
+            "Naziv i opis radnog mjesta: osnovni podaci, opis poslova, opis razine standardnih mjerila",
+            "Standardna mjerila: stručno znanje, složenost poslova, samostalnost u radu, suradnja s drugim tijelima i komunikacija sa strankama, odgovornost i utjecaj na donošenje odluka",
+            "Kategorije radnih mjesta (I. - IV.) i klasifikacijski rang",
+          ],
+        },
+        {
+          title: "Pravilnik o unutarnjem redu i posebni propisi",
+          points: [
+            "Zakon o komunalnom gospodarstvu",
+            "Zakon o poljoprivrednom zemljištu",
+            "Pravilnik o uvjetima za obavljanje poslova upravljanja prometom, nadzora i premještanja nepropisno zaustavljenih i parkiranih vozila kada te poslove obavljaju jedinice lokalne samouprave te programu i načinu osposobljavanja službenika",
+          ],
+        },
+        {
+          title: "Praktična vježba",
+          points: ["„Utvrdite je li Plan prijma u skladu s pozitivnopravnim propisima”"],
+        },
+      ],
+    },
+    { time: "12.00 - 12.30", topics: [{ title: "Pauza za kavu / finger food" }] },
+    {
+      time: "12.30 - 14.00",
+      topics: [
+        { label: "Modul 2", title: "Postupak prijma: javni natječaj, oglas i sporazum" },
+        {
+          title:
+            "Zakon o službenicima i namještenicima u lokalnoj i područnoj (regionalnoj) samoupravi",
+          points: ["Posebne odredbe o namještenicima"],
+        },
+        {
+          title: "Javni natječaj",
+          points: ["Izuzetak od primjene", "Opće odredbe", "Prekršajne odredbe"],
+        },
+        {
+          title: "Pravo prednosti po posebnim propisima",
+          points: [
+            "Zakon o hrvatskim braniteljima iz Domovinskog rata i članovima njihovih obitelji",
+            "Zakon o zaštiti vojnih i civilnih invalida rata",
+            "Zakon o civilnim stradalnicima iz Domovinskog rata",
+            "Zakon o obrani",
+          ],
+        },
+        {
+          title:
+            "Povjerenstvo za provedbu javnog natječaja i angažiranje vanjskih stručnjaka",
+        },
+        { title: "Uvjeti i zapreke za prijam u službu" },
+        {
+          title: "Provjera znanja i sposobnosti kandidata",
+          points: [
+            "Specifični uvjeti radnog mjesta",
+            "Psihološka procjena",
+            "Kompetencije Povjerenstva za provedbu natječaja",
+            "Angažiranje vanjskih stručnjaka",
+          ],
+        },
+        { title: "Prijam u službu na određeno vrijeme" },
+        { title: "Prijam u službu na temelju pisanog sporazuma" },
+        {
+          title: "Praktična vježba",
+          points: [
+            "„Provjerite pravilnost javnog natječaja”",
+            "„Provjerite sadržaj pisanog sporazuma”",
+          ],
+        },
+      ],
+    },
+    { time: "14.00 - 14.30", topics: [{ title: "Pauza za kavu" }] },
+    {
+      time: "14.30 - 15.30",
+      topics: [
+        {
+          label: "Modul 3",
+          title:
+            "Zajednički službenik i zajedničko upravno tijelo - zakonito rješenje u slučaju nedostatka stručnog kadra JLP(R)S",
+        },
+        { title: "Praksa Visokog upravnog suda", points: ["Analiza konkretnih odluka"] },
+        {
+          title: "Praktična analiza sadržaja pravilnika JLP(R)S",
+          points: ["„Pronađite pogreške u izvatku iz Pravilnika o unutarnjem redu”"],
+        },
+        { title: "Check-lista prije raspisivanja natječaja i donošenja rješenja" },
+        { title: "Diskusija i odgovori na pitanja" },
+      ],
+    },
+    {
+      time: "15.30 - 16.00",
+      topics: [{ title: "Završna riječ i podjela potvrda o sudjelovanju" }],
+    },
+    { time: "16.00", topics: [{ title: "Završetak radionice" }] },
+  ],
+  lecturers: [
+    {
+      name: "Vera Sokolović, mag. iur.",
+      role: "viša upravna inspektorica Ministarstva pravosuđa, uprave i digitalne transformacije",
+      bio: "Vera Sokolović viša je upravna inspektorica Ministarstva pravosuđa, uprave i digitalne transformacije. Njezina se karijera odlikuje iskustvom iz različitih segmenata pravnog sustava - od privatnog odvjetništva i osjetljivog sustava socijalne skrbi, pa sve do trenutačne pozicije više upravne inspektorice. Višegodišnje radno iskustvo u upravnoj inspekciji daje joj jedinstven uvid u stvarno funkcioniranje jedinica lokalne i područne (regionalne) samouprave iznutra. Specijalizirana je za kontrolu zakonitosti iz područja upravne inspekcije. Usmjerena je na prepoznavanje sustavnih nepravilnosti, zaštitu prava građana i unaprjeđenje učinkovitosti jedinica lokalne i područne (regionalne) samouprave.",
+      photo: {
+        url: "/images/edukacije/sokolovic.jpg",
+        alt: "Vera Sokolović, mag. iur.",
+        position: "center 25%",
+      },
+    },
+  ],
+};
+
+const sluzbenickiOdnosiPonuda = {
+  cijena: 219,
+  predavac: "Vera Sokolović, mag. iur.",
+  ukljuceno: "radni materijali, coffee break, finger food, potvrda o sudjelovanju",
+};
+
 // Ručno dodane edukacije. Nova edukacija: dodati objekt u niz ispod.
 // Blok `ponuda` je obavezan za plaćene edukacije - bez njega prijava ne šalje ponudu.
 const seminars: Seminar[] = [
@@ -748,173 +911,49 @@ const seminars: Seminar[] = [
     ],
   },
   {
+    ...sluzbenickiOdnosi,
     slug: "sluzbenicki-odnosi-preduvjeti-zakonitog-zaposljavanja",
-    title: "Službenički odnosi u JLP(R)S: preduvjeti zakonitog zapošljavanja",
-    titleLines: ["Službenički odnosi u JLP(R)S:", "preduvjeti zakonitog zapošljavanja"],
-    kicker: "Praktična radionica",
-    excerpt:
-      "Radionica o zakonitom prijmu u službu u JLP(R)S - plan prijma, pravilnik o unutarnjem redu, javni natječaj, oglas i sporazum, zajednički službenik i praksa Visokog upravnog suda.",
     date: "2026-11-09",
     dateLabel: "9. studenoga 2026.",
-    time: "10.00 - 16.00",
     location: "Hotel Antunović, Zagreb",
     locationDetail: "Zagrebačka avenija 100A, dvorana Tomislav",
-    price: "219,00 EUR",
-    priceNote: "Pružatelj nije u sustavu PDV-a.",
     ranaPrijava: {
       do: "2026-11-02",
       doLabel: "2. studenoga 2026.",
       price: "199,00 EUR",
       cijena: 199,
     },
-    ponuda: {
-      cijena: 219,
-      predavac: "Vera Sokolović, mag. iur.",
-      mjesto: "Hotel Antunović, Zagrebačka avenija 100a",
-      ukljuceno: "radni materijali, coffee break, finger food, potvrda o sudjelovanju",
+    ponuda: { ...sluzbenickiOdnosiPonuda, mjesto: "Hotel Antunović, Zagrebačka avenija 100a" },
+  },
+  {
+    ...sluzbenickiOdnosi,
+    slug: "sluzbenicki-odnosi-preduvjeti-zakonitog-zaposljavanja-rijeka",
+    date: "2026-11-30",
+    dateLabel: "30. studenoga 2026.",
+    time: "11.00 - 17.00",
+    // Rijeka počinje sat kasnije nego Zagreb.
+    agenda: sluzbenickiOdnosi.agenda.map((item, i) => ({
+      ...item,
+      time: [
+        "11.00 - 11.30",
+        "11.30 - 13.00",
+        "13.00 - 13.30",
+        "13.30 - 15.00",
+        "15.00 - 15.30",
+        "15.30 - 16.30",
+        "16.30 - 17.00",
+        "17.00",
+      ][i],
+    })),
+    location: "Hotel Bonavia, Rijeka",
+    locationDetail: "Dolac 4, dvorana Karolina",
+    ranaPrijava: {
+      do: "2026-11-23",
+      doLabel: "23. studenoga 2026.",
+      price: "199,00 EUR",
+      cijena: 199,
     },
-    descriptionHighlighted: true,
-    description: [
-      "Zakonit prijam u službu počinje mnogo prije raspisivanja natječaja - u odluci o ustrojstvu, planu prijma i pravilniku o unutarnjem redu. Na praktičnoj radionici obradit će se preduvjeti zakonitog zapošljavanja u JLP(R)S, postupak prijma putem javnog natječaja, oglasa i pisanog sporazuma, pravo prednosti po posebnim propisima te zajednički službenik i zajedničko upravno tijelo kao rješenje u slučaju nedostatka stručnog kadra. Kroz praktične vježbe i odluke Visokog upravnog suda polaznici će naučiti prepoznati pogreške prije nego što ih uoči upravna inspekcija.",
-    ],
-    targetAudience: [
-      "pročelnicima i voditeljima ustrojstvenih jedinica",
-      "službenicima koji rade na poslovima ljudskih potencijala i kadrovskim poslovima",
-      "članovima povjerenstava za provedbu javnog natječaja",
-      "službenicima u jedinicama lokalne i područne (regionalne) samouprave",
-    ],
-    goals: [
-      "uskladiti plan prijma i pravilnik o unutarnjem redu s pozitivnopravnim propisima",
-      "pravilno provesti javni natječaj, oglas i prijam na temelju pisanog sporazuma",
-      "primijeniti pravo prednosti po posebnim propisima",
-      "znati kada i kako organizirati zajedničkog službenika ili zajedničko upravno tijelo",
-      "smanjiti rizik od nezakonitog prijma i nalaza upravne inspekcije",
-    ],
-    agenda: [
-      { time: "10.00 - 10.30", topics: [{ title: "Registracija polaznika i uvodna riječ" }] },
-      {
-        time: "10.30 - 12.00",
-        topics: [
-          {
-            label: "Modul 1",
-            title: "Plan prijma i Pravilnik o unutarnjem redu: temelj zakonitog prijma",
-          },
-          { title: "Načelo zakonitosti", points: ["Pozitivna i negativna vezanost"] },
-          { title: "Odluka o ustrojstvu i djelokrugu upravnih tijela" },
-          {
-            title: "Plan prijma u službu",
-            points: [
-              "Opće odredbe",
-              "Prekršajne odredbe",
-              "Ustavni zakon o pravima nacionalnih manjina",
-            ],
-          },
-          {
-            title: "Pravilnik o unutarnjem redu i Uredba o klasifikaciji radnih mjesta",
-            points: [
-              "Naziv i opis radnog mjesta: osnovni podaci, opis poslova, opis razine standardnih mjerila",
-              "Standardna mjerila: stručno znanje, složenost poslova, samostalnost u radu, suradnja s drugim tijelima i komunikacija sa strankama, odgovornost i utjecaj na donošenje odluka",
-              "Kategorije radnih mjesta (I. - IV.) i klasifikacijski rang",
-            ],
-          },
-          {
-            title: "Pravilnik o unutarnjem redu i posebni propisi",
-            points: [
-              "Zakon o komunalnom gospodarstvu",
-              "Zakon o poljoprivrednom zemljištu",
-              "Pravilnik o uvjetima za obavljanje poslova upravljanja prometom, nadzora i premještanja nepropisno zaustavljenih i parkiranih vozila kada te poslove obavljaju jedinice lokalne samouprave te programu i načinu osposobljavanja službenika",
-            ],
-          },
-          {
-            title: "Praktična vježba",
-            points: ["„Utvrdite je li Plan prijma u skladu s pozitivnopravnim propisima”"],
-          },
-        ],
-      },
-      { time: "12.00 - 12.30", topics: [{ title: "Pauza za kavu / finger food" }] },
-      {
-        time: "12.30 - 14.00",
-        topics: [
-          { label: "Modul 2", title: "Postupak prijma: javni natječaj, oglas i sporazum" },
-          {
-            title:
-              "Zakon o službenicima i namještenicima u lokalnoj i područnoj (regionalnoj) samoupravi",
-            points: ["Posebne odredbe o namještenicima"],
-          },
-          {
-            title: "Javni natječaj",
-            points: ["Izuzetak od primjene", "Opće odredbe", "Prekršajne odredbe"],
-          },
-          {
-            title: "Pravo prednosti po posebnim propisima",
-            points: [
-              "Zakon o hrvatskim braniteljima iz Domovinskog rata i članovima njihovih obitelji",
-              "Zakon o zaštiti vojnih i civilnih invalida rata",
-              "Zakon o civilnim stradalnicima iz Domovinskog rata",
-              "Zakon o obrani",
-            ],
-          },
-          {
-            title:
-              "Povjerenstvo za provedbu javnog natječaja i angažiranje vanjskih stručnjaka",
-          },
-          { title: "Uvjeti i zapreke za prijam u službu" },
-          {
-            title: "Provjera znanja i sposobnosti kandidata",
-            points: [
-              "Specifični uvjeti radnog mjesta",
-              "Psihološka procjena",
-              "Kompetencije Povjerenstva za provedbu natječaja",
-              "Angažiranje vanjskih stručnjaka",
-            ],
-          },
-          { title: "Prijam u službu na određeno vrijeme" },
-          { title: "Prijam u službu na temelju pisanog sporazuma" },
-          {
-            title: "Praktična vježba",
-            points: [
-              "„Provjerite pravilnost javnog natječaja”",
-              "„Provjerite sadržaj pisanog sporazuma”",
-            ],
-          },
-        ],
-      },
-      { time: "14.00 - 14.30", topics: [{ title: "Pauza za kavu" }] },
-      {
-        time: "14.30 - 15.30",
-        topics: [
-          {
-            label: "Modul 3",
-            title:
-              "Zajednički službenik i zajedničko upravno tijelo - zakonito rješenje u slučaju nedostatka stručnog kadra JLP(R)S",
-          },
-          { title: "Praksa Visokog upravnog suda", points: ["Analiza konkretnih odluka"] },
-          {
-            title: "Praktična analiza sadržaja pravilnika JLP(R)S",
-            points: ["„Pronađite pogreške u izvatku iz Pravilnika o unutarnjem redu”"],
-          },
-          { title: "Check-lista prije raspisivanja natječaja i donošenja rješenja" },
-          { title: "Diskusija i odgovori na pitanja" },
-        ],
-      },
-      {
-        time: "15.30 - 16.00",
-        topics: [{ title: "Završna riječ i podjela potvrda o sudjelovanju" }],
-      },
-      { time: "16.00", topics: [{ title: "Završetak radionice" }] },
-    ],
-    lecturers: [
-      {
-        name: "Vera Sokolović, mag. iur.",
-        role: "viša upravna inspektorica Ministarstva pravosuđa, uprave i digitalne transformacije",
-        bio: "Vera Sokolović viša je upravna inspektorica Ministarstva pravosuđa, uprave i digitalne transformacije. Njezina se karijera odlikuje iskustvom iz različitih segmenata pravnog sustava - od privatnog odvjetništva i osjetljivog sustava socijalne skrbi, pa sve do trenutačne pozicije više upravne inspektorice. Višegodišnje radno iskustvo u upravnoj inspekciji daje joj jedinstven uvid u stvarno funkcioniranje jedinica lokalne i područne (regionalne) samouprave iznutra. Specijalizirana je za kontrolu zakonitosti iz područja upravne inspekcije. Usmjerena je na prepoznavanje sustavnih nepravilnosti, zaštitu prava građana i unaprjeđenje učinkovitosti jedinica lokalne i područne (regionalne) samouprave.",
-        photo: {
-          url: "/images/edukacije/sokolovic.jpg",
-          alt: "Vera Sokolović, mag. iur.",
-          position: "center 25%",
-        },
-      },
-    ],
+    ponuda: { ...sluzbenickiOdnosiPonuda, mjesto: "Hotel Bonavia, Dolac 4, Rijeka" },
   },
   {
     slug: "stegovna-odgovornost-u-jlprs-i-drzavnoj-sluzbi",
