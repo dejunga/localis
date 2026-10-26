@@ -50,15 +50,6 @@ function prikaz(s: Seminar, slobodno: ((slug: string) => number) | null): Edukac
   };
 }
 
-// 1 nadolazeća edukacija, 2-4 nadolazeće edukacije, 5+ nadolazećih edukacija
-function brojEdukacija(n: number): string {
-  const d = n % 10;
-  const s = n % 100;
-  if (d === 1 && s !== 11) return `${n} nadolazeća edukacija`;
-  if (d >= 2 && d <= 4 && (s < 12 || s > 14)) return `${n} nadolazeće edukacije`;
-  return `${n} nadolazećih edukacija`;
-}
-
 export default async function EdukacijePage() {
   const seminari = await getSeminars(); // najnovije prvo
   const odgodene = seminari.filter((s) => s.odgodeno);
@@ -68,9 +59,7 @@ export default async function EdukacijePage() {
   const slobodno = nadolazeceSeminari.length > 0 ? await slobodnaMjesta() : null;
   const [istaknuta, ...ostale] = nadolazeceSeminari.map((s) => prikaz(s, slobodno));
 
-  const sazetak = istaknuta
-    ? `${brojEdukacija(nadolazeceSeminari.length)}. Sljedeća: ${istaknuta.datumLabel} ${istaknuta.mjesto}.`
-    : "Trenutno pripremamo nove termine. Pratite stranicu ili nam se javite.";
+  const sazetak = istaknuta ? undefined : "Trenutno pripremamo nove termine. Pratite stranicu ili nam se javite.";
 
   const kratko = (s: Seminar) => ({
     slug: s.slug,

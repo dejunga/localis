@@ -108,7 +108,11 @@ export function IstaknutaEdukacija({ e }: { e: EdukacijaPrikaz }) {
             </p>
           )}
           {e.grupniPopust && (
-            <p className="mt-2 text-sm text-green-700">Drugi polaznik −10 %, treći i svaki sljedeći −20 %.</p>
+            <p className="mt-2 text-sm text-green-700">
+              Drugi polaznik −10 %
+              <br />
+              Treći i svaki sljedeći −20 %.
+            </p>
           )}
         </div>
         <div>
