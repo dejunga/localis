@@ -7,10 +7,12 @@ import {
   azurirajPrijavu,
   povuciPrivoluObavijesti,
   spremiBrojNarudzbenice,
+  spremiDatumPlacanja,
   spremiPlaceno,
   spremiPopust,
 } from "@/lib/prijave/spremi";
 import { procitajPopust } from "@/lib/ponude/popust";
+import { danasZagreb } from "@/lib/ponude/datumi";
 import { dovrsiPonudu, izdajPonudu, ponovnoPosaljiMail, stornirajPonudu } from "@/lib/ponude/izdaj";
 
 export type AdminAkcijaState = { poruka?: string; greska?: string };
@@ -68,6 +70,22 @@ export async function oznaciPlaceno(prijavaId: number, placeno: boolean): Promis
   await spremiPlaceno(prijavaId, placeno);
   osvjezi(prijavaId);
   return {};
+}
+
+export async function spremiDatumPlacanjaAkcija(
+  prijavaId: number,
+  _prev: AdminAkcijaState,
+  formData: FormData,
+): Promise<AdminAkcijaState> {
+  await zahtijevajAdmina();
+  const datum = String(formData.get("datumPlacanja") ?? "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(datum) || Number.isNaN(Date.parse(datum))) {
+    return { greska: "Upiši ispravan datum plaćanja." };
+  }
+  if (datum > danasZagreb()) return { greska: "Datum plaćanja ne može biti u budućnosti." };
+  await spremiDatumPlacanja(prijavaId, datum);
+  osvjezi(prijavaId);
+  return { poruka: "Datum plaćanja spremljen." };
 }
 
 export async function povuciPrivolu(prijavaId: number): Promise<AdminAkcijaState> {

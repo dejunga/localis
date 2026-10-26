@@ -1,0 +1,1 @@
+ALTER TABLE "prijave" ADD COLUMN "datum_placanja" date;

@@ -2,6 +2,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { polaznici, prijave, type Prijava } from "@/lib/db/schema";
 import type { Popust } from "@/lib/ponude/popust";
+import { danasZagreb } from "@/lib/ponude/datumi";
 
 export type NovaPrijava = {
   seminarSlug: string;
@@ -98,8 +99,17 @@ export async function povuciPrivoluObavijesti(id: number): Promise<void> {
     .where(eq(prijave.id, id));
 }
 
+// Označavanje upisuje današnji datum plaćanja, odznačavanje ga briše.
 export async function spremiPlaceno(id: number, placeno: boolean): Promise<void> {
-  await db.update(prijave).set({ placeno }).where(eq(prijave.id, id));
+  await db
+    .update(prijave)
+    .set({ placeno, datumPlacanja: placeno ? danasZagreb() : null })
+    .where(eq(prijave.id, id));
+}
+
+// Ispravak datuma (npr. uplata stigla ranije nego što je označena). Datum = "YYYY-MM-DD".
+export async function spremiDatumPlacanja(id: number, datum: string): Promise<void> {
+  await db.update(prijave).set({ placeno: true, datumPlacanja: datum }).where(eq(prijave.id, id));
 }
 
 // Prazan string briše broj narudžbenice.

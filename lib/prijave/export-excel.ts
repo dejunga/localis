@@ -16,6 +16,7 @@ export type ExportRed = {
   radnaMjesta: string;
   brojNarudzbenice: string;
   placeno: boolean;
+  datumPlacanja: string; // "28.10.2026." ili prazno
 };
 
 const EUR_FMT = '#,##0.00 "€"';
@@ -44,7 +45,14 @@ export function redoviZaExport(prijave: PrijavaRed[]): ExportRed[] {
         : "",
       brojNarudzbenice: p.brojNarudzbenice ?? "",
       placeno: p.placeno,
+      datumPlacanja: p.datumPlacanja ? datumKratko(p.datumPlacanja) : "",
     }));
+}
+
+// "2026-10-08" -> "8.10.2026."
+function datumKratko(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${d}.${m}.${y}.`;
 }
 
 // "2026-09-28" -> "28.9"
@@ -79,6 +87,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     { key: "radnaMjesta", width: 37 },
     { key: "brojNarudzbenice", width: 22 },
     { key: "placeno", width: 10 },
+    { key: "datumPlacanja", width: 17 },
   ];
   const header = ws.addRow([
     "NAZIV PARTNERA",
@@ -91,6 +100,7 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
     "RADNO MJESTO",
     "BROJ NARUDŽBENICE",
     "PLAĆENO",
+    "DATUM PLAĆANJA",
   ]);
   header.font = { bold: true };
 
@@ -106,12 +116,14 @@ export async function generirajExcel(s: SeminarZaExport, redovi: ExportRed[]): P
       r.radnaMjesta,
       r.brojNarudzbenice,
       r.placeno ? "DA" : "NE",
+      r.datumPlacanja,
     ]);
     row.getCell(2).numFmt = EUR_FMT;
     // OIB i telefon kao tekst da Excel ne odbaci vodeću nulu.
     row.getCell(3).numFmt = "@";
     row.getCell(6).numFmt = "@";
     row.getCell(9).numFmt = "@";
+    row.getCell(11).numFmt = "@";
   }
 
   const zadnji = ws.rowCount;

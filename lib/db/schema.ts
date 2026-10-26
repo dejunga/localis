@@ -37,6 +37,8 @@ export const prijave = pgTable("prijave", {
   brojNarudzbenice: text("broj_narudzbenice"),
   // Admin ručno označava kad klijent plati; ide u export za računovodstvo.
   placeno: boolean("placeno").notNull().default(false),
+  // Postavlja se na današnji dan kad se označi plaćeno; admin ga može ispraviti. NULL kad nije plaćeno.
+  datumPlacanja: date("datum_placanja"),
   // Privola kontakt osobe za obavijesti o budućim edukacijama. NULL = nije dana ili je povučena.
   privolaObavijestiAt: timestamp("privola_obavijesti_at", { withTimezone: true }),
   privolaObavijestiVerzija: text("privola_obavijesti_verzija"),

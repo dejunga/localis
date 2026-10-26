@@ -45,6 +45,7 @@ function prijava(over: Partial<PrijavaRed> & { id: number }): PrijavaRed {
     napomena: null,
     brojNarudzbenice: null,
     placeno: false,
+    datumPlacanja: null,
     status: "ponuda_poslana",
     brojPolaznika: 1,
     zadnjaPonuda: { ukupno: "199.00", status: "poslana" } as PrijavaRed["zadnjaPonuda"],
@@ -95,6 +96,7 @@ describe("redoviZaExport", () => {
       radnaMjesta: "x i y",
       brojNarudzbenice: "",
       placeno: false,
+      datumPlacanja: "",
     });
   });
 
@@ -115,6 +117,11 @@ describe("redoviZaExport", () => {
     const [r] = redoviZaExport([prijava({ id: 1, placeno: true })]);
     expect(r.placeno).toBe(true);
   });
+
+  it("formatira datum plaćanja", () => {
+    const [r] = redoviZaExport([prijava({ id: 1, placeno: true, datumPlacanja: "2026-10-08" })]);
+    expect(r.datumPlacanja).toBe("8.10.2026.");
+  });
 });
 
 describe("nazivi", () => {
@@ -130,8 +137,8 @@ describe("nazivi", () => {
 describe("generirajExcel", () => {
   it("piše zaglavlje, redove, SUM formulu i naziv usluge", async () => {
     const buf = await generirajExcel(seminar, [
-      { nazivPartnera: "A", iznos: 199, oib: "09532532757", adresa: "a", mail: "a@a", telefon: "0911", polaznici: "X", radnaMjesta: "pročelnica", brojNarudzbenice: "007/26", placeno: true },
-      { nazivPartnera: "B", iznos: 398, oib: "22824951663", adresa: "b", mail: "b@b", telefon: "0922", polaznici: "Y i Z", radnaMjesta: "referent i savjetnica", brojNarudzbenice: "", placeno: false },
+      { nazivPartnera: "A", iznos: 199, oib: "09532532757", adresa: "a", mail: "a@a", telefon: "0911", polaznici: "X", radnaMjesta: "pročelnica", brojNarudzbenice: "007/26", placeno: true, datumPlacanja: "8.10.2026." },
+      { nazivPartnera: "B", iznos: 398, oib: "22824951663", adresa: "b", mail: "b@b", telefon: "0922", polaznici: "Y i Z", radnaMjesta: "referent i savjetnica", brojNarudzbenice: "", placeno: false, datumPlacanja: "" },
     ]);
     const wb = await ucitajWorkbook(buf);
     const ws = wb.getWorksheet("POPIS ZA RAČUNE 28.9")!;
@@ -150,6 +157,8 @@ describe("generirajExcel", () => {
     expect(ws.getCell("J1").value).toBe("PLAĆENO");
     expect(ws.getCell("J2").value).toBe("DA");
     expect(ws.getCell("J3").value).toBe("NE");
+    expect(ws.getCell("K1").value).toBe("DATUM PLAĆANJA");
+    expect(ws.getCell("K2").value).toBe("8.10.2026.");
     expect(ws.getCell("A4").value).toBe("UKUPNO");
     expect((ws.getCell("B4").value as { formula: string }).formula).toBe("SUM(B2:B3)");
     expect(ws.getCell("A6").value).toBe("Naziv usluge:");

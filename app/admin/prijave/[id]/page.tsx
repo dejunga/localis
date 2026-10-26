@@ -11,6 +11,8 @@ import UrediPrijavuForm from "./UrediPrijavuForm";
 import PovuciPrivoluGumb from "./PovuciPrivoluGumb";
 import PopustForm from "./PopustForm";
 import PlacenoKvacica from "../PlacenoKvacica";
+import DatumPlacanjaForm from "./DatumPlacanjaForm";
+import { danasZagreb } from "@/lib/ponude/datumi";
 import { IzdajNovuGumb, PonudaAkcije } from "./PonudaAkcije";
 
 export const dynamic = "force-dynamic";
@@ -118,8 +120,21 @@ export default async function PrijavaDetaljPage({ params }: { params: Promise<{ 
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">
         <h2 className="font-semibold mb-1">Plaćanje</h2>
-        <p className="text-xs text-gray-500 mb-4">Označi kad klijent plati. Ide u export za računovodstvo.</p>
-        <PlacenoKvacica prijavaId={prijava.id} placeno={prijava.placeno} oznaka="Plaćeno" />
+        <p className="text-xs text-gray-500 mb-4">
+          Označi kad klijent plati - upisuje se današnji datum, ispravi ga ako je uplata stigla ranije. Oboje ide u
+          export za računovodstvo.
+        </p>
+        <div className="space-y-4">
+          <PlacenoKvacica prijavaId={prijava.id} placeno={prijava.placeno} oznaka="Plaćeno" />
+          {prijava.placeno && (
+            <DatumPlacanjaForm
+              key={prijava.datumPlacanja ?? ""}
+              prijavaId={prijava.id}
+              datumPlacanja={prijava.datumPlacanja}
+              danas={danasZagreb()}
+            />
+          )}
+        </div>
       </section>
 
       <section className="bg-white border border-gray-200 rounded-xl p-6">
