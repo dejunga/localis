@@ -1,9 +1,9 @@
 import Hero from "@/components/sections/Hero";
 import NadolazeceEdukacije from "@/components/sections/NadolazeceEdukacije";
 import Services from "@/components/sections/Services";
-import About, { type Predavac } from "@/components/sections/About";
+import About from "@/components/sections/About";
 import CTA from "@/components/sections/CTA";
-import { aktualnaCijena, getSeminars, isSeminarPast } from "@/lib/edukacije";
+import { aktualnaCijena, getPredavaci, getSeminars, isSeminarPast } from "@/lib/edukacije";
 import { JLS } from "@/lib/karta-jls";
 
 // Vijesti privremeno skrivene s naslovnice. Za povratak: odkomentiraj
@@ -22,7 +22,7 @@ export default async function Home() {
   const seminari = await getSeminars();
 
   // getSeminars vraća najnovije prvo; okrenuto je najbliža nadolazeća prva.
-  const nadolazece = seminari.filter((s) => !isSeminarPast(s)).reverse();
+  const nadolazece = seminari.filter((s) => !s.odgodeno && !isSeminarPast(s)).reverse();
   const sljedeca = nadolazece[0];
 
   // Lokacija je "Hotel Antunović, Zagreb" - grad je zadnji dio, a na karti piše "Grad Zagreb".
@@ -33,15 +33,7 @@ export default async function Home() {
     ]),
   ].filter((naziv) => JLS.some(([n]) => n === naziv));
 
-  // Svaki predavač jednom, redom od najnovije edukacije; bez fotografije se ne prikazuje.
-  const predavaci = new Map<string, Predavac>();
-  for (const s of seminari) {
-    for (const l of s.lecturers) {
-      if (l.photo && !predavaci.has(l.name)) {
-        predavaci.set(l.name, { ime: l.name, uloga: l.role, foto: l.photo });
-      }
-    }
-  }
+  const predavaci = await getPredavaci();
 
   return (
     <>
@@ -66,7 +58,7 @@ export default async function Home() {
         }))}
       />
       <Services />
-      <About predavaci={[...predavaci.values()]} />
+      <About predavaci={predavaci} />
       {/* <NewsPreview posts={posts} /> */}
       <CTA />
     </>

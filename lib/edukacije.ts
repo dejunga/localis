@@ -1113,3 +1113,22 @@ function zagrebNow(now: Date): string {
     hourCycle: "h23",
   }).format(now);
 }
+
+export type Predavac = {
+  ime: string;
+  uloga?: string;
+  foto: { url: string; alt: string; position?: string };
+};
+
+// Svaki predavač jednom, redom od najnovije edukacije; bez fotografije se ne prikazuje.
+export async function getPredavaci(): Promise<Predavac[]> {
+  const predavaci = new Map<string, Predavac>();
+  for (const s of await getSeminars()) {
+    for (const l of s.lecturers) {
+      if (l.photo && !predavaci.has(l.name)) {
+        predavaci.set(l.name, { ime: l.name, uloga: l.role, foto: l.photo });
+      }
+    }
+  }
+  return [...predavaci.values()];
+}

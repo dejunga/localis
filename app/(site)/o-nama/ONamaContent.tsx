@@ -1,270 +1,203 @@
-"use client";
+import CTA from "@/components/sections/CTA";
+import PopisPredavaca from "@/components/sections/PopisPredavaca";
+import type { Predavac } from "@/lib/edukacije";
 
-import { motion } from "framer-motion";
-import { CheckCircle2, Target, Eye, Heart } from "lucide-react";
-import Link from "next/link";
+// Područja iz čl. 19. Zakona o lokalnoj i područnoj (regionalnoj) samoupravi koja obrađujemo.
+const podrucja = [
+  "Uređenje naselja i stanovanje",
+  "Prostorno i urbanističko planiranje",
+  "Komunalno gospodarstvo",
+  "Predškolski odgoj i osnovno obrazovanje",
+  "Socijalna skrb",
+  "Primarna zdravstvena zaštita",
+  "Kultura i šport",
+  "Zaštita potrošača",
+  "Zaštita okoliša",
+  "Protupožarna i civilna zaštita",
+  "Promet",
+];
 
-const values = [
+const blokovi = [
   {
-    icon: Target,
+    title: "Kome se obraćamo",
+    text: "Program je namijenjen službenicima gradova i općina, ali i zaposlenicima u ustanovama i trgovačkim društvima osnovanima za obavljanje poslova od značaja za lokalnu samoupravu - te svima onima kojima je u poslu potreban pouzdan, ažuran i primjenjiv izvor znanja o pitanjima koja se tiču lokalne samouprave.",
+  },
+  {
+    title: "Zašto LOCALIS",
+    text: "Teme biramo prema stvarnim potrebama struke, a ne prema trenutnim trendovima, i ne bježimo od pitanja koja se godinama zaobilaze. Naši predavači podjednako dobro poznaju teoriju i praksu, pa iz svake radionice polaznici izlaze s jasnim, primjenjivim zaključcima.",
+  },
+];
+
+const vrijednosti = [
+  {
     title: "Ciljano djelovanje",
     description: "Svaki program i savjet prilagođen je vašim specifičnim potrebama i ciljevima.",
   },
   {
-    icon: Eye,
     title: "Transparentnost",
     description: "Otvorena komunikacija i jasni dogovori - bez skrivenih troškova ili iznenađenja.",
   },
   {
-    icon: Heart,
     title: "Predanost zajednici",
     description: "Ukorijenjeni smo u lokalnoj zajednici i posvećeni njenom razvoju.",
   },
 ];
 
-export default function ONamaPage() {
+export default function ONamaContent({ predavaci }: { predavaci: Predavac[] }) {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-[var(--navy)] pt-32 pb-20">
+      <section className="bg-[var(--navy)] pt-32 pb-16">
         <div className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="h-px w-10 bg-[var(--gold)]" />
-              <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-                Tko smo
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white font-[family-name:var(--font-playfair)]">
-              O nama
-            </h1>
-            <p className="text-gray-300 mt-4 max-w-xl text-lg">
-              Pitanja koja muče struku, konačno na dnevnom redu - osnažujemo
-              one koji svakodnevno vode gradove i općine.
+          <h1 className="text-4xl md:text-5xl font-bold text-white font-[family-name:var(--font-playfair)]">
+            O nama
+          </h1>
+          <p className="text-gray-300 mt-4 max-w-2xl text-lg leading-relaxed text-pretty">
+            Osnažujemo one koji svakodnevno vode gradove i općine - edukacijama i savjetovanjem
+            koji polaze od stvarnih pitanja iz prakse.
+          </p>
+        </div>
+      </section>
+
+      {/* Priča: misao lijevo, tekst desno */}
+      <section className="py-20 md:py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10 lg:gap-16">
+          <div>
+            <h2 className="text-sm font-semibold text-[var(--gold)] mb-4">Naša priča</h2>
+            <p className="text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight text-balance font-[family-name:var(--font-playfair)]">
+              Pitanja koja muče struku, konačno na dnevnom redu.
             </p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Story */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="max-w-3xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-            >
-              <h2 className="text-3xl font-bold text-[var(--navy)] mb-6 font-[family-name:var(--font-playfair)]">
-                Naša priča
-              </h2>
-              <div className="space-y-4 text-gray-600 leading-relaxed">
-                <p>
-                  LOCALIS je osnovan s ciljem da pomogne u rješavanju
-                  svakodnevnih izazova s kojima se u stvarnosti suočavaju
-                  službenici jedinica lokalne samouprave i zaposlenici
-                  pravnih osoba koje su osnovane za obavljanje poslova od
-                  značaja za lokalnu samoupravu - ali i ostali koji se u
-                  svakodnevnom radu susreću s temama iz sustava lokalne
-                  samouprave: pravnici u javnom i privatnom sektoru,
-                  zaposlenici u kadrovskim odjelima, poduzetnici, obrtnici i
-                  drugi stručnjaci koji u svom radu primjenjuju pravne
-                  propise.
-                </p>
-                <p>
-                  LOCALIS je nastao iz prepoznate potrebe za profesionalnim
-                  edukacijskim i savjetodavnim uslugama koje su dostupne i
-                  izvan velikih gradskih centara.
-                </p>
-                <p>
-                  Zato smo ovdje mi, LOCALIS - zajedno s vama obrađujemo teme
-                  koje muče struku i koje napokon dolaze na dnevni red. Svaku
-                  temu obrađujemo stručno, ali prije svega praktično -
-                  polaznici odlaze s konkretnim smjernicama koje mogu odmah
-                  primijeniti u svom radu.
-                </p>
-              </div>
-            </motion.div>
+          </div>
+          <div className="space-y-5 text-[1.0625rem] leading-[1.8] text-gray-700">
+            <p className="text-pretty">
+              LOCALIS je osnovan s ciljem da pomogne u rješavanju svakodnevnih izazova s kojima se u
+              stvarnosti suočavaju službenici jedinica lokalne samouprave i zaposlenici pravnih osoba
+              koje su osnovane za obavljanje poslova od značaja za lokalnu samoupravu - ali i ostali
+              koji se u svakodnevnom radu susreću s temama iz sustava lokalne samouprave: pravnici u
+              javnom i privatnom sektoru, zaposlenici u kadrovskim odjelima, poduzetnici, obrtnici i
+              drugi stručnjaci koji u svom radu primjenjuju pravne propise.
+            </p>
+            <p className="text-pretty">
+              LOCALIS je nastao iz prepoznate potrebe za profesionalnim edukacijskim i savjetodavnim
+              uslugama koje su dostupne i izvan velikih gradskih centara.
+            </p>
+            <p className="text-pretty">
+              Zato smo ovdje mi, LOCALIS - zajedno s vama obrađujemo teme koje muče struku i koje
+              napokon dolaze na dnevni red. Svaku temu obrađujemo stručno, ali prije svega praktično -
+              polaznici odlaze s konkretnim smjernicama koje mogu odmah primijeniti u svom radu.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* What we do */}
-      <section className="py-20 bg-[oklch(0.97_0.01_85)]">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-14">
-            {[
-              {
-                title: "Što radimo",
-                text: "Polazimo od samog izvora - članka 19. Zakona o lokalnoj i područnoj (regionalnoj) samoupravi - i prolazimo kroz sva područja koja taj zakon stavlja u nadležnost gradova i općina. Od uređenja naselja, stanovanja i prostornog planiranja, preko komunalnog gospodarstva koje najviše opterećuje svakodnevni rad, do predškolskog i osnovnoškolskog odgoja, socijalne skrbi i primarne zdravstvene zaštite. Dotičemo se kulture, športa, zaštite potrošača, zaštite okoliša, protupožarne i civilne zaštite, ali i često zapostavljene nadležnosti u prometu.",
-              },
-              {
-                title: "Naši predavači",
-                text: "Radionice i predavanja vode vrhunski iskusni stručnjaci i rukovodeći službenici, dokazani u praktičnom rješavanju problema lokalne samouprave, uz fakultetske profesore koji svoje akademsko znanje pretaču u primjenjiva rješenja. Ta kombinacija prakse i znanosti jamči da svaka edukacija donosi odgovore koji doista vrijede u svakodnevnom radu, a ne teoriju koja ostaje na papiru.",
-              },
-              {
-                title: "Kome se obraćamo",
-                text: "Program je namijenjen službenicima gradova i općina, ali i zaposlenicima u ustanovama i trgovačkim društvima osnovanima za obavljanje poslova od značaja za lokalnu samoupravu - te svima onima kojima je u poslu potreban pouzdan, ažuran i primjenjiv izvor znanja o pitanjima koja se tiču lokalne samouprave.",
-              },
-              {
-                title: "Zašto LOCALIS",
-                text: "Teme biramo prema stvarnim potrebama struke, a ne prema trenutnim trendovima, i ne bježimo od pitanja koja se godinama zaobilaze. Naši predavači podjednako dobro poznaju teoriju i praksu, pa iz svake radionice polaznici izlaze s jasnim, primjenjivim zaključcima.",
-              },
-            ].map((block, i) => (
-              <motion.div
-                key={block.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-              >
-                <h3 className="text-xl font-bold text-[var(--navy)] mb-3 font-[family-name:var(--font-playfair)]">
-                  {block.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed text-sm">{block.text}</p>
-              </motion.div>
-            ))}
+      {/* Što radimo: područja iz zakona kao oznake */}
+      <section className="py-20 md:py-24 bg-[oklch(0.97_0.01_85)]">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-10 lg:gap-16">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight font-[family-name:var(--font-playfair)]">
+              Što radimo
+            </h2>
+            <p className="mt-5 text-gray-700 leading-relaxed text-pretty">
+              Polazimo od samog izvora - članka 19. Zakona o lokalnoj i područnoj (regionalnoj)
+              samoupravi - i prolazimo kroz sva područja koja taj zakon stavlja u nadležnost gradova
+              i općina, uključujući i često zapostavljene nadležnosti poput prometa.
+            </p>
           </div>
-        </div>
-      </section>
+          <div>
+            <ul className="flex flex-wrap gap-2.5">
+              {podrucja.map((p) => (
+                <li
+                  key={p}
+                  className={`rounded-full px-4 py-2 text-sm font-medium ${
+                    p === "Komunalno gospodarstvo"
+                      ? "bg-[var(--navy)] text-white"
+                      : "bg-white text-[var(--navy)] border border-gray-200"
+                  }`}
+                >
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm text-gray-500">
+              Istaknuto: komunalno gospodarstvo, koje najviše opterećuje svakodnevni rad.
+            </p>
 
-      {/* Team */}
-      <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="h-px w-10 bg-[var(--gold)]" />
-              <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
-                Ljudi iza LOCALIS-a
-              </span>
-              <div className="h-px w-10 bg-[var(--gold)]" />
+            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-10">
+              {blokovi.map((b) => (
+                <div key={b.title} className="border-t-2 border-[var(--gold)] pt-5">
+                  <h3 className="text-xl font-bold text-[var(--navy)] mb-3 font-[family-name:var(--font-playfair)]">
+                    {b.title}
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed text-pretty">{b.text}</p>
+                </div>
+              ))}
             </div>
-            <h2 className="text-3xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
+          </div>
+        </div>
+      </section>
+
+      {/* Predavači - stvarni ljudi s edukacija */}
+      {predavaci.length > 0 && (
+        <section className="py-20 md:py-24 bg-white">
+          <div className="max-w-6xl mx-auto px-6">
+            <div className="max-w-3xl mb-10">
+              <h2 className="text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight font-[family-name:var(--font-playfair)]">
+                Naši predavači
+              </h2>
+              <p className="mt-5 text-gray-700 text-[1.0625rem] leading-relaxed text-pretty">
+                Radionice i predavanja vode vrhunski iskusni stručnjaci i rukovodeći službenici,
+                dokazani u praktičnom rješavanju problema lokalne samouprave, uz fakultetske profesore
+                koji svoje akademsko znanje pretaču u primjenjiva rješenja. Ta kombinacija prakse i
+                znanosti jamči da svaka edukacija donosi odgovore koji doista vrijede u svakodnevnom
+                radu, a ne teoriju koja ostaje na papiru.
+              </p>
+            </div>
+            <PopisPredavaca predavaci={predavaci} />
+          </div>
+        </section>
+      )}
+
+      {/* Tim i vrijednosti */}
+      <section className="py-20 md:py-24 bg-[oklch(0.97_0.01_85)]">
+        <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight mb-8 font-[family-name:var(--font-playfair)]">
               Naš tim
             </h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 gap-8 max-w-md mx-auto">
-            {[
-              {
-                initial: "M",
-                name: "Milada Sofka",
-                role: "Voditeljica ureda",
-                quote:
-                  "Vjerujem da svaka osoba i svaka organizacija ima potencijal za rast. Moja je uloga pomoći im da ga prepoznaju i razviju.",
-              },
-            ].map((person, i) => (
-              <motion.div
-                key={person.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="bg-[oklch(0.97_0.01_85)] rounded-xl p-8 border border-gray-100"
-              >
-                <div className="w-14 h-14 bg-[var(--navy)] rounded-xl flex items-center justify-center mb-5">
-                  <span className="text-[var(--gold)] text-2xl font-bold font-[family-name:var(--font-playfair)]">
-                    {person.initial}
-                  </span>
+            <div className="relative overflow-hidden rounded-2xl bg-[var(--navy)] p-8 md:p-10 text-white">
+              <div className="absolute top-0 right-0 w-48 h-48 bg-[var(--gold)]/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+              <div className="relative">
+                <div className="w-14 h-14 bg-[var(--gold)] rounded-xl flex items-center justify-center mb-6">
+                  <span className="text-[var(--navy)] text-2xl font-bold font-[family-name:var(--font-playfair)]">M</span>
                 </div>
-                <h3 className="font-bold text-[var(--navy)] mb-1 font-[family-name:var(--font-playfair)] text-lg">
-                  {person.name}
-                </h3>
-                <p className="text-[var(--gold)] text-xs uppercase tracking-wider font-medium mb-4">
-                  {person.role}
+                <h3 className="text-2xl font-bold font-[family-name:var(--font-playfair)]">Milada Sofka</h3>
+                <p className="mt-1 text-[var(--gold)] text-sm font-medium">Voditeljica ureda</p>
+                <p className="mt-5 text-gray-300 leading-relaxed text-pretty">
+                  &ldquo;Vjerujem da svaka osoba i svaka organizacija ima potencijal za rast. Moja je
+                  uloga pomoći im da ga prepoznaju i razviju.&rdquo;
                 </p>
-                {person.quote && (
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                    &ldquo;{person.quote}&rdquo;
-                  </p>
-                )}
-              </motion.div>
-            ))}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
 
-      {/* Values */}
-      <section className="py-20 bg-[oklch(0.97_0.01_85)]">
-        <div className="max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-14"
-          >
-            <h2 className="text-3xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
+          <div>
+            <h2 className="text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight mb-8 font-[family-name:var(--font-playfair)]">
               Naše vrijednosti
             </h2>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map((v, i) => {
-              const Icon = v.icon;
-              return (
-                <motion.div
-                  key={v.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  className="bg-white rounded-xl p-8 border border-gray-100"
-                >
-                  <div className="w-12 h-12 bg-[var(--navy)]/8 rounded-lg flex items-center justify-center mb-5">
-                    <Icon size={22} className="text-[var(--navy)]" />
-                  </div>
-                  <h3 className="font-bold text-[var(--navy)] mb-2 font-[family-name:var(--font-playfair)] text-lg">
+            <dl className="divide-y divide-gray-300/70 border-y border-gray-300/70">
+              {vrijednosti.map((v) => (
+                <div key={v.title} className="py-6">
+                  <dt className="text-xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
                     {v.title}
-                  </h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">{v.description}</p>
-                </motion.div>
-              );
-            })}
+                  </dt>
+                  <dd className="mt-2 text-gray-700 leading-relaxed text-pretty">{v.description}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </section>
 
-      {/* Get in touch */}
-      <section className="py-20 bg-[var(--navy)]">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="max-w-xl mx-auto"
-          >
-            <h2 className="text-3xl font-bold text-white mb-4 font-[family-name:var(--font-playfair)]">
-              Javite nam se
-            </h2>
-            <p className="text-gray-300 mb-8">
-              Ako u svom radu prepoznajete pitanja koja godinama čekaju
-              odgovor, LOCALIS je tu da ih zajedno raspravimo i riješimo.
-              Prijavite se na naše seminare i radionice i osigurajte da ćete
-              na nadolazeće izazove biti spremni dati pravilan i siguran
-              odgovor.
-            </p>
-            <Link
-              href="/kontakt"
-              className="inline-flex items-center px-8 py-3.5 bg-[var(--gold)] text-[var(--navy)] font-semibold rounded hover:bg-[var(--gold-light)] transition-colors"
-            >
-              Kontaktirajte nas
-            </Link>
-          </motion.div>
-        </div>
-      </section>
-
+      <CTA />
     </>
   );
 }

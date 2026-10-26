@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getPredavaci } from "@/lib/edukacije";
 import ONamaContent from "./ONamaContent";
 
 export const metadata: Metadata = {
@@ -8,6 +9,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/o-nama" },
 };
 
-export default function ONamaPage() {
-  return <ONamaContent />;
+export default async function ONamaPage() {
+  return <ONamaContent predavaci={await getPredavaci()} />;
 }
