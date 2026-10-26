@@ -1,17 +1,40 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import type { PostCard } from "@/lib/posts";
 
-const categoryColors: Record<string, string> = {
-  Edukacija: "bg-blue-50 text-blue-700",
-  Savjetovanje: "bg-amber-50 text-amber-700",
-  Računovodstvo: "bg-green-50 text-green-700",
-};
+function Meta({ post }: { post: PostCard }) {
+  return (
+    <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+      <span className="font-semibold text-[var(--gold)]">{post.category}</span>
+      <span className="text-gray-500">{post.date}</span>
+      <span className="text-gray-500">{post.readTime} čitanja</span>
+    </p>
+  );
+}
 
+function Naslovna({ post, sizes, priority }: { post: PostCard; sizes: string; priority?: boolean }) {
+  return (
+    <div className="relative aspect-[16/10] overflow-hidden rounded-xl bg-[var(--navy)]/8">
+      {post.imageUrl ? (
+        <Image
+          src={post.imageUrl}
+          alt={post.imageAlt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03] motion-reduce:group-hover:scale-100"
+        />
+      ) : (
+        <span className="absolute inset-0 flex items-center justify-center text-[var(--navy)]/15 text-7xl font-bold font-[family-name:var(--font-playfair)]">
+          {post.title[0]}
+        </span>
+      )}
+    </div>
+  );
+}
+
+// Najnovija vijest je istaknuta (slika lijevo, tekst desno); ostale idu ispod u dva stupca.
 export default function VijestiList({ posts }: { posts: PostCard[] }) {
   if (posts.length === 0) {
     return (
@@ -21,69 +44,51 @@ export default function VijestiList({ posts }: { posts: PostCard[] }) {
     );
   }
 
+  const [prva, ...ostale] = posts;
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {posts.map((post, i) => (
-        <motion.article
-          key={post.slug}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: i * 0.08 }}
-          className="group flex flex-col"
+    <div className="space-y-16">
+      <article>
+        <Link
+          href={`/vijesti/${prva.slug}`}
+          className="group grid grid-cols-1 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] gap-8 lg:gap-12 items-center"
         >
-          <Link
-            href={`/vijesti/${post.slug}`}
-            aria-label={post.title}
-            className="relative aspect-[16/9] rounded-xl bg-gradient-to-br from-[var(--navy)]/10 to-[var(--navy)]/3 mb-5 overflow-hidden flex items-center justify-center"
-          >
-            {post.imageUrl ? (
-              <Image
-                src={post.imageUrl}
-                alt={post.imageAlt}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover"
+          <Naslovna post={prva} sizes="(max-width: 1024px) 100vw, 640px" priority />
+          <div>
+            <Meta post={prva} />
+            <h2 className="mt-3 text-3xl md:text-4xl font-bold text-[var(--navy)] leading-tight text-balance font-[family-name:var(--font-playfair)] group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-[6px]">
+              {prva.title}
+            </h2>
+            <p className="mt-4 text-gray-600 text-lg leading-relaxed text-pretty">{prva.excerpt}</p>
+            <span className="mt-6 inline-flex items-center gap-1.5 font-semibold text-[var(--navy)]">
+              Pročitajte članak
+              <ArrowRight
+                size={16}
+                className="text-[var(--gold)] transition-transform duration-200 group-hover:translate-x-0.5"
               />
-            ) : (
-              <div className="text-[var(--navy)]/15 text-7xl font-bold font-[family-name:var(--font-playfair)]">
-                {post.title[0]}
-              </div>
-            )}
-          </Link>
-
-          <div className="flex items-center gap-3 mb-3">
-            <span
-              className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                categoryColors[post.category] ?? "bg-gray-100 text-gray-600"
-              }`}
-            >
-              {post.category}
             </span>
-            <div className="flex items-center gap-1 text-gray-400 text-xs">
-              <Calendar size={11} />
-              {post.date}
-            </div>
-            <div className="flex items-center gap-1 text-gray-400 text-xs">
-              <Clock size={11} />
-              {post.readTime}
-            </div>
           </div>
+        </Link>
+      </article>
 
-          <h2 className="text-lg font-bold text-[var(--navy)] mb-2 leading-snug group-hover:text-[var(--navy-light)] transition-colors font-[family-name:var(--font-playfair)]">
-            <Link href={`/vijesti/${post.slug}`}>{post.title}</Link>
-          </h2>
-
-          <p className="text-gray-500 text-sm leading-relaxed mb-4 flex-1">{post.excerpt}</p>
-
-          <Link
-            href={`/vijesti/${post.slug}`}
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-[var(--gold)] group-hover:gap-3 transition-all duration-200"
-          >
-            Čitaj više
-            <ArrowRight size={14} />
-          </Link>
-        </motion.article>
-      ))}
+      {ostale.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-14 border-t border-gray-200 pt-14">
+          {ostale.map((post) => (
+            <article key={post.slug}>
+              <Link href={`/vijesti/${post.slug}`} className="group block">
+                <Naslovna post={post} sizes="(max-width: 768px) 100vw, 540px" />
+                <div className="mt-5">
+                  <Meta post={post} />
+                  <h2 className="mt-2 text-xl md:text-2xl font-bold text-[var(--navy)] leading-snug text-balance font-[family-name:var(--font-playfair)] group-hover:underline decoration-[var(--gold)] decoration-2 underline-offset-4">
+                    {post.title}
+                  </h2>
+                  <p className="mt-3 text-gray-600 leading-relaxed text-pretty">{post.excerpt}</p>
+                </div>
+              </Link>
+            </article>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
