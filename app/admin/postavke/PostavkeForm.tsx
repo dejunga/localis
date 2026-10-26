@@ -30,6 +30,18 @@ export default function PostavkeForm({ postavke }: { postavke: Postavke }) {
         Potpisnik na ponudi
         <input name="potpisnik" defaultValue={postavke.potpisnik} className={input} required />
       </label>
+      <label className="block text-sm">
+        Broj mjesta po edukaciji (najviše polaznika preko stranice)
+        <input
+          name="maxMjesta"
+          type="number"
+          min={1}
+          max={500}
+          defaultValue={postavke.maxMjesta}
+          className={input}
+          required
+        />
+      </label>
       {state.greska && <p className="text-red-600 text-sm">{state.greska}</p>}
       {state.poruka && <p className="text-green-700 text-sm">{state.poruka}</p>}
       <button

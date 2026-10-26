@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { zahtijevajAdmina } from "@/lib/admin/session";
 import { getSeminars, isSeminarPast } from "@/lib/edukacije";
+import { getPostavke } from "@/lib/postavke";
+import { zauzetaMjestaPoEdukaciji } from "@/lib/prijave/mjesta";
 import NovaPrijavaForm from "./NovaPrijavaForm";
 
 export const dynamic = "force-dynamic";
@@ -14,11 +16,17 @@ function fmtDatumEdukacije(iso: string) {
 export default async function NovaPrijavaPage() {
   await zahtijevajAdmina();
   // Prošle edukacije nemaju smisla za novu prijavu; skrivene i odgođene ostaju - admin zna zašto.
-  const seminari = (await getSeminars(undefined, { skrivene: true }))
+  // Ručni unos nije ograničen brojem mjesta - Marija vidi popunjenost i sama odlučuje.
+  const [sviSeminari, { maxMjesta }, zauzeto] = await Promise.all([
+    getSeminars(undefined, { skrivene: true }),
+    getPostavke(),
+    zauzetaMjestaPoEdukaciji(),
+  ]);
+  const seminari = sviSeminari
     .filter((s) => !isSeminarPast(s))
     .map((s) => ({
       slug: s.slug,
-      label: `${fmtDatumEdukacije(s.date)} – ${s.title} (${s.location})`,
+      label: `${fmtDatumEdukacije(s.date)} – ${s.title} (${s.location}) [${zauzeto.get(s.slug) ?? 0}/${maxMjesta}]`,
       imaPonudu: Boolean(s.ponuda),
     }));
 

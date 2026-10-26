@@ -1,8 +1,9 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { polaznici, prijave, type Prijava } from "@/lib/db/schema";
 import type { Popust } from "@/lib/ponude/popust";
 import { danasZagreb } from "@/lib/ponude/datumi";
+import { NemaMjestaError, zauzetaMjesta } from "./mjesta";
 
 export type NovaPrijava = {
   seminarSlug: string;
@@ -23,13 +24,20 @@ export type AdminDodatak = { izvor: Prijava["izvor"]; popust: Popust | null };
 // Verzija teksta privole na koju je kontakt osoba pristala; null = nije označila checkbox.
 export type PrivolaObavijesti = { verzija: string } | null;
 
-// tx1: prijava + polaznici zajedno ili ništa.
+// tx1: prijava + polaznici zajedno ili ništa. S maxMjesta baca NemaMjestaError ako polaznici
+// ne stanu; lock po edukaciji sprječava da dvije istovremene prijave zajedno prijeđu limit.
 export async function spremiPrijavu(
   p: NovaPrijava,
   privola: PrivolaObavijesti,
   dodatak?: AdminDodatak,
+  maxMjesta?: number,
 ): Promise<number> {
   return db.transaction(async (tx) => {
+    if (maxMjesta !== undefined) {
+      await tx.execute(sql`select pg_advisory_xact_lock(hashtext(${`mjesta:${p.seminarSlug}`}))`);
+      const slobodno = Math.max(0, maxMjesta - (await zauzetaMjesta(p.seminarSlug, tx)));
+      if (p.polaznici.length > slobodno) throw new NemaMjestaError(slobodno);
+    }
     const [row] = await tx
       .insert(prijave)
       .values({

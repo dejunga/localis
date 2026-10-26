@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { checkBotId } from "botid/server";
 import { getMailConfig } from "@/lib/email/transport";
 import { getSeminar, isSeminarPast } from "@/lib/edukacije";
@@ -7,6 +8,8 @@ import { MAX_DULJINA, MAX_POLAZNIKA } from "@/lib/prijave/limiti";
 import { PRIVOLA_OBAVIJESTI_VERZIJA } from "@/lib/prijave/privola";
 import { dopustiPokusaj, hashKljuca, hashiraniIp } from "@/lib/rate-limit";
 import { spremiPrijavu } from "@/lib/prijave/spremi";
+import { NemaMjestaError } from "@/lib/prijave/mjesta";
+import { getPostavke } from "@/lib/postavke";
 import { izdajPonudu } from "@/lib/ponude/izdaj";
 import { posaljiInterniMail } from "@/lib/ponude/email";
 
@@ -162,8 +165,23 @@ export async function sendSeminarRegistration(
   // tx1 - ako baza padne, prijava se ne gubi u potpunosti: interni mail ide kao i prije.
   let prijavaId: number;
   try {
-    prijavaId = await spremiPrijavu(nova, privola);
+    const { maxMjesta } = await getPostavke();
+    prijavaId = await spremiPrijavu(nova, privola, undefined, maxMjesta);
   } catch (error) {
+    if (error instanceof NemaMjestaError) {
+      if (error.slobodno === 0) revalidatePath(`/edukacije/${seminar.slug}`);
+      return error.slobodno > 0
+        ? {
+            status: "error",
+            errors: {
+              polaznici: `Slobodnih mjesta je još ${error.slobodno}. Smanjite broj polaznika ili nam se javite na info@localis.hr.`,
+            },
+          }
+        : {
+            status: "error",
+            message: "Nažalost, sva mjesta na ovoj edukaciji su popunjena. Javite nam se na info@localis.hr.",
+          };
+    }
     console.error("Prijava na edukaciju: spremanje u bazu nije uspjelo.", error);
     try {
       await posaljiInterniMail({
@@ -182,6 +200,9 @@ export async function sendSeminarRegistration(
     }
     return { status: "sent" };
   }
+
+  // Stranica edukacije prikazuje "popunjeno" čim nestane mjesta.
+  revalidatePath(`/edukacije/${seminar.slug}`);
 
   // Besplatna edukacija / bez ponuda bloka: samo interni mail, kao do sada.
   if (!seminar.ponuda) {

@@ -2,6 +2,8 @@ import Link from "next/link";
 import { zahtijevajAdmina } from "@/lib/admin/session";
 import { getSeminars } from "@/lib/edukacije";
 import { ucitajPrijave } from "@/lib/prijave/ucitaj";
+import { getPostavke } from "@/lib/postavke";
+import { zauzetaMjestaPoEdukaciji } from "@/lib/prijave/mjesta";
 import type { Prijava } from "@/lib/db/schema";
 import NarudzbenicaBadge from "../NarudzbenicaBadge";
 import PlacenoKvacica from "./PlacenoKvacica";
@@ -33,9 +35,11 @@ export default async function PrijavePage({
   await zahtijevajAdmina();
   const { edukacija, status } = await searchParams;
   const statusFilter = STATUSI.find((s) => s === status);
-  const [prijave, seminari] = await Promise.all([
+  const [prijave, seminari, { maxMjesta }, zauzeto] = await Promise.all([
     ucitajPrijave({ seminarSlug: edukacija || undefined, status: statusFilter }),
     getSeminars(undefined, { skrivene: true }),
+    getPostavke(),
+    zauzetaMjestaPoEdukaciji(),
   ]);
 
   return (
@@ -52,7 +56,7 @@ export default async function PrijavePage({
           <option value="">Sve edukacije</option>
           {seminari.map((s) => (
             <option key={s.slug} value={s.slug}>
-              {fmtDatumEdukacije(s.date)} – {s.title}
+              {fmtDatumEdukacije(s.date)} – {s.title} [{zauzeto.get(s.slug) ?? 0}/{maxMjesta}]
             </option>
           ))}
         </select>

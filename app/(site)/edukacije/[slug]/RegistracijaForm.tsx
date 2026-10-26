@@ -19,10 +19,13 @@ export default function RegistracijaForm({
   seminarSlug,
   seminarTitle,
   imaPonudu,
+  maxPolaznika = MAX_POLAZNIKA,
 }: {
   seminarSlug: string;
   seminarTitle: string;
   imaPonudu: boolean;
+  // Manje od MAX_POLAZNIKA kad je na edukaciji ostalo malo slobodnih mjesta.
+  maxPolaznika?: number;
 }) {
   const [state, formAction, pending] = useActionState(posaljiPrijavu, initialState);
   const [participantRows, setParticipantRows] = useState<number[]>([0]);
@@ -38,7 +41,7 @@ export default function RegistracijaForm({
 
   function addParticipant() {
     setParticipantRows((rows) =>
-      rows.length >= MAX_POLAZNIKA ? rows : [...rows, nextRowId.current++],
+      rows.length >= maxPolaznika ? rows : [...rows, nextRowId.current++],
     );
   }
 
@@ -235,7 +238,7 @@ export default function RegistracijaForm({
           {state.errors?.polaznici && (
             <p className="text-red-600 text-xs mt-1.5">{state.errors.polaznici}</p>
           )}
-          {participantRows.length < MAX_POLAZNIKA && (
+          {participantRows.length < maxPolaznika && (
             <button
               type="button"
               onClick={addParticipant}

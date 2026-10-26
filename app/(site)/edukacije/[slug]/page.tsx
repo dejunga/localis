@@ -13,6 +13,9 @@ import {
   HelpCircle,
 } from "lucide-react";
 import { aktualnaCijena, getSeminar, getSeminarSlugs, isSeminarPast } from "@/lib/edukacije";
+import { getPostavke } from "@/lib/postavke";
+import { MAX_POLAZNIKA } from "@/lib/prijave/limiti";
+import { zauzetaMjesta } from "@/lib/prijave/mjesta";
 import RegistracijaForm from "./RegistracijaForm";
 import PrijaviSeButton from "./PrijaviSeButton";
 
@@ -56,6 +59,16 @@ function datumBrojevima(iso: string): string {
   return `${d}.${m}.${y}.`;
 }
 
+// null = baza nedostupna (npr. build bez DATABASE_URL); server akcija svejedno provjerava limit.
+async function slobodnaMjesta(slug: string): Promise<number | null> {
+  try {
+    const [{ maxMjesta }, zauzeto] = await Promise.all([getPostavke(), zauzetaMjesta(slug)]);
+    return Math.max(0, maxMjesta - zauzeto);
+  } catch {
+    return null;
+  }
+}
+
 function toIsoTime(hrTime: string): string {
   const [h, m] = hrTime.trim().split(".");
   return `${h.padStart(2, "0")}:${(m ?? "00").padStart(2, "0")}:00`;
@@ -70,6 +83,8 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
   const odgodeno = Boolean(seminar.odgodeno);
   // Prijave su zatvorene i za održane i za odgođene edukacije.
   const past = odgodeno || isSeminarPast(seminar);
+  const slobodno = past ? null : await slobodnaMjesta(seminar.slug);
+  const popunjeno = slobodno === 0;
   const [startRaw, endRaw] = seminar.time.split("-").map((s) => s.trim());
   const cijena = aktualnaCijena(seminar);
   const price = Number(cijena.price.replace(/\./g, "").replace(",", ".").replace(/[^0-9.]/g, ""));
@@ -436,8 +451,27 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                 <div className="h-px w-8 bg-[var(--gold)]" />
               </div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-3 font-[family-name:var(--font-playfair)]">
-                {odgodeno ? "Edukacija je odgođena" : past ? "Edukacija je održana" : "Prijava"}
+                {odgodeno
+                  ? "Edukacija je odgođena"
+                  : past
+                    ? "Edukacija je održana"
+                    : popunjeno
+                      ? "Mjesta su popunjena"
+                      : "Prijava"}
               </h2>
+              {popunjeno && (
+                <p className="text-gray-300 text-sm">
+                  Sva mjesta na ovoj edukaciji su popunjena. Javite nam se na{" "}
+                  <a href="mailto:info@localis.hr" className="text-[var(--gold)] underline underline-offset-4">
+                    info@localis.hr
+                  </a>{" "}
+                  ili pogledajte{" "}
+                  <Link href="/edukacije" className="text-[var(--gold)] underline underline-offset-4">
+                    ostale edukacije
+                  </Link>
+                  .
+                </p>
+              )}
               {past && (
                 <p className="text-gray-300 text-sm">
                   {odgodeno
@@ -450,7 +484,7 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
                   .
                 </p>
               )}
-              {!past && seminar.registrationDeadline && (
+              {!past && !popunjeno && seminar.registrationDeadline && (
                 <p className="text-gray-300 text-sm">
                   Molimo prijavite sudjelovanje najkasnije do{" "}
                   <strong className="font-bold text-[var(--gold)]">
@@ -460,12 +494,13 @@ export default async function SeminarPage({ params }: { params: Promise<{ slug: 
               )}
             </div>
 
-            {!past && (
+            {!past && !popunjeno && (
               <div className="relative max-w-xl mx-auto bg-white rounded-xl p-4 sm:p-8 shadow-xl text-left">
                 <RegistracijaForm
                   seminarSlug={seminar.slug}
                   seminarTitle={seminar.title}
                   imaPonudu={Boolean(seminar.ponuda)}
+                  maxPolaznika={Math.min(MAX_POLAZNIKA, slobodno ?? MAX_POLAZNIKA)}
                 />
               </div>
             )}

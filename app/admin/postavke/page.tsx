@@ -9,7 +9,7 @@ export default async function PostavkePage() {
   const postavke = await getPostavke();
   return (
     <div className="max-w-6xl mx-auto">
-      <h1 className="text-2xl font-semibold mb-6">Postavke ponuda</h1>
+      <h1 className="text-2xl font-semibold mb-6">Postavke</h1>
       <div className="bg-white border border-gray-200 rounded-xl p-6">
         <PostavkeForm postavke={postavke} />
       </div>
