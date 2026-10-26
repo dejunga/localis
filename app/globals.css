@@ -92,3 +92,13 @@
     font-family: var(--font-playfair), Georgia, serif;
   }
 }
+
+/* Sporo lebdenje mutnih mrlja u pozadini hero sekcije (HeroPozadina). */
+@keyframes lebdenje {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-6%, 8%) scale(1.08);
+  }
+}

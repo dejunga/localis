@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
+import HeroPozadina from "./HeroPozadina";
 
 export default function Hero() {
   return (
@@ -20,6 +21,8 @@ export default function Hero() {
           }}
         />
       </div>
+
+      <HeroPozadina />
 
       {/* Gold accent bar */}
       <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[var(--gold)] to-transparent" />
