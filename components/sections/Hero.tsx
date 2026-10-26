@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import HeroPozadina from "./HeroPozadina";
@@ -38,40 +35,20 @@ export default function Hero({
       {/* Content */}
       <div className="relative max-w-6xl mx-auto px-6 pt-28 pb-24 w-full grid grid-cols-1 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] gap-12 lg:gap-10 items-center">
         <div>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.05 }}
-            className="text-[var(--gold)] text-lg md:text-xl font-medium mb-5 font-[family-name:var(--font-playfair)]"
-          >
+          <p className="animate-in fade-in [animation-fill-mode:both] motion-reduce:animate-none slide-in-from-bottom-5 duration-600 [animation-delay:50ms] text-[var(--gold)] text-lg md:text-xl font-medium mb-5 font-[family-name:var(--font-playfair)]">
             {t["pocetna.hero.nadnaslov"]}
-          </motion.p>
+          </p>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-white text-5xl md:text-6xl font-bold leading-[1.08] text-balance mb-6 font-[family-name:var(--font-playfair)]"
-          >
+          <h1 className="animate-in fade-in [animation-fill-mode:both] motion-reduce:animate-none slide-in-from-bottom-8 duration-700 [animation-delay:100ms] text-white text-5xl md:text-6xl font-bold leading-[1.08] text-balance mb-6 font-[family-name:var(--font-playfair)]">
             {t["pocetna.hero.naslov"]}
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-gray-300 text-lg leading-relaxed mb-9 max-w-xl text-pretty"
-          >
+          <p className="animate-in fade-in [animation-fill-mode:both] motion-reduce:animate-none slide-in-from-bottom-5 duration-600 [animation-delay:200ms] text-gray-300 text-lg leading-relaxed mb-9 max-w-xl text-pretty">
             {t["pocetna.hero.uvod"]}
-          </motion.p>
+          </p>
 
           {sljedeca && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45 }}
-              className="mt-10 max-w-xl"
-            >
+            <div className="animate-in fade-in [animation-fill-mode:both] motion-reduce:animate-none slide-in-from-bottom-5 duration-600 [animation-delay:450ms] mt-10 max-w-xl">
               <Link
                 href={`/edukacije/${sljedeca.slug}`}
                 className="group block rounded-xl border border-white/15 bg-white/[0.06] backdrop-blur-sm px-5 py-4 transition-colors duration-200 hover:border-[var(--gold)]/60 hover:bg-white/[0.09]"
@@ -91,7 +68,7 @@ export default function Hero({
                   />
                 </p>
               </Link>
-            </motion.div>
+            </div>
           )}
         </div>
 
@@ -101,20 +78,11 @@ export default function Hero({
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="text-white/40"
-        >
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-in fade-in duration-500 [animation-delay:1000ms] [animation-fill-mode:both] motion-reduce:animate-none">
+        <div className="text-white/40 animate-[poskakivanje_2s_ease-in-out_infinite] motion-reduce:animate-none">
           <ChevronDown size={28} />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

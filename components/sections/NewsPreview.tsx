@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
@@ -20,12 +17,7 @@ export default function NewsPreview({ posts }: { posts: PostCard[] }) {
       <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="pojava-u-pogledu">
             <div className="flex items-center gap-3 mb-4">
               <div className="h-px w-10 bg-[var(--gold)]" />
               <span className="text-[var(--gold)] text-sm font-medium uppercase tracking-widest">
@@ -35,14 +27,9 @@ export default function NewsPreview({ posts }: { posts: PostCard[] }) {
             <h2 className="text-4xl md:text-5xl font-bold text-[var(--navy)] font-[family-name:var(--font-playfair)]">
               Najnoviji članci
             </h2>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+          <div className="pojava-u-pogledu">
             <Link
               href="/vijesti"
               className="inline-flex items-center gap-2 text-sm font-medium text-[var(--navy)] border border-[var(--navy)]/20 px-5 py-2.5 rounded hover:bg-[var(--navy)] hover:text-white transition-all duration-200"
@@ -50,20 +37,13 @@ export default function NewsPreview({ posts }: { posts: PostCard[] }) {
               Svi članci
               <ArrowRight size={15} />
             </Link>
-          </motion.div>
+          </div>
         </div>
 
         {/* Posts grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {posts.map((post, i) => (
-            <motion.article
-              key={post.slug}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="group flex flex-col"
-            >
+          {posts.map((post) => (
+            <article key={post.slug} className="pojava-u-pogledu group flex flex-col">
               <Link
                 href={`/vijesti/${post.slug}`}
                 aria-label={post.title}
@@ -117,7 +97,7 @@ export default function NewsPreview({ posts }: { posts: PostCard[] }) {
                 Čitaj više
                 <ArrowRight size={14} />
               </Link>
-            </motion.article>
+            </article>
           ))}
         </div>
       </div>

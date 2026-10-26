@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -100,5 +99,33 @@
   }
   50% {
     transform: translate(-6%, 8%) scale(1.08);
+  }
+}
+
+/* Strelica za skrol na dnu hero sekcije. */
+@keyframes poskakivanje {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* Element se pojavljuje dok ulazi u ekran - čisti CSS, bez JS-a. Preglednici bez
+   animation-timeline (npr. Firefox) i korisnici sa smanjenim pokretima vide ga odmah. */
+@keyframes pojava {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pojava-u-pogledu {
+      animation: pojava linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
   }
 }

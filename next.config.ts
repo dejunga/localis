@@ -5,8 +5,10 @@ const nextConfig: NextConfig = {
   // react-pdf ima native/binary ovisnosti - ne bundlati.
   serverExternalPackages: ["@react-pdf/renderer"],
   // Fontovi i logo za PDF čitaju se s diska u runtimeu; osiguraj da uđu u serverless bundle.
+  // Samo rute koje izdaju ponude (prijava na edukaciju i admin) - ostale funkcije ostaju male.
   outputFileTracingIncludes: {
-    "/*": ["./public/fonts/**/*", "./public/ponuda/**/*"],
+    "/edukacije/*": ["./public/fonts/**/*", "./public/ponuda/**/*"],
+    "/admin/*": ["./public/fonts/**/*", "./public/ponuda/**/*"],
   },
   async headers() {
     return [

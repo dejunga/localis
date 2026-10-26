@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useReducedMotion } from "framer-motion";
 import { JLS, KARTA_VISINA } from "@/lib/karta-jls";
 
 // --gold (oklch(0.72 0.13 75)) preveden u sRGB jer canvas boje miješamo ručno.
@@ -24,7 +23,6 @@ export default function KartaHrvatske({ istaknuti }: { istaknuti: string[] }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const natpisRef = useRef<HTMLDivElement>(null);
   const sjajRef = useRef<HTMLDivElement>(null);
-  const smanjiPokrete = useReducedMotion();
 
   useEffect(() => {
     const omotac = omotacRef.current;
@@ -34,6 +32,7 @@ export default function KartaHrvatske({ istaknuti }: { istaknuti: string[] }) {
     const ctx = canvas?.getContext("2d");
     if (!omotac || !canvas || !natpis || !sjajMisa || !ctx) return;
 
+    const smanjiPokrete = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const n = JLS.length;
     const sjaj = new Float32Array(n); // 0-1, trenutna osvijetljenost od kursora
     const najdalje = Math.max(...JLS.map(([, x, y]) => Math.hypot(x - ZAGREB[1], y - ZAGREB[2])));
@@ -179,8 +178,6 @@ export default function KartaHrvatske({ istaknuti }: { istaknuti: string[] }) {
       document.documentElement.removeEventListener("pointerleave", izlaz);
       canvas.removeEventListener("pointerdown", pomak);
     };
-    // pocetak se namjerno ne resetira pri promjeni smanjiPokrete - val se pušta samo jednom.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const oznake = JLS.filter(([naziv]) => istaknuti.includes(naziv));
