@@ -21,6 +21,44 @@ export type Post = PostSummary & {
 // nužan - getPosts sortira po publishedAt).
 const posts: Post[] = [
   {
+    slug: "odrzana-radionica-izvlastenje-prakticna-primjena-u-jls",
+    title: "Uspješno održana radionica o izvlaštenju u JLS-ovima",
+    excerpt:
+      "U Hotelu Antunović u Zagrebu 28. listopada 2026. održali smo praktičnu radionicu Tihomira Kvakarića o izvlaštenju u svrhu realizacije infrastrukturnih projekata. Donosimo dojmove i fotografije s edukacije.",
+    category: "Edukacija",
+    publishedAt: "2026-10-29",
+    readTime: 2,
+    coverImage: {
+      url: "/images/vijesti/edukacija-2026-10-28/01.jpg",
+      alt: "Tihomir Kvakarić pred sudionicima radionice u dvorani Tomislav Hotela Antunović",
+    },
+    body: [
+      "U dvorani Tomislav Hotela Antunović u Zagrebu 28. listopada 2026. održana je praktična radionica „Izvlaštenje: praktična primjena u JLS-ovima u svrhu realizacije infrastrukturnih projekata”. Predavač je bio Tihomir Kvakarić, dipl. iur., stručnjak s više od 25 godina iskustva u rješavanju imovinsko-pravnih odnosa i vođenju upravnih postupaka izvlaštenja.",
+      "Radionica je okupila službenike jedinica lokalne i područne (regionalne) samouprave koji rješavaju imovinsko-pravne odnose te pripremaju infrastrukturne projekte. Obrađen je cijeli put izvlaštenja: od pravnog okvira i pripreme projekta, preko upravnog postupka i određivanja naknade, do pravne zaštite i sudske prakse.",
+      "Predavač je izvlaštenje pokazao očima onoga tko je postupke godinama vodio. Uz primjere velikih infrastrukturnih projekata na kojima je radio, sudionici su doznali kako provjeriti je li projekt spreman za izvlaštenje, kako pripremiti prijedlog za izvlaštenje i kako voditi pregovore i sklapati nagodbe s vlasnicima nekretnina.",
+      "Posebno nas je razveselila aktivnost sudionika. Pitanja iz vlastite prakse postavljala su se tijekom cijelog dana, a predavač je na njih davao jasne i konkretne odgovore.",
+      "Zahvaljujemo Tihomiru Kvakariću na izvrsnom predavanju, a svim sudionicima na povjerenju i aktivnom sudjelovanju. Vidimo se na sljedećoj edukaciji!",
+    ],
+    gallery: [
+      { url: "/images/vijesti/edukacija-2026-10-28/02.jpg", alt: "Tihomir Kvakarić na početku predavanja" },
+      { url: "/images/vijesti/edukacija-2026-10-28/03.jpg", alt: "Pogled na dvoranu tijekom predavanja" },
+      { url: "/images/vijesti/edukacija-2026-10-28/04.jpg", alt: "Sudionici radionice za stolovima" },
+      { url: "/images/vijesti/edukacija-2026-10-28/05.jpg", alt: "Sudionici prate izlaganje" },
+      { url: "/images/vijesti/edukacija-2026-10-28/06.jpg", alt: "Tihomir Kvakarić tijekom izlaganja" },
+      { url: "/images/vijesti/edukacija-2026-10-28/07.jpg", alt: "Sudionici pažljivo prate predavanje" },
+      { url: "/images/vijesti/edukacija-2026-10-28/08.jpg", alt: "Pogled na dvoranu iz reda sudionika" },
+      { url: "/images/vijesti/edukacija-2026-10-28/09.jpg", alt: "Predavač u razgovoru sa sudionicima" },
+      { url: "/images/vijesti/edukacija-2026-10-28/10.jpg", alt: "Rasprava tijekom radionice" },
+      { url: "/images/vijesti/edukacija-2026-10-28/11.jpg", alt: "Predavač odgovara na pitanja sudionika" },
+      { url: "/images/vijesti/edukacija-2026-10-28/12.jpg", alt: "Tihomir Kvakarić objašnjava primjer iz prakse" },
+      { url: "/images/vijesti/edukacija-2026-10-28/13.jpg", alt: "Sudionici radionice u dvorani Tomislav" },
+      { url: "/images/vijesti/edukacija-2026-10-28/14.jpg", alt: "Predavač u raspravi sa sudionicima" },
+      { url: "/images/vijesti/edukacija-2026-10-28/15.jpg", alt: "Uručenje zahvalnice predavaču" },
+      { url: "/images/vijesti/edukacija-2026-10-28/16.jpg", alt: "Tihomir Kvakarić sa zahvalnicom" },
+      { url: "/images/vijesti/edukacija-2026-10-28/17.jpg", alt: "Predavač sa zahvalnicom pred sudionicima radionice" },
+    ],
+  },
+  {
     slug: "odrzana-radionica-kako-izraditi-opci-akt-u-jlprs",
     title: "Uspješno održana radionica o izradi općih akata u JLP(R)S",
     excerpt:
