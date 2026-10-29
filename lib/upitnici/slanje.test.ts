@@ -76,7 +76,10 @@ describe("tekstMaila", () => {
   it("tekst sadrži link, molbu za prosljeđivanje i rok", () => {
     expect(m.text).toContain("https://www.localis.hr/upitnik/izvlastenje-prakticna-primjena-u-jls");
     expect(m.text).toContain("proslijedite");
-    expect(m.text).toContain("1. 11. 2026. u 15:30");
+    expect(m.text).toContain("1.11.2026. u 15:30");
     expect(m.html).toContain('href="https://www.localis.hr/upitnik/izvlastenje-prakticna-primjena-u-jls"');
+  });
+  it("nudi odjavu od ovakvih poruka (legitimni interes - pravo na prigovor)", () => {
+    expect(m.text).toContain("Ako ne želite primati ovakve poruke");
   });
 });

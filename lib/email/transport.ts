@@ -25,6 +25,10 @@ function getTransport() {
     port: 465,
     secure: true,
     auth: { user: process.env.ZOHO_SMTP_USER, pass: process.env.ZOHO_SMTP_PASSWORD },
+    // Nodemailer po defaultu čeka do 2 / 10 min - dulje nego što serverless funkcija živi.
+    connectionTimeout: 15_000,
+    greetingTimeout: 15_000,
+    socketTimeout: 30_000,
   });
   return cached;
 }

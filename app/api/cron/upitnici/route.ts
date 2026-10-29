@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { jednakoKonstantno } from "@/lib/admin/token";
 import { posaljiUpitnike } from "@/lib/upitnici/slanje";
 
+// Mailovi idu jedan po jedan; posaljiUpitnike prestaje uzimati nove prije ovog limita.
+export const maxDuration = 300;
+
 // Vercel cron (vercel.json) šalje "Authorization: Bearer $CRON_SECRET". Bez tajne ruta ne radi ništa.
 export async function GET(req: Request) {
   const tajna = process.env.CRON_SECRET;

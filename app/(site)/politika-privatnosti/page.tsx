@@ -128,11 +128,12 @@ export default async function PolitikaPrivatnostiPage() {
               edukacije kontakt osobi iz prijave šaljemo e-mail s poveznicom na kratki upitnik o
               edukaciji, s molbom da ga proslijedi polaznicima. Pravna osnova je naš legitimni
               interes da dobijemo povratnu informaciju o pruženoj usluzi i poboljšamo buduće
-              edukacije (čl. 6. st. 1. t. (f) GDPR-a).
+              edukacije (čl. 6. st. 1. t. (f) GDPR-a). Takvim porukama možete se usprotiviti
+              odgovorom na taj e-mail.
             </p>
             <p>
               Upitnik je anoniman: ocjene i odgovori ne povezuju se s prijavom ni s osobom koja ga
-              ispunjava. Ime, ustanovu i e-mail adresu upisujete samo ako želite da vam se javimo u
+              ispunjava, osim ako sami upišete kontakt podatke. Ime, ustanovu i e-mail adresu upisujete samo ako želite da vam se javimo u
               vezi s vašim odgovorima - tada je pravna osnova vaša privola (čl. 6. st. 1. t. (a)
               GDPR-a), koju možete povući u bilo kojem trenutku porukom na{" "}
               <a href={`mailto:${email}`} className={linkClass}>

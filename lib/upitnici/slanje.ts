@@ -12,7 +12,10 @@ export function upitnikUrl(slug: string): string {
 export type KandidatPrijava = { id: number; email: string; status: "nova" | "ponuda_poslana" | "stornirana" };
 export type PostojeciMail = { prijavaId: number; email: string; poslanAt: Date | null; greska: string | null };
 
-const kljucEmaila = (email: string) => email.trim().toLowerCase();
+// Cron ruta ima maxDuration 300 s; ostavi rezervu za mail koji je u tijeku.
+const ROK_SLANJA_MS = 200_000;
+
+const kljucEmaila =(email: string) => email.trim().toLowerCase();
 const zaPonovnoSlanje = (m: PostojeciMail) => m.greska !== null && m.poslanAt === null;
 
 /**
@@ -57,6 +60,7 @@ export function tekstMaila(
     url,
     `Upitnik je otvoren do ${formatRoka(rok)}.`,
     "Ako je s vaše ustanove na edukaciji bilo više polaznika, molimo proslijedite im ovu poveznicu - svaki polaznik može ispuniti svoj upitnik.",
+    "Ako ne želite primati ovakve poruke, javite nam odgovorom na ovaj e-mail.",
     "Srdačan pozdrav,\nLOCALIS",
   ];
   const html = odlomci
@@ -81,7 +85,11 @@ export async function posaljiUpitnike(now = new Date()): Promise<{ poslano: numb
 
   let poslano = 0;
   let greske = 0;
+  // Ne uzimaj nove primatelje kad se približi maxDuration rute - neuzeti idu sljedeći dan,
+  // a funkcija ugašena usred slanja ostavila bi red koji se nikad ne šalje ponovno.
+  const krajRada = Date.now() + ROK_SLANJA_MS;
   for (const seminar of edukacijeZaSlanje(await getSeminars(), now)) {
+    if (Date.now() > krajRada) break;
     const kandidati = await db
       .select({ id: prijave.id, email: prijave.email, status: prijave.status })
       .from(prijave)
@@ -105,6 +113,7 @@ export async function posaljiUpitnike(now = new Date()): Promise<{ poslano: numb
     const { subject, text, html } = tekstMaila(seminar, rokUpitnika(seminar));
 
     for (const p of odaberiPrimatelje(kandidati, postojeci)) {
+      if (Date.now() > krajRada) break;
       // "Uzmi" red prije slanja: paralelni poziv crona ne dobije isti red i ne pošalje drugi mail.
       const uzet = imaRed.has(p.id)
         ? await db
