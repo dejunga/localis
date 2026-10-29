@@ -64,6 +64,8 @@ export type Seminar = {
   skriveno?: boolean;
   // Odgođeno: ostaje na stranici s oznakom, ali su prijave zatvorene.
   odgodeno?: boolean;
+  // Ručni rok upitnika (ISO s offsetom) umjesto kraj + 96 h, npr. za prvo slanje.
+  upitnikRokDo?: string;
 };
 
 type Opcije = { skrivene?: boolean };
