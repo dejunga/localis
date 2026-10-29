@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/politika-privatnosti" },
 };
 
-const LAST_UPDATED = "21. listopada 2026.";
+const LAST_UPDATED = "29. listopada 2026.";
 
 const linkClass = "text-[var(--navy)] underline underline-offset-2";
 
@@ -121,6 +121,26 @@ export default async function PolitikaPrivatnostiPage() {
             povlačenje privole ni na koji način ne utječe na sudjelovanje na edukaciji. Fotografije
             i snimke ne ustupamo trećim osobama na daljnje korištenje.
           </p>
+          {/* Sidro za link iz upitnika (/upitnik/[slug]). */}
+          <div id="upitnik" className="scroll-mt-32 space-y-3">
+            <p>
+              <strong className="text-[var(--navy)]">Upitnik nakon edukacije.</strong> Nakon
+              edukacije kontakt osobi iz prijave šaljemo e-mail s poveznicom na kratki upitnik o
+              edukaciji, s molbom da ga proslijedi polaznicima. Pravna osnova je naš legitimni
+              interes da dobijemo povratnu informaciju o pruženoj usluzi i poboljšamo buduće
+              edukacije (čl. 6. st. 1. t. (f) GDPR-a).
+            </p>
+            <p>
+              Upitnik je anoniman: ocjene i odgovori ne povezuju se s prijavom ni s osobom koja ga
+              ispunjava. Ime, ustanovu i e-mail adresu upisujete samo ako želite da vam se javimo u
+              vezi s vašim odgovorima - tada je pravna osnova vaša privola (čl. 6. st. 1. t. (a)
+              GDPR-a), koju možete povući u bilo kojem trenutku porukom na{" "}
+              <a href={`mailto:${email}`} className={linkClass}>
+                {email}
+              </a>
+              . Molimo da u slobodne odgovore ne upisujete osobne podatke drugih osoba.
+            </p>
+          </div>
         </Section>
 
         <Section title="4. Kolačići">
@@ -148,7 +168,7 @@ export default async function PolitikaPrivatnostiPage() {
           </p>
           <ul className="list-disc pl-5 space-y-1">
             <li>Vercel Inc. - smještaj web stranice, statistika posjeta i pohrana ponuda</li>
-            <li>Neon Inc. - baza podataka u kojoj se čuvaju prijave na edukacije</li>
+            <li>Neon Inc. - baza podataka u kojoj se čuvaju prijave na edukacije i odgovori na upitnike</li>
             <li>Zoho Corporation - e-mail usluga putem koje primamo poruke i prijave</li>
             <li>knjigovodstveni servis - vođenje poslovnih knjiga i obrada računa</li>
           </ul>
@@ -176,6 +196,14 @@ export default async function PolitikaPrivatnostiPage() {
               računovodstvenim propisima.
             </li>
             <li>E-mail adresu za obavijesti o edukacijama - do povlačenja privole.</li>
+            <li>
+              Anonimne odgovore iz upitnika nakon edukacije - trajno, radi praćenja kvalitete
+              edukacija.
+            </li>
+            <li>
+              Kontakt podatke upisane u upitnik - dvije godine od ispunjavanja upitnika ili do
+              povlačenja privole, ako se ona povuče ranije.
+            </li>
             <li>
               Fotografije i snimke s radionica - do povlačenja privole. Nakon povlačenja uklanjamo ih
               s kanala kojima upravljamo.
