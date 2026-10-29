@@ -59,7 +59,7 @@ export function edukacijaZavrsila(s: Termin, now = new Date()): boolean {
   return now >= krajEdukacije(s);
 }
 
-// "1. 11. 2026. u 15:30" po zagrebačkom vremenu.
+// "1.11.2026. u 15:30" po zagrebačkom vremenu.
 export function formatRoka(d: Date): string {
   const p = Object.fromEntries(
     new Intl.DateTimeFormat("en-US", {
@@ -74,5 +74,5 @@ export function formatRoka(d: Date): string {
       .formatToParts(d)
       .map((x) => [x.type, x.value]),
   );
-  return `${p.day}. ${p.month}. ${p.year}. u ${p.hour}:${p.minute}`;
+  return `${p.day}.${p.month}.${p.year}. u ${p.hour}:${p.minute}`;
 }

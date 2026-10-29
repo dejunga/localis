@@ -19,7 +19,7 @@ describe("rok upitnika", () => {
 
   it("rok je kraj + 96 h", () => {
     expect(rokUpitnika(s).toISOString()).toBe("2026-11-01T14:30:00.000Z");
-    expect(formatRoka(rokUpitnika(s))).toBe("1. 11. 2026. u 15:30");
+    expect(formatRoka(rokUpitnika(s))).toBe("1.11.2026. u 15:30");
   });
 
   it("kraj u ljetnom vremenu", () => {
