@@ -6,6 +6,7 @@ initBotId({
   protect: [
     { path: "/edukacije/*", method: "POST" },
     { path: "/kontakt", method: "POST" },
+    { path: "/upitnik/*", method: "POST" },
     { path: "/admin/login", method: "POST" },
   ],
 });
