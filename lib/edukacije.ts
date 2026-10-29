@@ -709,6 +709,9 @@ const seminars: Seminar[] = [
   },
   {
     slug: "izvlastenje-prakticna-primjena-u-jls",
+    // Prva edukacija s upitnikom: mail odlazi s prvim cronom nakon deploya (30.10. u 18 h),
+    // pa rok vrijedi 96 h od slanja umjesto od kraja edukacije.
+    upitnikRokDo: "2026-11-03T18:00:00+01:00",
     title:
       "Izvlaštenje: praktična primjena u JLS-ovima u svrhu realizacije infrastrukturnih projekata",
     titleLines: [
