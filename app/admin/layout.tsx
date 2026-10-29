@@ -15,6 +15,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <Link href="/admin/prijave" className="hover:underline">
             Prijave
           </Link>
+          <Link href="/admin/upitnici" className="hover:underline">
+            Upitnici
+          </Link>
           <Link href="/admin/tekstovi" className="hover:underline">
             Tekstovi
           </Link>
