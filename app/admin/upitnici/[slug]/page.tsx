@@ -8,6 +8,7 @@ import { getSeminar } from "@/lib/edukacije";
 import { formatRoka, rokUpitnika, stanjeUpitnika } from "@/lib/upitnici/rok";
 import { sazmi } from "@/lib/upitnici/sazetak";
 import { upitnikUrl } from "@/lib/upitnici/slanje";
+import ObrisiOdgovorGumb from "./ObrisiOdgovorGumb";
 
 export const dynamic = "force-dynamic";
 
@@ -130,6 +131,9 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
                     Preporuka: <b>{PREPORUKA[o.preporuka]}</b>
                   </span>
                 )}
+                <span className="ml-auto">
+                  <ObrisiOdgovorGumb id={o.id} slug={slug} />
+                </span>
               </div>
               {(
                 [
