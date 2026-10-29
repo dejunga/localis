@@ -5,6 +5,7 @@ import {
   date,
   index,
   integer,
+  jsonb,
   numeric,
   pgEnum,
   pgTable,
@@ -132,6 +133,51 @@ export const rateLimitPokusaji = pgTable(
   ],
 );
 
+export const upitnikPreporuka = pgEnum("upitnik_preporuka", ["da", "mozda", "ne"]);
+
+// Jedan red = jedan poslani upitnik s /upitnik/[slug]. Anoniman osim ako polaznik sam upiše kontakt.
+export const upitniciOdgovori = pgTable(
+  "upitnici_odgovori",
+  {
+    id: serial("id").primaryKey(),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    seminarSlug: text("seminar_slug").notNull(),
+    // Snapshot naslova, kao u prijavama.
+    seminarTitle: text("seminar_title").notNull(),
+    ocjenaUkupno: integer("ocjena_ukupno").notNull(), // 1-5
+    ocjenaKorisnost: integer("ocjena_korisnost").notNull(), // 1-5
+    // Snapshot imena predavača u trenutku slanja.
+    ocjenePredavaca: jsonb("ocjene_predavaca").$type<{ ime: string; ocjena: number }[]>().notNull(),
+    preporuka: upitnikPreporuka("preporuka"),
+    svidjelo: text("svidjelo"),
+    popraviti: text("popraviti"),
+    recenzija: text("recenzija"),
+    strucnaPomoc: text("strucna_pomoc"),
+    kontaktIme: text("kontakt_ime"),
+    kontaktUstanova: text("kontakt_ustanova"),
+    kontaktEmail: text("kontakt_email"),
+    // Privola za javljanje na kontakt email; NULL kad emaila nema.
+    privolaKontaktAt: timestamp("privola_kontakt_at", { withTimezone: true }),
+    privolaKontaktVerzija: text("privola_kontakt_verzija"),
+  },
+  (t) => [index("upitnici_odgovori_slug").on(t.seminarSlug)],
+);
+
+// Jedan red = mail s upitnikom kontakt osobi jedne prijave. Unique na prijavi štiti od dvostrukog slanja.
+// Red bez poslan_at i bez greske (slanje prošlo, upis pao) smatra se poslanim - radije nijedan mail nego dva.
+export const upitniciMailovi = pgTable("upitnici_mailovi", {
+  id: serial("id").primaryKey(),
+  prijavaId: integer("prijava_id")
+    .notNull()
+    .unique()
+    .references(() => prijave.id),
+  seminarSlug: text("seminar_slug").notNull(),
+  email: text("email").notNull(), // snapshot adrese na koju je poslano
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  poslanAt: timestamp("poslan_at", { withTimezone: true }),
+  greska: text("greska"),
+});
+
 // Relacije za db.query.* (admin lista).
 export const prijaveRelations = relations(prijave, ({ many }) => ({
   polaznici: many(polaznici),
@@ -147,3 +193,5 @@ export const ponudeRelations = relations(ponude, ({ one }) => ({
 export type Prijava = typeof prijave.$inferSelect;
 export type Polaznik = typeof polaznici.$inferSelect;
 export type Ponuda = typeof ponude.$inferSelect;
+export type UpitnikOdgovor = typeof upitniciOdgovori.$inferSelect;
+export type UpitnikMail = typeof upitniciMailovi.$inferSelect;
