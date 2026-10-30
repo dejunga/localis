@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Seminar } from "@/lib/edukacije";
-import { edukacijeZaSlanje, odaberiPrimatelje, tekstMaila, type KandidatPrijava } from "./slanje";
+import { danasZagreb, edukacijeZaSlanje, odaberiPrimatelje, type KandidatPrijava } from "./slanje";
 
 const p = (id: number, email: string, status: KandidatPrijava["status"] = "nova"): KandidatPrijava => ({
   id,
@@ -48,38 +48,34 @@ describe("odaberiPrimatelje", () => {
 });
 
 const seminar = (o: Partial<Seminar>) => ({ slug: "s", date: "2026-10-28", time: "9.30 - 15.30", ...o }) as Seminar;
+const slanja = (datum: string, slug = "s") => new Map([[slug, datum]]);
 
-describe("edukacijeZaSlanje", () => {
-  const now = new Date("2026-10-29T17:00:00Z");
-  it("uzima završene s otvorenim upitnikom", () => {
-    expect(edukacijeZaSlanje([seminar({ slug: "a" })], now).map((s) => s.slug)).toEqual(["a"]);
-  });
-  it("preskače edukacije koje još nisu završile", () => {
-    expect(edukacijeZaSlanje([seminar({ date: "2026-11-09" })], now)).toEqual([]);
-  });
-  it("preskače zatvorene", () => {
-    expect(edukacijeZaSlanje([seminar({ date: "2026-10-14" })], now)).toEqual([]);
-  });
-  it("preskače odgođene", () => {
-    expect(edukacijeZaSlanje([seminar({ odgodeno: true })], now)).toEqual([]);
+describe("danasZagreb", () => {
+  it("datum po zagrebačkom vremenu", () => {
+    expect(danasZagreb(new Date("2026-11-01T23:30:00Z"))).toBe("2026-11-02");
+    expect(danasZagreb(new Date("2026-11-02T07:00:00Z"))).toBe("2026-11-02");
   });
 });
 
-describe("tekstMaila", () => {
-  const m = tekstMaila(
-    { title: "Izvlaštenje", dateLabel: "28. listopada 2026.", slug: "izvlastenje-prakticna-primjena-u-jls" },
-    new Date("2026-11-01T14:30:00Z"),
-  );
-  it("predmet sadrži naslov", () => {
-    expect(m.subject).toContain("Izvlaštenje");
+describe("edukacijeZaSlanje", () => {
+  const now = new Date("2026-11-02T07:00:00Z");
+  it("bez termina ne šalje ništa", () => {
+    expect(edukacijeZaSlanje([seminar({})], new Map(), now)).toEqual([]);
   });
-  it("tekst sadrži link, molbu za prosljeđivanje i rok", () => {
-    expect(m.text).toContain("https://www.localis.hr/upitnik/izvlastenje-prakticna-primjena-u-jls");
-    expect(m.text).toContain("proslijedite");
-    expect(m.text).toContain("1.11.2026. u 15:30");
-    expect(m.html).toContain('href="https://www.localis.hr/upitnik/izvlastenje-prakticna-primjena-u-jls"');
+  it("šalje na dan termina i nakon njega", () => {
+    expect(edukacijeZaSlanje([seminar({})], slanja("2026-11-02"), now).map((s) => s.slug)).toEqual(["s"]);
+    expect(edukacijeZaSlanje([seminar({})], slanja("2026-10-30"), now).map((s) => s.slug)).toEqual(["s"]);
   });
-  it("nudi odjavu od ovakvih poruka (legitimni interes - pravo na prigovor)", () => {
-    expect(m.text).toContain("Ako ne želite primati ovakve poruke");
+  it("ne šalje prije termina", () => {
+    expect(edukacijeZaSlanje([seminar({})], slanja("2026-11-03"), now)).toEqual([]);
+  });
+  it("preskače edukacije koje još nisu završile", () => {
+    expect(edukacijeZaSlanje([seminar({ date: "2026-11-09" })], slanja("2026-11-02"), now)).toEqual([]);
+  });
+  it("preskače zatvorene upitnike", () => {
+    expect(edukacijeZaSlanje([seminar({ date: "2026-10-14" })], slanja("2026-10-14"), now)).toEqual([]);
+  });
+  it("preskače odgođene", () => {
+    expect(edukacijeZaSlanje([seminar({ odgodeno: true })], slanja("2026-11-02"), now)).toEqual([]);
   });
 });

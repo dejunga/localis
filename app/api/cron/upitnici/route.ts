@@ -12,11 +12,7 @@ export async function GET(req: Request) {
   if (!tajna || !jednakoKonstantno(auth, `Bearer ${tajna}`)) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
-  // Pauzirano dok ne stigne novi mail nakon edukacije (materijali, nadolazeće edukacije, termin slanja).
-  if (process.env.UPITNICI_SLANJE !== "da") {
-    console.log("Upitnici cron: slanje pauzirano.");
-    return NextResponse.json({ poslano: 0, greske: 0, pauzirano: true });
-  }
+  // Šalje samo edukacijama kojima je Marija u adminu zadala datum slanja.
   const rezultat = await posaljiUpitnike();
   console.log(`Upitnici cron: poslano ${rezultat.poslano}, greške ${rezultat.greske}.`);
   return NextResponse.json(rezultat);

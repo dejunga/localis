@@ -6,6 +6,7 @@ import { upitniciOdgovori } from "@/lib/db/schema";
 import { getSeminar } from "@/lib/edukacije";
 import { dopustiPokusaj, hashiraniIp } from "@/lib/rate-limit";
 import { stanjeUpitnika } from "@/lib/upitnici/rok";
+import { getSlanje } from "@/lib/upitnici/slanje";
 import { procitajOdgovor, type UpitnikPolje } from "@/lib/upitnici/validacija";
 
 export type UpitnikState = {
@@ -28,7 +29,7 @@ export async function posaljiUpitnik(_prev: UpitnikState, fd: FormData): Promise
 
   const slug = String(fd.get("slug") ?? "").trim();
   const seminar = await getSeminar(slug);
-  if (!seminar || seminar.odgodeno || stanjeUpitnika(seminar) !== "otvoren") {
+  if (!seminar || seminar.odgodeno || stanjeUpitnika(seminar, undefined, await getSlanje(slug)) !== "otvoren") {
     return { status: "error", message: "Upitnik više nije otvoren." };
   }
 

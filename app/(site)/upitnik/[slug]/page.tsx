@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { getSeminar } from "@/lib/edukacije";
 import { formatRoka, rokUpitnika, stanjeUpitnika } from "@/lib/upitnici/rok";
+import { getSlanje } from "@/lib/upitnici/slanje";
 import UpitnikForm from "./UpitnikForm";
 
 export const metadata: Metadata = {
@@ -17,7 +18,8 @@ export default async function UpitnikPage({ params }: { params: Promise<{ slug: 
   const seminar = await getSeminar(slug);
   if (!seminar || seminar.odgodeno) notFound();
 
-  const stanje = stanjeUpitnika(seminar);
+  const datumSlanja = await getSlanje(slug);
+  const stanje = stanjeUpitnika(seminar, undefined, datumSlanja);
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-white">
@@ -52,7 +54,7 @@ export default async function UpitnikPage({ params }: { params: Promise<{ slug: 
                 predavaci={seminar.lecturers.map((l) => l.name)}
               />
             </div>
-            <p className="mt-6 text-xs text-gray-500">Upitnik je otvoren do {formatRoka(rokUpitnika(seminar))}.</p>
+            <p className="mt-6 text-xs text-gray-500">Upitnik je otvoren do {formatRoka(rokUpitnika(seminar, datumSlanja))}.</p>
           </>
         )}
       </div>
