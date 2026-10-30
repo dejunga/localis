@@ -6,6 +6,7 @@ import {
   pocetakEdukacije,
   rokUpitnika,
   stanjeUpitnika,
+  terminSlanja,
 } from "./rok";
 
 // 28.10.2026. je tri dana nakon prelaska na zimsko vrijeme (UTC+1).
@@ -60,6 +61,23 @@ describe("rok upitnika", () => {
     expect(stanjeUpitnika(s, new Date("2026-10-28T08:30:00Z"))).toBe("otvoren");
     expect(stanjeUpitnika(s, new Date("2026-11-01T14:29:59Z"))).toBe("otvoren");
     expect(stanjeUpitnika(s, new Date("2026-11-01T14:30:00Z"))).toBe("zatvoren");
+  });
+
+  it("rok je termin slanja + 96 h kad je termin kasniji", () => {
+    expect(terminSlanja("2026-11-02").toISOString()).toBe("2026-11-02T07:00:00.000Z");
+    expect(rokUpitnika(s, "2026-11-02").toISOString()).toBe("2026-11-06T07:00:00.000Z");
+    expect(stanjeUpitnika(s, new Date("2026-11-05T12:00:00Z"), "2026-11-02")).toBe("otvoren");
+  });
+
+  it("termin na dan edukacije ne skraćuje rok", () => {
+    expect(rokUpitnika(s, "2026-10-28").toISOString()).toBe("2026-11-01T14:30:00.000Z");
+    expect(rokUpitnika(s, null).toISOString()).toBe("2026-11-01T14:30:00.000Z");
+  });
+
+  it("upitnikRokDo ima prednost pred terminom", () => {
+    expect(rokUpitnika({ ...s, upitnikRokDo: "2026-11-03T18:00:00+01:00" }, "2026-11-10").toISOString()).toBe(
+      "2026-11-03T17:00:00.000Z",
+    );
   });
 
   it("edukacija završava u trenutku kraja", () => {
