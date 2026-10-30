@@ -1,6 +1,6 @@
 import type { Seminar } from "@/lib/edukacije";
 import type { upitniciOdgovori } from "@/lib/db/schema";
-import { UPITNIK_MAX_DULJINA, UPITNIK_PRIVOLA_VERZIJA } from "./pitanja";
+import { UPITNIK_MAX_DULJINA, UPITNIK_OBJAVA_VERZIJA, UPITNIK_PRIVOLA_VERZIJA } from "./pitanja";
 
 export type UpitnikPolje =
   | "ocjenaUkupno"
@@ -73,6 +73,9 @@ export function procitajOdgovor(
     }
   }
 
+  // Dopuštenje za objavu vrijedi samo uz napisanu recenziju.
+  const objava = fd.get("privola_objava") === "da" && recenzija !== null;
+
   if (Object.keys(errors).length > 0) return { ok: false, errors };
 
   return {
@@ -94,6 +97,8 @@ export function procitajOdgovor(
       // Privola se bilježi samo kad postoji email na koji se odnosi.
       privolaKontaktAt: kontaktEmail ? now : null,
       privolaKontaktVerzija: kontaktEmail ? UPITNIK_PRIVOLA_VERZIJA : null,
+      privolaObjavaAt: objava ? now : null,
+      privolaObjavaVerzija: objava ? UPITNIK_OBJAVA_VERZIJA : null,
     },
   };
 }

@@ -1,0 +1,933 @@
+{
+  "id": "1295c76e-1c86-4940-b9b8-21468f4a334c",
+  "prevId": "65c10d41-0ea0-4c68-b0e7-c54b29ce7933",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.brojac_ponuda": {
+      "name": "brojac_ponuda",
+      "schema": "",
+      "columns": {
+        "godina": {
+          "name": "godina",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "zadnji_broj": {
+          "name": "zadnji_broj",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.polaznici": {
+      "name": "polaznici",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "prijava_id": {
+          "name": "prijava_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ime": {
+          "name": "ime",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "radno_mjesto": {
+          "name": "radno_mjesto",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "polaznici_prijava_id_prijave_id_fk": {
+          "name": "polaznici_prijava_id_prijave_id_fk",
+          "tableFrom": "polaznici",
+          "tableTo": "prijave",
+          "columnsFrom": [
+            "prijava_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ponude": {
+      "name": "ponude",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "prijava_id": {
+          "name": "prijava_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "redni_broj": {
+          "name": "redni_broj",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "godina": {
+          "name": "godina",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "broj": {
+          "name": "broj",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "datum_izdavanja": {
+          "name": "datum_izdavanja",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "vrijedi_do": {
+          "name": "vrijedi_do",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rok_placanja": {
+          "name": "rok_placanja",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kolicina": {
+          "name": "kolicina",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cijena": {
+          "name": "cijena",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ukupno": {
+          "name": "ukupno",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "popust_tip": {
+          "name": "popust_tip",
+          "type": "popust_tip",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "popust_vrijednost": {
+          "name": "popust_vrijednost",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "popust_iznos": {
+          "name": "popust_iznos",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "popust_opis": {
+          "name": "popust_opis",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pdf_url": {
+          "name": "pdf_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "ponuda_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'greska'"
+        },
+        "stornirana_at": {
+          "name": "stornirana_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email_poslan_at": {
+          "name": "email_poslan_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "greska": {
+          "name": "greska",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "ponude_aktivna_po_prijavi": {
+          "name": "ponude_aktivna_po_prijavi",
+          "columns": [
+            {
+              "expression": "prijava_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"ponude\".\"status\" <> 'stornirana'",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ponude_prijava_id_prijave_id_fk": {
+          "name": "ponude_prijava_id_prijave_id_fk",
+          "tableFrom": "ponude",
+          "tableTo": "prijave",
+          "columnsFrom": [
+            "prijava_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ponude_broj_unique": {
+          "name": "ponude_broj_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "broj"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.postavke": {
+      "name": "postavke",
+      "schema": "",
+      "columns": {
+        "kljuc": {
+          "name": "kljuc",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "vrijednost": {
+          "name": "vrijednost",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.prijave": {
+      "name": "prijave",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "seminar_slug": {
+          "name": "seminar_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seminar_title": {
+          "name": "seminar_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kontakt_ime": {
+          "name": "kontakt_ime",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefon": {
+          "name": "telefon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "organizacija": {
+          "name": "organizacija",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "adresa": {
+          "name": "adresa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "oib": {
+          "name": "oib",
+          "type": "char(11)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "napomena": {
+          "name": "napomena",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "broj_narudzbenice": {
+          "name": "broj_narudzbenice",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "placeno": {
+          "name": "placeno",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "datum_placanja": {
+          "name": "datum_placanja",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "privola_obavijesti_at": {
+          "name": "privola_obavijesti_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "privola_obavijesti_verzija": {
+          "name": "privola_obavijesti_verzija",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "privola_povucena_at": {
+          "name": "privola_povucena_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "prijava_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'nova'"
+        },
+        "izvor": {
+          "name": "izvor",
+          "type": "prijava_izvor",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'web'"
+        },
+        "popust_tip": {
+          "name": "popust_tip",
+          "type": "popust_tip",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "popust_vrijednost": {
+          "name": "popust_vrijednost",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "popust_opis": {
+          "name": "popust_opis",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.rate_limit_pokusaji": {
+      "name": "rate_limit_pokusaji",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "kljuc": {
+          "name": "kljuc",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "rate_limit_kljuc_vrijeme": {
+          "name": "rate_limit_kljuc_vrijeme",
+          "columns": [
+            {
+              "expression": "kljuc",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "rate_limit_vrijeme": {
+          "name": "rate_limit_vrijeme",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.tekstovi": {
+      "name": "tekstovi",
+      "schema": "",
+      "columns": {
+        "kljuc": {
+          "name": "kljuc",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "vrijednost": {
+          "name": "vrijednost",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.upitnici_mailovi": {
+      "name": "upitnici_mailovi",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "prijava_id": {
+          "name": "prijava_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seminar_slug": {
+          "name": "seminar_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "poslan_at": {
+          "name": "poslan_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "greska": {
+          "name": "greska",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "upitnici_mailovi_prijava_id_prijave_id_fk": {
+          "name": "upitnici_mailovi_prijava_id_prijave_id_fk",
+          "tableFrom": "upitnici_mailovi",
+          "tableTo": "prijave",
+          "columnsFrom": [
+            "prijava_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "upitnici_mailovi_prijava_id_unique": {
+          "name": "upitnici_mailovi_prijava_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "prijava_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.upitnici_materijali": {
+      "name": "upitnici_materijali",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "seminar_slug": {
+          "name": "seminar_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "naziv": {
+          "name": "naziv",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "blob_url": {
+          "name": "blob_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "pathname": {
+          "name": "pathname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "velicina": {
+          "name": "velicina",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_type": {
+          "name": "content_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "upitnici_materijali_slug": {
+          "name": "upitnici_materijali_slug",
+          "columns": [
+            {
+              "expression": "seminar_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.upitnici_odgovori": {
+      "name": "upitnici_odgovori",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "seminar_slug": {
+          "name": "seminar_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "seminar_title": {
+          "name": "seminar_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ocjena_ukupno": {
+          "name": "ocjena_ukupno",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ocjena_korisnost": {
+          "name": "ocjena_korisnost",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ocjene_predavaca": {
+          "name": "ocjene_predavaca",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "preporuka": {
+          "name": "preporuka",
+          "type": "upitnik_preporuka",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "svidjelo": {
+          "name": "svidjelo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "popraviti": {
+          "name": "popraviti",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recenzija": {
+          "name": "recenzija",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "strucna_pomoc": {
+          "name": "strucna_pomoc",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kontakt_ime": {
+          "name": "kontakt_ime",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kontakt_ustanova": {
+          "name": "kontakt_ustanova",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kontakt_email": {
+          "name": "kontakt_email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "privola_kontakt_at": {
+          "name": "privola_kontakt_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "privola_kontakt_verzija": {
+          "name": "privola_kontakt_verzija",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "privola_objava_at": {
+          "name": "privola_objava_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "privola_objava_verzija": {
+          "name": "privola_objava_verzija",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "upitnici_odgovori_slug": {
+          "name": "upitnici_odgovori_slug",
+          "columns": [
+            {
+              "expression": "seminar_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.upitnici_slanja": {
+      "name": "upitnici_slanja",
+      "schema": "",
+      "columns": {
+        "seminar_slug": {
+          "name": "seminar_slug",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "datum_slanja": {
+          "name": "datum_slanja",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.ponuda_status": {
+      "name": "ponuda_status",
+      "schema": "public",
+      "values": [
+        "poslana",
+        "stornirana",
+        "greska"
+      ]
+    },
+    "public.popust_tip": {
+      "name": "popust_tip",
+      "schema": "public",
+      "values": [
+        "postotak",
+        "iznos"
+      ]
+    },
+    "public.prijava_izvor": {
+      "name": "prijava_izvor",
+      "schema": "public",
+      "values": [
+        "web",
+        "admin"
+      ]
+    },
+    "public.prijava_status": {
+      "name": "prijava_status",
+      "schema": "public",
+      "values": [
+        "nova",
+        "ponuda_poslana",
+        "stornirana"
+      ]
+    },
+    "public.upitnik_preporuka": {
+      "name": "upitnik_preporuka",
+      "schema": "public",
+      "values": [
+        "da",
+        "mozda",
+        "ne"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

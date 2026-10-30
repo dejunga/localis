@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { UPITNIK_PRIVOLA_VERZIJA } from "./pitanja";
+import { UPITNIK_OBJAVA_VERZIJA, UPITNIK_PRIVOLA_VERZIJA } from "./pitanja";
 import { procitajOdgovor } from "./validacija";
 
 function bez(polja: Record<string, string>, kljuc: string): Record<string, string> {
@@ -115,6 +115,25 @@ describe("procitajOdgovor", () => {
         privolaKontaktVerzija: UPITNIK_PRIVOLA_VERZIJA,
       },
     });
+  });
+
+  it("dopuštenje za objavu uz recenziju se bilježi", () => {
+    const now = new Date("2026-10-30T10:00:00Z");
+    const r = procitajOdgovor(fd({ ...min, recenzija: "Odlično", privola_objava: "da" }), seminar, now);
+    expect(r).toMatchObject({
+      ok: true,
+      odgovor: { privolaObjavaAt: now, privolaObjavaVerzija: UPITNIK_OBJAVA_VERZIJA },
+    });
+  });
+
+  it("dopuštenje za objavu bez recenzije se ne bilježi", () => {
+    const r = procitajOdgovor(fd({ ...min, privola_objava: "da" }), seminar);
+    expect(r).toMatchObject({ ok: true, odgovor: { privolaObjavaAt: null, privolaObjavaVerzija: null } });
+  });
+
+  it("recenzija bez kvačice nije za objavu", () => {
+    const r = procitajOdgovor(fd({ ...min, recenzija: "Odlično" }), seminar);
+    expect(r).toMatchObject({ ok: true, odgovor: { privolaObjavaAt: null } });
   });
 
   it("privola bez emaila se ne bilježi", () => {

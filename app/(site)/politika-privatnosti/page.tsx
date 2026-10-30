@@ -139,7 +139,10 @@ export default async function PolitikaPrivatnostiPage() {
               <a href={`mailto:${email}`} className={linkClass}>
                 {email}
               </a>
-              . Molimo da u slobodne odgovore ne upisujete osobne podatke drugih osoba.
+              . Recenziju objavljujemo na stranici samo ako ste to dopustili kvačicom u upitniku,
+              i to bez vašeg imena i prezimena; dopuštenje možete povući istim putem, nakon čega
+              recenziju uklanjamo. Molimo da u slobodne odgovore ne upisujete osobne podatke drugih
+              osoba.
             </p>
           </div>
         </Section>

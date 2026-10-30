@@ -78,6 +78,13 @@
       "when": 1793341433707,
       "tag": "0010_mail_nakon",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1793342382013,
+      "tag": "0011_privola_objava",
+      "breakpoints": true
     }
   ]
 }

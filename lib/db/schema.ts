@@ -159,6 +159,9 @@ export const upitniciOdgovori = pgTable(
     // Privola za javljanje na kontakt email; NULL kad emaila nema.
     privolaKontaktAt: timestamp("privola_kontakt_at", { withTimezone: true }),
     privolaKontaktVerzija: text("privola_kontakt_verzija"),
+    // Dopuštenje da se recenzija objavi na stranici (bez imena); NULL kad nema recenzije ili kvačice.
+    privolaObjavaAt: timestamp("privola_objava_at", { withTimezone: true }),
+    privolaObjavaVerzija: text("privola_objava_verzija"),
   },
   (t) => [index("upitnici_odgovori_slug").on(t.seminarSlug)],
 );

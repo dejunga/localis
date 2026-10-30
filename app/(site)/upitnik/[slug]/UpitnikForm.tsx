@@ -2,7 +2,7 @@
 
 import { startTransition, useActionState } from "react";
 import Link from "next/link";
-import { UPITNIK_MAX_DULJINA, UPITNIK_PRIVOLA_TEKST } from "@/lib/upitnici/pitanja";
+import { UPITNIK_MAX_DULJINA, UPITNIK_OBJAVA_TEKST, UPITNIK_PRIVOLA_TEKST } from "@/lib/upitnici/pitanja";
 import { posaljiUpitnik, type UpitnikState } from "./actions";
 
 const initialState: UpitnikState = { status: "idle" };
@@ -139,7 +139,18 @@ export default function UpitnikForm({ seminarSlug, predavaci }: { seminarSlug: s
 
       <Tekst name="svidjelo" label="Što vam se svidjelo?" />
       <Tekst name="popraviti" label="Što bismo trebali popraviti ili promijeniti?" />
-      <Tekst name="recenzija" label="Vaša recenzija edukacije" />
+      <div className="space-y-3">
+        <Tekst name="recenzija" label="Vaša recenzija edukacije" />
+        <label className="flex items-start gap-3 text-sm text-gray-600 cursor-pointer">
+          <input
+            type="checkbox"
+            name="privola_objava"
+            value="da"
+            className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--navy)]"
+          />
+          <span>{UPITNIK_OBJAVA_TEKST}</span>
+        </label>
+      </div>
       <Tekst
         name="strucna_pomoc"
         label="Trebate li stručnu pomoć oko nekog konkretnog problema? Opišite ukratko."

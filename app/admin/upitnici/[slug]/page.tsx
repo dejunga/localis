@@ -164,7 +164,7 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
                 [
                   ["Svidjelo", o.svidjelo],
                   ["Popraviti", o.popraviti],
-                  ["Recenzija", o.recenzija],
+                  [o.privolaObjavaAt ? "Recenzija (smije se objaviti, bez imena)" : "Recenzija", o.recenzija],
                   ["Stručna pomoć", o.strucnaPomoc],
                 ] as const
               ).map(

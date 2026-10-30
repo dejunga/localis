@@ -21,6 +21,8 @@ const odgovor = (id: number, ocjena: number): UpitnikOdgovor => ({
   kontaktEmail: null,
   privolaKontaktAt: null,
   privolaKontaktVerzija: null,
+  privolaObjavaAt: null,
+  privolaObjavaVerzija: null,
 });
 
 describe("generirajExcelUpitnika", () => {

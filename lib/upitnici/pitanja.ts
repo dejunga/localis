@@ -11,3 +11,7 @@ export const UPITNIK_MAX_DULJINA = {
 export const UPITNIK_PRIVOLA_TEKST =
   "Pristajem da me LOCALIS kontaktira na navedenu e-mail adresu u vezi s mojim odgovorima u ovom upitniku. Privolu mogu povući u bilo kojem trenutku.";
 export const UPITNIK_PRIVOLA_VERZIJA = "2026-10-29";
+
+export const UPITNIK_OBJAVA_TEKST =
+  "Dopuštam da LOCALIS moju recenziju objavi na stranici localis.hr, bez mog imena i prezimena.";
+export const UPITNIK_OBJAVA_VERZIJA = "2026-10-30";
