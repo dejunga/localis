@@ -178,6 +178,29 @@ export const upitniciMailovi = pgTable("upitnici_mailovi", {
   greska: text("greska"),
 });
 
+// Materijali s edukacije (prezentacija i sl.) za mail nakon edukacije. Datoteka je u privatnom Blobu.
+export const upitniciMaterijali = pgTable(
+  "upitnici_materijali",
+  {
+    id: serial("id").primaryKey(),
+    seminarSlug: text("seminar_slug").notNull(),
+    naziv: text("naziv").notNull(), // izvorno ime datoteke, prikazuje se polaznicima
+    blobUrl: text("blob_url").notNull(),
+    pathname: text("pathname").notNull(), // za presigned preuzimanje
+    velicina: integer("velicina").notNull(), // bajtovi
+    contentType: text("content_type"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("upitnici_materijali_slug").on(t.seminarSlug)],
+);
+
+// Termin maila nakon edukacije. Bez reda ili s datum_slanja NULL mail ne ide.
+export const upitniciSlanja = pgTable("upitnici_slanja", {
+  seminarSlug: text("seminar_slug").primaryKey(),
+  datumSlanja: date("datum_slanja"), // "YYYY-MM-DD"; cron šalje taj dan
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 // Relacije za db.query.* (admin lista).
 export const prijaveRelations = relations(prijave, ({ many }) => ({
   polaznici: many(polaznici),
@@ -195,3 +218,4 @@ export type Polaznik = typeof polaznici.$inferSelect;
 export type Ponuda = typeof ponude.$inferSelect;
 export type UpitnikOdgovor = typeof upitniciOdgovori.$inferSelect;
 export type UpitnikMail = typeof upitniciMailovi.$inferSelect;
+export type UpitnikMaterijal = typeof upitniciMaterijali.$inferSelect;
