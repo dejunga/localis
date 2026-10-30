@@ -26,10 +26,10 @@ const zaPonovnoSlanje = (m: PostojeciMail) => m.greska !== null && m.poslanAt ==
  * Ponovno se šalje samo gdje je SMTP javio grešku. Red bez poslanAt i bez greske
  * (mail otišao, upis pao) smatra se poslanim - radije nijedan mail nego dva.
  */
-export function odaberiPrimatelje(prijaveZaSlug: KandidatPrijava[], postojeci: PostojeciMail[]): KandidatPrijava[] {
+export function odaberiPrimatelje<T extends KandidatPrijava>(prijaveZaSlug: T[], postojeci: PostojeciMail[]): T[] {
   const poPrijavi = new Map(postojeci.map((m) => [m.prijavaId, m]));
   const zauzeti = new Set(postojeci.filter((m) => !zaPonovnoSlanje(m)).map((m) => kljucEmaila(m.email)));
-  const odabrani: KandidatPrijava[] = [];
+  const odabrani: T[] = [];
   for (const p of [...prijaveZaSlug].sort((a, b) => a.id - b.id)) {
     if (p.status === "stornirana") continue;
     const red = poPrijavi.get(p.id);
@@ -114,7 +114,13 @@ function trebaMailConfig(): MailConfig {
 
 async function kandidatiIPostojeci(slug: string) {
   const kandidati = await db
-    .select({ id: prijave.id, email: prijave.email, status: prijave.status })
+    .select({
+      id: prijave.id,
+      email: prijave.email,
+      status: prijave.status,
+      organizacija: prijave.organizacija,
+      kontaktIme: prijave.kontaktIme,
+    })
     .from(prijave)
     .where(eq(prijave.seminarSlug, slug));
   const postojeci: PostojeciMail[] =
@@ -137,10 +143,16 @@ async function kandidatiIPostojeci(slug: string) {
   return { kandidati, postojeci };
 }
 
-/** Koliko bi adresa dobilo mail da se sad pošalje (za potvrdu u adminu). */
-export async function brojPrimatelja(slug: string): Promise<number> {
+export type Primatelj = { email: string; organizacija: string; kontaktIme: string };
+
+/** Tko bi dobio mail da se sad pošalje (popis i potvrda u adminu). */
+export async function getPrimatelji(slug: string): Promise<Primatelj[]> {
   const { kandidati, postojeci } = await kandidatiIPostojeci(slug);
-  return odaberiPrimatelje(kandidati, postojeci).length;
+  return odaberiPrimatelje(kandidati, postojeci).map(({ email, organizacija, kontaktIme }) => ({
+    email,
+    organizacija,
+    kontaktIme,
+  }));
 }
 
 /** Mail na internu adresu (CONTACT_TO) - ne upisuje se u upitnici_mailovi. */

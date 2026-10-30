@@ -8,7 +8,7 @@ import { getSeminar } from "@/lib/edukacije";
 import { formatVelicine, getMaterijali } from "@/lib/upitnici/materijali";
 import { edukacijaZavrsila, formatRoka, rokUpitnika, stanjeUpitnika } from "@/lib/upitnici/rok";
 import { sazmi } from "@/lib/upitnici/sazetak";
-import { brojPrimatelja, danasZagreb, getSlanje, upitnikUrl } from "@/lib/upitnici/slanje";
+import { danasZagreb, getPrimatelji, getSlanje, upitnikUrl } from "@/lib/upitnici/slanje";
 import MailNakonSekcija from "./MailNakonSekcija";
 import ObrisiOdgovorGumb from "./ObrisiOdgovorGumb";
 
@@ -49,7 +49,7 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
   const seminar = await getSeminar(slug, { skrivene: true });
   if (!seminar) notFound();
 
-  const [odgovori, mailovi, datumSlanja, materijali, primatelja] = await Promise.all([
+  const [odgovori, mailovi, datumSlanja, materijali, primatelji] = await Promise.all([
     db
       .select()
       .from(upitniciOdgovori)
@@ -71,7 +71,7 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
       .orderBy(prijave.organizacija),
     getSlanje(slug),
     getMaterijali(slug),
-    brojPrimatelja(slug),
+    getPrimatelji(slug),
   ]);
   const s = sazmi(odgovori);
   const stanje = stanjeUpitnika(seminar, undefined, datumSlanja);
@@ -114,7 +114,7 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
           datumSlanja={datumSlanja}
           datumSlanjaLabel={datumSlanja ? fmtDatumSlanja(datumSlanja) : null}
           danas={danasZagreb(new Date())}
-          brojPrimatelja={primatelja}
+          primatelji={primatelji}
           zavrsila={edukacijaZavrsila(seminar)}
         />
       )}

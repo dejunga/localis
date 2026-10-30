@@ -11,6 +11,7 @@ import {
   spremiMaterijal,
   type AkcijaState,
 } from "./actions";
+import type { Primatelj } from "@/lib/upitnici/slanje";
 
 type Materijal = { id: number; naziv: string; velicina: string };
 
@@ -20,7 +21,7 @@ type Props = {
   datumSlanja: string | null; // "YYYY-MM-DD"
   datumSlanjaLabel: string | null; // "2.11.2026."
   danas: string; // "YYYY-MM-DD" po Zagrebu, min za date input
-  brojPrimatelja: number;
+  primatelji: Primatelj[]; // tko još nije dobio mail
   zavrsila: boolean;
 };
 
@@ -38,6 +39,7 @@ const gumbSekundarni =
   "px-4 py-2 border border-[var(--navy)] text-[var(--navy)] rounded-lg text-sm hover:bg-gray-50 disabled:opacity-60";
 
 export default function MailNakonSekcija(p: Props) {
+  const brojPrimatelja = p.primatelji.length;
   const inputRef = useRef<HTMLInputElement>(null);
   const [napredak, setNapredak] = useState<string>();
   const [uploadGreska, setUploadGreska] = useState<string>();
@@ -201,7 +203,7 @@ export default function MailNakonSekcija(p: Props) {
           ) : (
             <span className="text-amber-700">Termin nije zadan - mail neće otići.</span>
           )}{" "}
-          <span className="text-gray-500">Adresa koje mail još nisu dobile: {p.brojPrimatelja}.</span>
+          <span className="text-gray-500">Adresa koje mail još nisu dobile: {brojPrimatelja}.</span>
         </p>
         <Poruka s={stanjeDatuma} />
       </div>
@@ -210,17 +212,34 @@ export default function MailNakonSekcija(p: Props) {
         <h3 className="font-medium mb-2">4. Pošalji odmah</h3>
         <button
           className={gumbPrimarni}
-          disabled={pending || !p.zavrsila || p.brojPrimatelja === 0}
+          disabled={pending || !p.zavrsila || brojPrimatelja === 0}
           onClick={() => {
-            if (confirm(`Poslati mail na ${p.brojPrimatelja} adresa sada? Ovo se ne može poništiti.`)) {
+            if (confirm(`Poslati mail na ${brojPrimatelja} adresa sada? Ovo se ne može poništiti.`)) {
               start(async () => setStanjeSlanja(await posaljiSadaAkcija(p.slug)));
             }
           }}
         >
-          {pending ? "Radim..." : `Pošalji sada (${p.brojPrimatelja})`}
+          {pending ? "Radim..." : `Pošalji sada (${brojPrimatelja})`}
         </button>
         {!p.zavrsila && <p className="text-xs text-gray-500 mt-2">Moguće tek nakon završetka edukacije.</p>}
         <Poruka s={stanjeSlanja} />
+        {brojPrimatelja > 0 ? (
+          <div className="mt-4">
+            <p className="text-sm text-gray-600 mb-2">Mail će dobiti:</p>
+            <ol className="list-decimal pl-6 space-y-1 text-sm">
+              {p.primatelji.map((r) => (
+                <li key={r.email}>
+                  <span className="font-medium">{r.email}</span>{" "}
+                  <span className="text-gray-500">
+                    · {r.organizacija} · {r.kontaktIme}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ) : (
+          <p className="text-sm text-gray-500 mt-4">Svi primatelji su mail već dobili.</p>
+        )}
       </div>
     </section>
   );
