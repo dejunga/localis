@@ -336,11 +336,6 @@ export default function RegistracijaForm({
           >
             {pending ? "Slanje..." : "Pošalji prijavu"}
           </button>
-
-          <p className="text-xs text-gray-500 leading-relaxed">
-            Na radionici se fotografira. Polaznici privolu za fotografiranje daju osobno na licu
-            mjesta i mogu je uskratiti bez ikakvih posljedica.
-          </p>
         </div>
       </form>
     </>
