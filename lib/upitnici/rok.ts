@@ -45,14 +45,27 @@ export function krajEdukacije(s: Termin): Date {
   return kraj ? zagrebUDate(s.date, ...kraj) : zagrebUDate(s.date, 23, 59);
 }
 
-export function rokUpitnika(s: TerminSRokom): Date {
-  if (s.upitnikRokDo) return new Date(s.upitnikRokDo);
-  return new Date(krajEdukacije(s).getTime() + TRAJANJE_MS);
+// Cron (vercel.json "0 7 * * *") šalje mail nakon edukacije u 07:00 UTC zadanog dana.
+export function terminSlanja(datum: string): Date {
+  return new Date(`${datum}T07:00:00Z`);
 }
 
-export function stanjeUpitnika(s: TerminSRokom, now = new Date()): StanjeUpitnika {
+// Rok je 96 h od kraja edukacije ili od termina maila, što je kasnije - mail poslan danima
+// nakon edukacije ne smije stići uz upitnik koji se zatvara sutra.
+export function rokUpitnika(s: TerminSRokom, datumSlanja?: string | null): Date {
+  if (s.upitnikRokDo) return new Date(s.upitnikRokDo);
+  const odKraja = krajEdukacije(s).getTime() + TRAJANJE_MS;
+  const odSlanja = datumSlanja ? terminSlanja(datumSlanja).getTime() + TRAJANJE_MS : 0;
+  return new Date(Math.max(odKraja, odSlanja));
+}
+
+export function stanjeUpitnika(
+  s: TerminSRokom,
+  now = new Date(),
+  datumSlanja?: string | null,
+): StanjeUpitnika {
   if (now < pocetakEdukacije(s)) return "uskoro";
-  return now < rokUpitnika(s) ? "otvoren" : "zatvoren";
+  return now < rokUpitnika(s, datumSlanja) ? "otvoren" : "zatvoren";
 }
 
 export function edukacijaZavrsila(s: Termin, now = new Date()): boolean {
