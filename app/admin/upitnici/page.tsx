@@ -5,6 +5,7 @@ import { db } from "@/lib/db";
 import { upitniciMailovi, upitniciOdgovori } from "@/lib/db/schema";
 import { getSeminars } from "@/lib/edukacije";
 import { formatRoka, rokUpitnika, stanjeUpitnika } from "@/lib/upitnici/rok";
+import { getSlanja } from "@/lib/upitnici/slanje";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +17,7 @@ function fmtDatumEdukacije(iso: string) {
 
 export default async function UpitniciPage() {
   await zahtijevajAdmina();
-  const [seminari, odgovori, mailovi] = await Promise.all([
+  const [seminari, odgovori, mailovi, slanja] = await Promise.all([
     getSeminars(),
     db
       .select({
@@ -37,6 +38,7 @@ export default async function UpitniciPage() {
       })
       .from(upitniciMailovi)
       .groupBy(upitniciMailovi.seminarSlug),
+    getSlanja(),
   ]);
   const poOdgovorima = new Map(odgovori.map((o) => [o.slug, o]));
   const poMailovima = new Map(mailovi.map((m) => [m.slug, m]));
@@ -53,12 +55,14 @@ export default async function UpitniciPage() {
               <th className="px-3 py-2">Upitnik</th>
               <th className="px-3 py-2 text-center">Odgovori</th>
               <th className="px-3 py-2 text-center">Prosjek</th>
+              <th className="px-3 py-2">Slanje</th>
               <th className="px-3 py-2">Mailovi</th>
             </tr>
           </thead>
           <tbody>
             {seminari.map((s) => {
-              const stanje = stanjeUpitnika(s);
+              const datumSlanja = slanja.get(s.slug);
+              const stanje = stanjeUpitnika(s, undefined, datumSlanja);
               const o = poOdgovorima.get(s.slug);
               const m = poMailovima.get(s.slug);
               return (
@@ -73,12 +77,19 @@ export default async function UpitniciPage() {
                   <td className="px-3 py-2 whitespace-nowrap">
                     {stanje === "uskoro" && <span className="text-gray-500">uskoro</span>}
                     {stanje === "otvoren" && (
-                      <span className="text-green-700">otvoren do {formatRoka(rokUpitnika(s))}</span>
+                      <span className="text-green-700">otvoren do {formatRoka(rokUpitnika(s, datumSlanja))}</span>
                     )}
                     {stanje === "zatvoren" && <span className="text-gray-500">zatvoren</span>}
                   </td>
                   <td className="px-3 py-2 text-center">{o?.broj ?? 0}</td>
                   <td className="px-3 py-2 text-center">{o?.prosjek ? Number(o.prosjek).toFixed(1) : "–"}</td>
+                  <td className="px-3 py-2 whitespace-nowrap">
+                    {datumSlanja ? (
+                      fmtDatumEdukacije(datumSlanja)
+                    ) : (
+                      <span className="text-gray-400">nije zadano</span>
+                    )}
+                  </td>
                   <td className="px-3 py-2 whitespace-nowrap">
                     {m ? (
                       <>

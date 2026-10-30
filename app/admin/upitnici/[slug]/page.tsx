@@ -5,12 +5,22 @@ import { zahtijevajAdmina } from "@/lib/admin/session";
 import { db } from "@/lib/db";
 import { prijave, upitniciMailovi, upitniciOdgovori } from "@/lib/db/schema";
 import { getSeminar } from "@/lib/edukacije";
-import { formatRoka, rokUpitnika, stanjeUpitnika } from "@/lib/upitnici/rok";
+import { formatVelicine, getMaterijali } from "@/lib/upitnici/materijali";
+import { edukacijaZavrsila, formatRoka, rokUpitnika, stanjeUpitnika } from "@/lib/upitnici/rok";
 import { sazmi } from "@/lib/upitnici/sazetak";
-import { upitnikUrl } from "@/lib/upitnici/slanje";
+import { brojPrimatelja, danasZagreb, getSlanje, upitnikUrl } from "@/lib/upitnici/slanje";
+import MailNakonSekcija from "./MailNakonSekcija";
 import ObrisiOdgovorGumb from "./ObrisiOdgovorGumb";
 
 export const dynamic = "force-dynamic";
+// "Pošalji sada" (server akcija ove stranice) šalje mailove jedan po jedan.
+export const maxDuration = 300;
+
+// "2026-11-02" -> "2.11.2026."
+function fmtDatumSlanja(iso: string) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${d}.${m}.${y}.`;
+}
 
 const PREPORUKA = { da: "Da", mozda: "Možda", ne: "Ne" } as const;
 
@@ -39,7 +49,7 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
   const seminar = await getSeminar(slug, { skrivene: true });
   if (!seminar) notFound();
 
-  const [odgovori, mailovi] = await Promise.all([
+  const [odgovori, mailovi, datumSlanja, materijali, primatelja] = await Promise.all([
     db
       .select()
       .from(upitniciOdgovori)
@@ -59,9 +69,12 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
       .innerJoin(prijave, eq(prijave.id, upitniciMailovi.prijavaId))
       .where(eq(upitniciMailovi.seminarSlug, slug))
       .orderBy(prijave.organizacija),
+    getSlanje(slug),
+    getMaterijali(slug),
+    brojPrimatelja(slug),
   ]);
   const s = sazmi(odgovori);
-  const stanje = stanjeUpitnika(seminar);
+  const stanje = stanjeUpitnika(seminar, undefined, datumSlanja);
   const url = upitnikUrl(slug);
 
   return (
@@ -74,7 +87,7 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
         <p className="text-sm text-gray-500 mt-1">
           {seminar.dateLabel} · {seminar.location} · upitnik{" "}
           {stanje === "uskoro" ? "se još nije otvorio" : stanje === "otvoren" ? "otvoren" : "zatvoren"}
-          {stanje !== "zatvoren" && ` - otvoren do ${formatRoka(rokUpitnika(seminar))}`}
+          {stanje !== "zatvoren" && ` - otvoren do ${formatRoka(rokUpitnika(seminar, datumSlanja))}`}
         </p>
         <p className="text-sm mt-1">
           <a href={url} className="text-[var(--navy)] hover:underline" target="_blank" rel="noreferrer">
@@ -93,6 +106,18 @@ export default async function UpitnikDetaljPage({ params }: { params: Promise<{ 
           </a>
         </div>
       </div>
+
+      {!seminar.odgodeno && (
+        <MailNakonSekcija
+          slug={slug}
+          materijali={materijali.map((m) => ({ id: m.id, naziv: m.naziv, velicina: formatVelicine(m.velicina) }))}
+          datumSlanja={datumSlanja}
+          datumSlanjaLabel={datumSlanja ? fmtDatumSlanja(datumSlanja) : null}
+          danas={danasZagreb(new Date())}
+          brojPrimatelja={primatelja}
+          zavrsila={edukacijaZavrsila(seminar)}
+        />
+      )}
 
       <section className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <Brojka label="Odgovori" vrijednost={String(s.broj)} />
