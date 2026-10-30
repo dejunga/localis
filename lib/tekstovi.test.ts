@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SVA_POLJA, greskaUnosa, normalizirajTekst, odlomci, stavke, telefonZaPoziv } from "./tekstovi";
+import { SVA_POLJA, greskaUnosa, normalizirajTekst, odlomci, stavke, telefonZaPoziv, zamijeniPolja } from "./tekstovi";
 
 describe("telefonZaPoziv", () => {
   it("domaći broj dobiva +385 umjesto vodeće nule", () => {
@@ -63,5 +63,15 @@ describe("SVA_POLJA", () => {
   // Inače bi spremanje neizmijenjene forme upisalo izvorni tekst u bazu.
   it("izvorni tekstovi su već normalizirani", () => {
     for (const p of polja) expect(normalizirajTekst(p.zadano)).toBe(p.zadano);
+  });
+});
+
+describe("zamijeniPolja", () => {
+  it("zamjenjuje poznata polja, nepoznata ostavlja", () => {
+    expect(zamijeniPolja("Hvala {naziv}, {nepoznato}", { naziv: "X" })).toBe("Hvala X, {nepoznato}");
+  });
+
+  it("vrijednost s $ i vitičastim zagradama ide doslovno", () => {
+    expect(zamijeniPolja("{naziv}", { naziv: "$& {datum}" })).toBe("$& {datum}");
   });
 });

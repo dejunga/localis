@@ -664,6 +664,77 @@ export const GRUPE_TEKSTOVA = [
       },
     ],
   },
+  {
+    id: "mail-nakon",
+    naslov: "Mail nakon edukacije",
+    opis: "Mail s materijalima, upitnikom i nadolazećim edukacijama. Automatska polja: {naziv} naziv edukacije, {datum} datum edukacije, {predavaci} imena predavača, {rok} do kada je upitnik otvoren. Potpis (naziv, e-mail, telefon) dolazi iz grupe Kontakt.",
+    polja: [
+      {
+        kljuc: "mailNakon.naslov",
+        oznaka: "Naslov (subject) maila",
+        vrsta: "redak",
+        zadano: "Hvala što ste bili s nama: {naziv}",
+      },
+      {
+        kljuc: "mailNakon.uvod",
+        oznaka: "Uvod (pozdrav i zahvala)",
+        vrsta: "odlomci",
+        zadano:
+          "Poštovani,\n\nhvala Vam što ste {datum} bili s nama na edukaciji „{naziv}”. Vaša pitanja i primjeri iz prakse učinili su je živom i korisnom.",
+      },
+      {
+        kljuc: "mailNakon.materijali",
+        oznaka: "Materijali: tekst (prikazuje se samo kad su materijali uploadani)",
+        vrsta: "tekst",
+        zadano:
+          "Kako smo i obećali, pripremili smo materijale s edukacije. Materijali su autorsko djelo predavača ({predavaci}) i namijenjeni su Vašem osobnom radu - molimo da ih ne umnožavate i ne prosljeđujete bez dopuštenja.",
+      },
+      {
+        kljuc: "mailNakon.materijali.gumb",
+        oznaka: "Materijali: gumb",
+        vrsta: "redak",
+        zadano: "Preuzmi materijale",
+      },
+      {
+        kljuc: "mailNakon.upitnik",
+        oznaka: "Upitnik: tekst",
+        vrsta: "tekst",
+        zadano:
+          "Vaše mišljenje nam je važno. Zanima nas što Vam je bilo najkorisnije i koje bi Vas teme zanimale ubuduće. Upitnik je anoniman i traje oko dvije minute.",
+      },
+      {
+        kljuc: "mailNakon.upitnik.gumb",
+        oznaka: "Upitnik: gumb",
+        vrsta: "redak",
+        zadano: "Ispunite upitnik",
+      },
+      {
+        kljuc: "mailNakon.upitnik.rok",
+        oznaka: "Upitnik: rok i prosljeđivanje kolegama",
+        vrsta: "tekst",
+        zadano:
+          "Upitnik je otvoren do {rok}. Ako je s Vaše ustanove bilo više polaznika, molimo proslijedite im ovaj mail - svaki polaznik može ispuniti svoj upitnik.",
+      },
+      {
+        kljuc: "mailNakon.nadolazece.naslov",
+        oznaka: "Nadolazeće edukacije: naslov",
+        vrsta: "redak",
+        zadano: "Što slijedi",
+      },
+      {
+        kljuc: "mailNakon.zakljucak",
+        oznaka: "Zaključak",
+        vrsta: "tekst",
+        zadano: "Veselimo se ponovnom susretu!",
+      },
+      {
+        kljuc: "mailNakon.odjava",
+        oznaka: "Sitni tekst na dnu (odjava)",
+        vrsta: "tekst",
+        zadano: "Ako ne želite primati ovakve poruke, javite nam odgovorom na ovaj e-mail.",
+      },
+    ],
+  },
 ] as const satisfies readonly Grupa[];
 
 export type KljucTeksta = (typeof GRUPE_TEKSTOVA)[number]["polja"][number]["kljuc"];
@@ -808,4 +879,9 @@ export function odlomci(tekst: string): string[] {
 // "popis": svaki neprazni redak je jedna stavka.
 export function stavke(tekst: string): string[] {
   return tekst.split("\n").map((s) => s.trim()).filter(Boolean);
+}
+
+// "{naziv}" -> vrijednost iz `polja`; nepoznato polje ostaje kako je napisano.
+export function zamijeniPolja(tekst: string, polja: Record<string, string>): string {
+  return tekst.replace(/{(w+)}/g, (cijelo, ime: string) => (Object.hasOwn(polja, ime) ? polja[ime] : cijelo));
 }
