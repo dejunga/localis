@@ -113,7 +113,7 @@ export async function renderMailNakon({
       }</p>`);
     }
     dijelovi.push(
-      `<p style="margin:0 0 16px;font:14px ${FONT};color:${TEKST}">${esc(z("mailNakon.nadolazece.prijave"))} <a href="${SITE_URL}" style="color:${NAVY}">${web}</a></p>`,
+      `<p style="margin:0 0 16px;font:14px ${FONT};color:${TEKST}">${esc(z("mailNakon.nadolazece.prijave"))} <a href="${SITE_URL}/edukacije" style="color:${NAVY}">${web}/edukacije</a></p>`,
     );
   }
   dijelovi.push(p(z("mailNakon.zakljucak"), "margin-top:24px"));
@@ -144,7 +144,7 @@ ${dijelovi.join("\n")}
         `${z("mailNakon.nadolazece.naslov")}:`,
         ...nadolazeceRedci.map((r) => `- ${r.meta} – ${r.s.title}${r.predavaci ? ` (${r.predavaci})` : ""}\n  ${r.href}`),
       ].join("\n"),
-      `${z("mailNakon.nadolazece.prijave")} ${SITE_URL}`,
+      `${z("mailNakon.nadolazece.prijave")} ${SITE_URL}/edukacije`,
     );
   }
   redci.push(
