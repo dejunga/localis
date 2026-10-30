@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Seminar } from "@/lib/edukacije";
-import { danasZagreb, edukacijeZaSlanje, odaberiPrimatelje, type KandidatPrijava } from "./slanje";
+import { danasZagreb, edukacijeZaSlanje, kopijaZaLocalis, odaberiPrimatelje, type KandidatPrijava } from "./slanje";
 
 const p = (id: number, email: string, status: KandidatPrijava["status"] = "nova"): KandidatPrijava => ({
   id,
@@ -77,5 +77,30 @@ describe("edukacijeZaSlanje", () => {
   });
   it("preskače odgođene", () => {
     expect(edukacijeZaSlanje([seminar({ odgodeno: true })], slanja("2026-11-02"), now)).toEqual([]);
+  });
+});
+
+describe("kopijaZaLocalis", () => {
+  const m = {
+    subject: "Hvala",
+    html: '<!DOCTYPE html><html><body style="margin:0"><p>Mail</p></body></html>',
+    text: "Mail",
+    qrPng: Buffer.from(""),
+  };
+
+  it("popis poslanih na vrhu, isti mail ispod", () => {
+    const k = kopijaZaLocalis(m, ["a@x.hr", "b@x.hr"], []);
+    expect(k.subject).toBe("[POSLANO 2] Hvala");
+    expect(k.html).toMatch(/<body style="margin:0">\s*<div[^>]*>[\s\S]*a@x\.hr[\s\S]*b@x\.hr[\s\S]*<\/div>\s*<p>Mail<\/p>/);
+    expect(k.html).not.toContain("Nije poslano");
+    expect(k.text).toContain("1. a@x.hr\n2. b@x.hr");
+    expect(k.text.endsWith("Mail")).toBe(true);
+  });
+
+  it("navodi neuspjele i escapea adrese", () => {
+    const k = kopijaZaLocalis(m, ["a@x.hr"], ["<c>@x.hr"]);
+    expect(k.html).toContain("Nije poslano (greška):");
+    expect(k.html).toContain("&lt;c&gt;@x.hr");
+    expect(k.text).toContain("nije poslano na 1");
   });
 });

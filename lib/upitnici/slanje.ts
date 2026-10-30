@@ -163,6 +163,35 @@ export async function posaljiProbni(seminar: Seminar, datumSlanja: string | null
   return mail.internalTo;
 }
 
+const escHtml = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/** Kopija poslanog maila za LOCALIS: isti mail s popisom adresa na vrhu, kao potvrda da je otišao. */
+export function kopijaZaLocalis(m: MailNakon, poslaniNa: string[], neuspjeli: string[]): MailNakon {
+  const naslov = `Kopija za LOCALIS - poslano na ${poslaniNa.length} adresa${
+    neuspjeli.length > 0 ? `, nije poslano na ${neuspjeli.length}` : ""
+  }`;
+  const popis = (oznaka: string, adrese: string[]) =>
+    adrese.length === 0 ? "" : `<p style="margin:8px 0 4px"><b>${oznaka}</b></p><ol style="margin:0;padding-left:20px">${adrese
+      .map((a) => `<li>${escHtml(a)}</li>`)
+      .join("")}</ol>`;
+  const okvir = `<div style="max-width:600px;margin:16px auto 0;padding:14px 18px;background:#fff8e6;border:1px solid #e6c36a;border-radius:8px;font:14px/1.5 Arial,Helvetica,sans-serif;color:#2b2b2b">
+<p style="margin:0"><b>${escHtml(naslov)}.</b> Ispod je mail točno kakav su primatelji dobili.</p>
+${popis("Poslano:", poslaniNa)}${popis("Nije poslano (greška):", neuspjeli)}
+</div>`;
+  const tekstPopis = [
+    `${naslov}.`,
+    `Poslano:\n${poslaniNa.map((a, i) => `${i + 1}. ${a}`).join("\n")}`,
+    ...(neuspjeli.length > 0 ? [`Nije poslano (greška):\n${neuspjeli.map((a, i) => `${i + 1}. ${a}`).join("\n")}`] : []),
+  ].join("\n\n");
+  return {
+    ...m,
+    subject: `[POSLANO ${poslaniNa.length}] ${m.subject}`,
+    html: m.html.replace(/<body([^>]*)>/, `<body$1>\n${okvir}`),
+    text: `${tekstPopis}\n\n----------\n\n${m.text}`,
+  };
+}
+
 /** Šalje mail svim primateljima jedne edukacije koji ga još nisu dobili. */
 export async function posaljiZaEdukaciju(
   seminar: Seminar,
@@ -177,6 +206,8 @@ export async function posaljiZaEdukaciju(
   if (primatelji.length === 0) return { poslano, greske };
   const imaRed = new Set(postojeci.map((m) => m.prijavaId));
   const m = await pripremiMail(seminar, datumSlanja);
+  const poslaniNa: string[] = [];
+  const neuspjeli: string[] = [];
 
   for (const p of primatelji) {
     // Ne uzimaj nove primatelje kad se približi maxDuration - neuzeti idu sljedeći put,
@@ -200,6 +231,7 @@ export async function posaljiZaEdukaciju(
       await sendMail(opcijeMaila(mail, p.email, m));
     } catch (error) {
       greske++;
+      neuspjeli.push(p.email);
       console.error(`Upitnik ${seminar.slug}: mail za prijavu ${p.id} nije poslan.`, error);
       await db
         .update(upitniciMailovi)
@@ -209,11 +241,19 @@ export async function posaljiZaEdukaciju(
       continue;
     }
     poslano++;
+    poslaniNa.push(p.email);
     await db
       .update(upitniciMailovi)
       .set({ poslanAt: new Date() })
       .where(eq(upitniciMailovi.prijavaId, p.id))
       .catch((e) => console.error(`Upitnik: mail za prijavu ${p.id} poslan, ali nije upisan.`, e));
+  }
+
+  // Potvrda na info@localis.hr; ako ona ne prođe, slanje polaznicima se ne smatra neuspjelim.
+  if (poslaniNa.length + neuspjeli.length > 0) {
+    await sendMail(opcijeMaila(mail, mail.user, kopijaZaLocalis(m, poslaniNa, neuspjeli))).catch((e) =>
+      console.error(`Upitnik ${seminar.slug}: kopija za LOCALIS nije poslana.`, e),
+    );
   }
   return { poslano, greske };
 }

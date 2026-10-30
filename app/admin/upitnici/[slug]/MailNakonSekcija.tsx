@@ -225,7 +225,9 @@ export default function MailNakonSekcija(p: Props) {
         <Poruka s={stanjeSlanja} />
         {brojPrimatelja > 0 ? (
           <div className="mt-4">
-            <p className="text-sm text-gray-600 mb-2">Mail će dobiti:</p>
+            <p className="text-sm text-gray-600 mb-2">
+              Mail će dobiti (nakon slanja kopija s popisom stiže i na info@localis.hr):
+            </p>
             <ol className="list-decimal pl-6 space-y-1 text-sm">
               {p.primatelji.map((r) => (
                 <li key={r.email}>
