@@ -883,5 +883,5 @@ export function stavke(tekst: string): string[] {
 
 // "{naziv}" -> vrijednost iz `polja`; nepoznato polje ostaje kako je napisano.
 export function zamijeniPolja(tekst: string, polja: Record<string, string>): string {
-  return tekst.replace(/{(w+)}/g, (cijelo, ime: string) => (Object.hasOwn(polja, ime) ? polja[ime] : cijelo));
+  return tekst.replace(/\{(\w+)\}/g, (cijelo, ime: string) => (Object.hasOwn(polja, ime) ? polja[ime] : cijelo));
 }
