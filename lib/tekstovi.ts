@@ -667,7 +667,7 @@ export const GRUPE_TEKSTOVA = [
   {
     id: "mail-nakon",
     naslov: "Mail nakon edukacije",
-    opis: "Mail s materijalima, upitnikom i nadolazećim edukacijama. Automatska polja: {naziv} naziv edukacije, {datum} datum edukacije, {predavaci} imena predavača, {rok} do kada je upitnik otvoren. Potpis (naziv, e-mail, telefon) dolazi iz grupe Kontakt.",
+    opis: "Mail s materijalima, upitnikom i nadolazećim edukacijama. Automatska polja: {naziv} naziv edukacije, {datum} datum edukacije, {predavaci} imena predavača, {rok} do kada je upitnik otvoren. E-mail i telefon u potpisu dolaze iz grupe Kontakt.",
     polja: [
       {
         kljuc: "mailNakon.naslov",
@@ -716,16 +716,34 @@ export const GRUPE_TEKSTOVA = [
           "Upitnik je otvoren do {rok}. Ako je s Vaše ustanove bilo više polaznika, molimo proslijedite im ovaj mail - svaki polaznik može ispuniti svoj upitnik.",
       },
       {
+        kljuc: "mailNakon.qr",
+        oznaka: "Upitnik: tekst uz QR kod",
+        vrsta: "redak",
+        zadano: "ili skenirajte QR kod mobitelom",
+      },
+      {
         kljuc: "mailNakon.nadolazece.naslov",
         oznaka: "Nadolazeće edukacije: naslov",
         vrsta: "redak",
         zadano: "Što slijedi",
       },
       {
+        kljuc: "mailNakon.nadolazece.prijave",
+        oznaka: "Nadolazeće edukacije: redak s poveznicom na stranicu",
+        vrsta: "redak",
+        zadano: "Programi i prijave:",
+      },
+      {
         kljuc: "mailNakon.zakljucak",
         oznaka: "Zaključak",
         vrsta: "tekst",
         zadano: "Veselimo se ponovnom susretu!",
+      },
+      {
+        kljuc: "mailNakon.potpis",
+        oznaka: "Potpis (ispod njega ide e-mail, telefon i web iz grupe Kontakt)",
+        vrsta: "tekst",
+        zadano: "Srdačan pozdrav,\nLOCALIS – edukacija i savjetovanje",
       },
       {
         kljuc: "mailNakon.odjava",
